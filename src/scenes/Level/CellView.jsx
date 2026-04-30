@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { showToast } from '../../components/GlobalToast.jsx';
+import { chakraForLevel } from '../../data/chakras.js';
 import CellOption from './CellOption.jsx';
 import ProgressDots from './ProgressDots.jsx';
 import CustomAnswer from './CustomAnswer.jsx';
@@ -13,8 +14,12 @@ const CUSTOM_DELTA = 3;
 export default function CellView({ cell, levelN, totalCells, currentIdx }) {
   const recordAnswer = useGameStore((s) => s.recordAnswer);
   const advanceCell = useGameStore((s) => s.advanceCell);
+  const triggerChakraFlash = useGameStore((s) => s.triggerChakraFlash);
   const [selectedKey, setSelectedKey] = useState(null);
   const [customMode, setCustomMode] = useState(false);
+
+  // Чакра рівня — вона спалахує коли гравець відповідає.
+  const chakra = chakraForLevel(levelN);
 
   function handleSelect(option) {
     setSelectedKey(option.text);
@@ -26,6 +31,7 @@ export default function CellView({ cell, levelN, totalCells, currentIdx }) {
       depth: option.depth,
       shadow: option.shadow || null,
     });
+    if (chakra && option.delta > 0) triggerChakraFlash(chakra.id);
     showToast(`+${option.delta} ${option.barometer}`, 'success');
     setTimeout(() => {
       setSelectedKey(null);
@@ -42,6 +48,7 @@ export default function CellView({ cell, levelN, totalCells, currentIdx }) {
       delta: CUSTOM_DELTA,
       depth: 'deep',
     });
+    if (chakra) triggerChakraFlash(chakra.id);
     showToast(`+${CUSTOM_DELTA} ${barometer} · своя відповідь`, 'success');
     setCustomMode(false);
     setTimeout(() => advanceCell(totalCells), 600);

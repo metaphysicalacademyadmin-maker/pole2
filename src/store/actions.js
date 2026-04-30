@@ -170,6 +170,28 @@ export const dilemmaActions = (set, get, ensure) => ({
   },
 });
 
+// ───────────── РЕАКТИВНЕ ТІЛО + UI ─────────────
+
+export const uiActions = (set, get, ensure) => ({
+  triggerChakraFlash: (chakraId) => {
+    set({ flashChakraId: chakraId, flashCounter: (get().flashCounter || 0) + 1 });
+  },
+  setUiMode: (mode) => set({ uiMode: mode }),
+  setThemeMode: (mode) => set({ themeMode: mode }),
+});
+
+// ───────────── DZERKALO (Mirror) ─────────────
+
+export const mirrorActions = (set, get, ensure) => ({
+  recordMirrorAppearance: (id, action) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      mirrorAppearances: [...s.mirrorAppearances, { id, action, ts: Date.now() }],
+    });
+  },
+});
+
 // ───────────── АРБІТР І АНТИП ─────────────
 
 export const characterActions = (set, get, ensure) => ({

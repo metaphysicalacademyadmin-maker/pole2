@@ -1,7 +1,7 @@
 // Одна чакра у тілі — сфера з лотосними пелюстками і bija-літерою.
 import LotusPetals from './LotusPetals.jsx';
 
-export default function ChakraSphere({ chakra, cx, cy, active, current, intensity, onClick }) {
+export default function ChakraSphere({ chakra, cx, cy, active, current, intensity, flashing, onClick }) {
   const baseR = 12;
   const sphereR = baseR + intensity * 4;
 
@@ -19,6 +19,21 @@ export default function ChakraSphere({ chakra, cx, cy, active, current, intensit
         active={active}
         current={current}
       />
+
+      {/* FLASH — короткий могутній спалах коли гравець відповідає */}
+      {flashing && (
+        <>
+          <circle r={sphereR + 30}
+            fill={chakra.color} opacity="0">
+            <animate attributeName="r" values={`${sphereR};${sphereR + 50}`} dur="1.4s" repeatCount="1" />
+            <animate attributeName="opacity" values="0.7;0" dur="1.4s" repeatCount="1" />
+          </circle>
+          <circle r={sphereR + 8}
+            fill="#ffffff" opacity="0.0">
+            <animate attributeName="opacity" values="0;0.95;0" dur="0.8s" repeatCount="1" />
+          </circle>
+        </>
+      )}
 
       {/* Зовнішнє свічення */}
       {(active || current) && (

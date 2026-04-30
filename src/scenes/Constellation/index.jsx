@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { FIGURE_TYPES, REQUIRED_FIGURES, OPTIONAL_FIGURES, INITIAL_POSITIONS } from '../../data/constellation/figures.js';
 import { readField } from '../../data/constellation/readings.js';
@@ -19,7 +19,21 @@ export default function Constellation() {
   const claimKey = useGameStore((s) => s.claimKey);
 
   const [phase, setPhase] = useState(stored.figures.length >= 3 ? 'reading' : 'placing');
+  const [holdTimer, setHoldTimer] = useState(null);   // секунд що залишилось
   const figures = stored.figures;
+
+  // Таймер 3 хв (180 сек) у фазі reading — гравець повинен побути у позиції.
+  useEffect(() => {
+    if (phase !== 'reading' || holdTimer != null) return;
+    setHoldTimer(180);
+    const start = Date.now();
+    const intv = setInterval(() => {
+      const left = Math.max(0, 180 - Math.floor((Date.now() - start) / 1000));
+      setHoldTimer(left);
+      if (left === 0) clearInterval(intv);
+    }, 1000);
+    return () => clearInterval(intv);
+  }, [phase]);
 
   const placedTypes = useMemo(() => new Set(figures.map((f) => f.type)), [figures]);
   const readings = useMemo(() => figures.length >= 3 ? readField(figures) : [], [figures]);
@@ -86,7 +100,13 @@ export default function Constellation() {
         {phase === 'reading' && (
           <>
             <Readings list={readings} />
-            <ResolutionBlock text={resolution} onAccept={handleAcceptResolution} />
+            {holdTimer > 0 && <HoldTimer seconds={holdTimer} />}
+            <ResolutionBlock
+              text={resolution}
+              onAccept={handleAcceptResolution}
+              locked={holdTimer > 0}
+              secondsLeft={holdTimer}
+            />
           </>
         )}
       </div>
@@ -135,16 +155,51 @@ function Readings({ list }) {
   );
 }
 
-function ResolutionBlock({ text, onAccept }) {
+function ResolutionBlock({ text, onAccept, locked, secondsLeft }) {
   if (!text) return null;
   return (
     <div className="const-resolution-box">
       <div className="const-resolution-label">вирішальна фраза</div>
       <div className="const-resolution-text">{text}</div>
       <div className="const-actions">
-        <button className="btn btn-primary" onClick={onAccept}>
-          прокажи це повільно і прийми ключ →
+        <button className="btn btn-primary" onClick={onAccept} disabled={locked}>
+          {locked ? `залишись у полі ще ${secondsLeft}с` : 'прокажи це повільно і прийми ключ →'}
         </button>
+      </div>
+    </div>
+  );
+}
+
+function HoldTimer({ seconds }) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return (
+    <div style={{
+      maxWidth: 600, margin: '24px auto 0', padding: '20px',
+      background: 'rgba(20, 14, 30, 0.7)',
+      border: '1.5px solid rgba(232, 196, 118, 0.35)',
+      borderRadius: 12, textAlign: 'center',
+    }}>
+      <div style={{
+        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+        fontSize: 11, fontWeight: 700, letterSpacing: '4px',
+        color: '#f0c574', textTransform: 'uppercase', marginBottom: 8,
+      }}>
+        тримай позицію
+      </div>
+      <div style={{
+        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+        fontSize: 36, fontWeight: 700, color: '#fff7e0',
+      }}>
+        {String(m).padStart(2, '0')}:{String(s).padStart(2, '0')}
+      </div>
+      <div style={{
+        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+        fontStyle: 'italic', fontSize: 13, color: '#c8bca8',
+        marginTop: 8, lineHeight: 1.5,
+      }}>
+        Подихай. Подивись ще раз. Що тіло каже про цю позицію?
+        <br />Що змінюється у дисфорті/сповнені від того що ти тут стоїш?
       </div>
     </div>
   );

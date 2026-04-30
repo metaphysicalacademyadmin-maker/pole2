@@ -128,12 +128,20 @@ const defaultState = {
   archetypesMet: [],
 
   // ─── Арбітр і Антип (Хвиля 6) ───
-  // [{id, ts}] — які lіne-и Арбітра гравець вже бачив
   arbiterAppearances: [],
-  // [{id, ts, choice, accepted}] — провокації Антипа
   antypAppearances: [],
-  // лічильники для тригерів
-  praxis: 5,                      // початкова довіра до Антипа/Арбітра
+  praxis: 5,
+
+  // ─── Реактивне тіло (Хвиля 7) ───
+  flashChakraId: null,
+  flashCounter: 0,
+
+  // ─── Mirror persona (Хвиля 7) ───
+  mirrorAppearances: [],
+
+  // ─── UI preferences ───
+  uiMode: 'map',
+  themeMode: 'dark',
 };
 
 function ensureSession(s) {

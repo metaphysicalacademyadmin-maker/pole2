@@ -16,6 +16,7 @@ import ScalesModal from '../../components/modals/ScalesModal.jsx';
 import PracticesModal from '../../components/modals/PracticesModal.jsx';
 import ChannelsModal from '../../components/modals/ChannelsModal.jsx';
 import DailyRitualModal from '../../components/modals/DailyRitualModal.jsx';
+import HistoryModal from '../../components/modals/HistoryModal.jsx';
 import ResetConfirmDialog from '../../components/modals/ResetConfirmDialog.jsx';
 import './styles.css';
 import './extras.css';
@@ -26,24 +27,35 @@ export default function Level({ openSoulField }) {
   const currentLevel = useGameStore((s) => s.currentLevel);
   const currentCellIdx = useGameStore((s) => s.currentCellIdx);
   const pathMode = useGameStore((s) => s.pathMode);
+  const uiMode = useGameStore((s) => s.uiMode);
+  const setUiMode = useGameStore((s) => s.setUiMode);
   const [openModal, setOpenModal] = useState(null);
   const [autoLaunchPractice, setAutoLaunchPractice] = useState(null);
 
   const cells = getCellsForLevel(currentLevel, pathMode);
   const cell = cells[currentCellIdx];
-
   if (!cell) return null;
+  const isFocus = uiMode === 'focus';
 
   return (
     <main className="scene">
       <Topbar onOpenSoulField={openSoulField} />
 
-      <div className="lvl-grid">
-        <aside>
-          <Pyramid />
-          <BodyHologram />
-          <DailyPulse onClick={() => setOpenModal('daily')} />
-        </aside>
+      <div className="lvl-mode-toggle">
+        <button type="button" className={`mode-btn${!isFocus ? ' active' : ''}`}
+          onClick={() => setUiMode('map')}>◯ карта</button>
+        <button type="button" className={`mode-btn${isFocus ? ' active' : ''}`}
+          onClick={() => setUiMode('focus')}>◉ фокус</button>
+      </div>
+
+      <div className={`lvl-grid${isFocus ? ' lvl-focus' : ''}`}>
+        {!isFocus && (
+          <aside>
+            <Pyramid />
+            <BodyHologram />
+            <DailyPulse onClick={() => setOpenModal('daily')} />
+          </aside>
+        )}
 
         <CellView
           cell={cell}
@@ -52,18 +64,20 @@ export default function Level({ openSoulField }) {
           currentIdx={currentCellIdx}
         />
 
-        <aside>
-          <BarometersList />
-          <PracticesPanel onLaunch={(p) => {
-            setAutoLaunchPractice(p);
-            setOpenModal('practices');
-          }} />
-          <ActiveChannels onClick={() => setOpenModal('channels')} />
-          <ConstellationFigures />
-          <Archetypes />
-          <KaiTrust />
-          <JournalMini onOpen={() => setOpenModal('journal')} />
-        </aside>
+        {!isFocus && (
+          <aside>
+            <BarometersList />
+            <PracticesPanel onLaunch={(p) => {
+              setAutoLaunchPractice(p);
+              setOpenModal('practices');
+            }} />
+            <ActiveChannels onClick={() => setOpenModal('channels')} />
+            <ConstellationFigures />
+            <Archetypes />
+            <KaiTrust />
+            <JournalMini onOpen={() => setOpenModal('journal')} />
+          </aside>
+        )}
       </div>
 
       <ActionsBar onOpen={setOpenModal} />
@@ -78,6 +92,7 @@ export default function Level({ openSoulField }) {
       )}
       {openModal === 'channels' && <ChannelsModal onClose={() => setOpenModal(null)} />}
       {openModal === 'daily' && <DailyRitualModal onClose={() => setOpenModal(null)} />}
+      {openModal === 'history' && <HistoryModal onClose={() => setOpenModal(null)} />}
       {openModal === 'reset' && <ResetConfirmDialog onClose={() => setOpenModal(null)} />}
     </main>
   );

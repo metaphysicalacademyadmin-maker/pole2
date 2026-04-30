@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { CHAKRAS } from '../../data/chakras.js';
 import ChakraInfoModal from '../../components/modals/ChakraInfoModal.jsx';
@@ -23,9 +23,18 @@ function shouldGlowHands(state) {
 // Все клікабельне → показує ChakraInfoModal.
 export default function BodyHologram() {
   const state = useGameStore();
-  const { completedLevels, currentLevel, resources } = state;
+  const { completedLevels, currentLevel, resources, flashChakraId, flashCounter } = state;
   const [openChakra, setOpenChakra] = useState(null);
+  const [flashingId, setFlashingId] = useState(null);
   const glowHands = shouldGlowHands(state);
+
+  // Слухаємо flashCounter — коли інкрементиться, тригернути спалах
+  useEffect(() => {
+    if (!flashChakraId) return;
+    setFlashingId(flashChakraId);
+    const t = setTimeout(() => setFlashingId(null), 1500);
+    return () => clearTimeout(t);
+  }, [flashCounter, flashChakraId]);
 
   return (
     <>
@@ -85,6 +94,7 @@ export default function BodyHologram() {
                 active={active}
                 current={current}
                 intensity={intensity}
+                flashing={flashingId === ch.id}
                 onClick={() => setOpenChakra(ch.id)} />
             );
           })}

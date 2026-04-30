@@ -40,6 +40,9 @@ export default function ActionsBar({ onOpen }) {
       <button type="button" className="btn btn-ghost" onClick={() => onOpen('daily')}>
         ☉ ритуал
       </button>
+      <button type="button" className="btn btn-ghost" onClick={() => onOpen('history')}>
+        ⧖ історія
+      </button>
       {canUpgrade && (
         <button type="button" className="btn btn-ghost" onClick={handleUpgrade}>
           ↑ {PATH_MODES[nextMode].name}

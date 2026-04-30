@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGameStore } from './store/gameStore.js';
 import PathMode from './scenes/PathMode/index.jsx';
 import Entry from './scenes/Entry/index.jsx';
@@ -12,9 +12,14 @@ import GlobalToast from './components/GlobalToast.jsx';
 import KaiBubble from './components/Kai/KaiBubble.jsx';
 import ArbiterModal from './components/Arbiter/ArbiterModal.jsx';
 import AntypModal from './components/Antyp/AntypModal.jsx';
+import MirrorModal from './components/Mirror/MirrorModal.jsx';
+import KoanCard from './components/Koan/KoanCard.jsx';
 import { detectCharacter } from './utils/character-detector.js';
+import { pickMirrorReflection } from './data/mirror.js';
+import { pickKoan } from './data/koans.js';
 
-// Роутер + персонажі (Кай / Антип / Арбітр) як overlay-шар.
+// App routing + 4 персонажі (Кай / Антип / Арбітр / Дзеркало) + Коани як overlay.
+// Soft / Dark theme через data-theme на root.
 export default function App() {
   const pathMode = useGameStore((s) => s.pathMode);
   const intention = useGameStore((s) => s.intention);
@@ -23,19 +28,58 @@ export default function App() {
   const constellations = useGameStore((s) => s.constellations);
   const cellAnswers = useGameStore((s) => s.cellAnswers);
   const completedLevels = useGameStore((s) => s.completedLevels);
+  const themeMode = useGameStore((s) => s.themeMode);
   const recordArbiterAppearance = useGameStore((s) => s.recordArbiterAppearance);
   const recordAntypChallenge = useGameStore((s) => s.recordAntypChallenge);
+  const recordMirrorAppearance = useGameStore((s) => s.recordMirrorAppearance);
 
   const [soulFieldOpen, setSoulFieldOpen] = useState(false);
   const [activeCharacter, setActiveCharacter] = useState(null);
+  const [mirror, setMirror] = useState(null);
+  const [koan, setKoan] = useState(null);
+  const lastAnswerCount = useRef(0);
 
-  // Стежимо за змінами cellAnswers/completedLevels — викликаємо персонажа.
+  // Apply theme to root
   useEffect(() => {
-    if (!pathMode || !intention || activeCharacter) return;
+    document.documentElement.setAttribute('data-theme', themeMode || 'dark');
+  }, [themeMode]);
+
+  // Detect Антип/Арбітр
+  useEffect(() => {
+    if (!pathMode || !intention || activeCharacter || mirror) return;
     const state = useGameStore.getState();
     const result = detectCharacter(state, { type: 'auto' });
     if (result) setActiveCharacter(result);
-  }, [cellAnswers, completedLevels, constellations, pathMode, intention, activeCharacter]);
+  }, [cellAnswers, completedLevels, constellations, pathMode, intention, activeCharacter, mirror]);
+
+  // Detect Mirror (~25% chance after custom answer) і Koan (~15% after answer)
+  useEffect(() => {
+    const count = Object.keys(cellAnswers || {}).length;
+    if (count <= lastAnswerCount.current) return;
+    lastAnswerCount.current = count;
+
+    const last = Object.values(cellAnswers || {}).reduce(
+      (a, b) => (!a || (b.ts > a.ts) ? b : a), null
+    );
+    if (!last) return;
+
+    // Mirror after custom answer
+    if (last.customText && Math.random() < 0.5 && !activeCharacter) {
+      const refl = pickMirrorReflection(last.customText, last.ts);
+      setTimeout(() => {
+        if (!useGameStore.getState().activeCharacter) {
+          setMirror(refl);
+          recordMirrorAppearance(refl.id, 'shown');
+        }
+      }, 1500);
+      return;
+    }
+
+    // Koan as random gift (15% chance, after deep answers)
+    if (last.depth === 'deep' && Math.random() < 0.2 && !activeCharacter) {
+      setTimeout(() => setKoan(pickKoan(last.ts)), 2000);
+    }
+  }, [cellAnswers, activeCharacter, recordMirrorAppearance]);
 
   function handleArbiterClose() {
     if (activeCharacter?.character === 'arbiter') {
@@ -47,7 +91,6 @@ export default function App() {
   function handleAntypChoice(opt) {
     if (activeCharacter?.character === 'antyp') {
       recordAntypChallenge(activeCharacter.payload.id, opt.id, opt);
-      // Якщо обрано «прийняти» — після Антипа з'являється Арбітр
       if (opt.arbiterTrigger) {
         setTimeout(() => {
           const state = useGameStore.getState();
@@ -70,8 +113,9 @@ export default function App() {
           : pickScene({ pathMode, intention, currentLevel, awaitingKey, constellations, openSoulField: () => setSoulFieldOpen(true) })}
       </ErrorBoundary>
       <GlobalToast />
-      {pathMode && intention && !soulFieldOpen && !activeCharacter && <KaiBubble />}
+      {pathMode && intention && !soulFieldOpen && !activeCharacter && !mirror && <KaiBubble />}
 
+      {koan && <KoanCard koan={koan} onClose={() => setKoan(null)} />}
       {activeCharacter?.character === 'arbiter' && (
         <ArbiterModal line={activeCharacter.payload} onClose={handleArbiterClose} />
       )}
@@ -80,6 +124,7 @@ export default function App() {
           onChoice={handleAntypChoice}
           onClose={() => setActiveCharacter(null)} />
       )}
+      {mirror && <MirrorModal reflection={mirror} onClose={() => setMirror(null)} />}
     </div>
   );
 }
