@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { TEACHER_CATEGORIES, topicsByCategory, findTopic } from '../../data/teacher.js';
 import './teacher.css';
 
@@ -6,6 +7,9 @@ import './teacher.css';
 // 1. Перелік категорій (5 кнопок)
 // 2. Список тем у категорії (~3-4 теми)
 // 3. Відкрита тема — повна відповідь
+//
+// Рендериться через createPortal у document.body — щоб уникнути
+// stacking-context конфліктів з .app (z-index 10).
 export default function TeacherModal({ onClose, defaultTopicId }) {
   const initial = defaultTopicId ? findTopic(defaultTopicId) : null;
   const [activeCategory, setActiveCategory] = useState(initial?.category || 'базове');
@@ -13,7 +17,7 @@ export default function TeacherModal({ onClose, defaultTopicId }) {
 
   const topics = topicsByCategory(activeCategory);
 
-  return (
+  return createPortal(
     <div className="tch-overlay" onClick={onClose}>
       <div className="tch-modal" onClick={(e) => e.stopPropagation()}>
         <div className="tch-header">
@@ -65,7 +69,8 @@ export default function TeacherModal({ onClose, defaultTopicId }) {
           Не бачиш відповіді? Контакт у Telegram: <strong>@dr_Zayats</strong>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

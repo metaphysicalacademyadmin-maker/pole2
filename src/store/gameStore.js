@@ -13,6 +13,8 @@ import {
   voiceActions,
   fieldActions,
   characterActions,
+  uiActions,
+  mirrorActions,
   buildArchive,
 } from './actions.js';
 
@@ -313,6 +315,8 @@ export const useGameStore = create(
       ...voiceActions(set, get, (s) => buildSession(s, genSessionId)),
       ...fieldActions(set, get, (s) => buildSession(s, genSessionId)),
       ...characterActions(set, get, (s) => buildSession(s, genSessionId)),
+      ...uiActions(set, get, (s) => buildSession(s, genSessionId)),
+      ...mirrorActions(set, get, (s) => buildSession(s, genSessionId)),
     }),
     {
       name: SAVE_KEY,
