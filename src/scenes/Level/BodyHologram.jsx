@@ -13,13 +13,19 @@ const CENTER_X = VIEW_W / 2;
 const TOP_Y = 18;
 const BOTTOM_Y = 410;
 
+function shouldGlowHands(state) {
+  // Долоні світяться коли активний хоч один канал АБО зроблена практика hands_power.
+  if ((state.channelsActive || []).length > 0) return true;
+  return (state.practiceCompletions || []).some((p) => p.id === 'hands_power');
+}
+
 // Аватар тіла з 7 чакрами, лотосними пелюстками, аурою, Іда+Пінгала.
 // Все клікабельне → показує ChakraInfoModal.
 export default function BodyHologram() {
-  const completedLevels = useGameStore((s) => s.completedLevels);
-  const currentLevel = useGameStore((s) => s.currentLevel);
-  const resources = useGameStore((s) => s.resources);
+  const state = useGameStore();
+  const { completedLevels, currentLevel, resources } = state;
   const [openChakra, setOpenChakra] = useState(null);
+  const glowHands = shouldGlowHands(state);
 
   return (
     <>
@@ -47,9 +53,10 @@ export default function BodyHologram() {
           {/* Aura (3 шари — найзовнішнє) */}
           <Aura centerX={CENTER_X} centerY={VIEW_H / 2} />
 
-          {/* Тіло-силует */}
+          {/* Тіло-силует — долоні світяться якщо є активний канал
+              або виконано практику «Сила долонь» */}
           <g className="holo-body-breath">
-            <Silhouette />
+            <Silhouette glowHands={glowHands} />
           </g>
 
           {/* Сушумна — центральний золотий канал */}
