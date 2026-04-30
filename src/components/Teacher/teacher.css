@@ -1,0 +1,171 @@
+/* Учитель — нейтральна біло-золота модалка з категоріями і темами */
+
+.tch-overlay {
+  position: fixed; inset: 0;
+  background: rgba(4, 2, 12, 0.85);
+  display: flex; align-items: flex-start; justify-content: center;
+  z-index: 220;
+  padding: 32px 20px;
+  overflow-y: auto;
+}
+
+.tch-modal {
+  max-width: 680px;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(20, 14, 30, 0.97), rgba(40, 28, 60, 0.96));
+  border: 1.5px solid #f0c574;
+  border-radius: 16px;
+  padding: 24px 28px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff7e0;
+  box-shadow: 0 0 40px rgba(232, 196, 118, 0.2), 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.tch-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(232, 196, 118, 0.25);
+}
+
+.tch-symbol {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe7a8, #c89849 70%);
+  border: 1.5px solid #f0c574;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e1828;
+  flex-shrink: 0;
+}
+.tch-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff7e0;
+}
+.tch-tagline {
+  font-size: 12px;
+  color: #c8bca8;
+  font-style: italic;
+  margin-top: 2px;
+}
+.tch-close {
+  margin-left: auto;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(232, 196, 118, 0.3);
+  color: #c8bca8;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.tch-close:hover { border-color: #f0c574; color: #fff7e0; }
+
+.tch-cats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(232, 196, 118, 0.2);
+}
+.tch-cat {
+  padding: 6px 12px;
+  background: rgba(20, 14, 30, 0.6);
+  border: 1px solid rgba(232, 196, 118, 0.25);
+  border-radius: 999px;
+  color: #c8bca8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.tch-cat:hover { border-color: #c89849; color: #fff7e0; }
+.tch-cat.active { border-color: #f0c574; background: rgba(232,196,118,0.15); color: #fff7e0; }
+
+.tch-topics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tch-topic {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(20, 14, 30, 0.7);
+  border: 1px solid rgba(232, 196, 118, 0.2);
+  border-radius: 10px;
+  color: #fff7e0;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.tch-topic:hover {
+  border-color: #f0c574;
+  background: rgba(40, 28, 60, 0.85);
+  transform: translateX(4px);
+}
+.tch-topic-icon { font-size: 18px; flex-shrink: 0; }
+.tch-topic-title { flex: 1; font-weight: 600; }
+.tch-topic-arrow { color: #c89849; }
+
+.tch-back {
+  background: transparent;
+  border: none;
+  color: #f0c574;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  padding: 4px 0;
+}
+.tch-back:hover { color: #ffe7a8; }
+
+.tch-answer-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff7e0;
+  margin-bottom: 16px;
+}
+.tch-answer-body {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #fff7e0;
+  opacity: 0.95;
+}
+.tch-answer-body p { margin-bottom: 12px; }
+.tch-answer-body strong { color: #f0c574; }
+.tch-answer-body code {
+  background: rgba(232, 196, 118, 0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #ffe7a8;
+}
+.tch-list {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: rgba(40, 28, 60, 0.5);
+  border-left: 2px solid #c89849;
+  border-radius: 6px;
+}
+
+.tch-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(232, 196, 118, 0.2);
+  font-size: 11px;
+  color: #c8bca8;
+  font-style: italic;
+  text-align: center;
+}
+.tch-footer strong { color: #f0c574; }

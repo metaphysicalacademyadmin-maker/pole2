@@ -14,6 +14,7 @@ import ArbiterModal from './components/Arbiter/ArbiterModal.jsx';
 import AntypModal from './components/Antyp/AntypModal.jsx';
 import MirrorModal from './components/Mirror/MirrorModal.jsx';
 import KoanCard from './components/Koan/KoanCard.jsx';
+import OnboardingFlow from './components/Onboarding/OnboardingFlow.jsx';
 import { detectCharacter } from './utils/character-detector.js';
 import { pickMirrorReflection } from './data/mirror.js';
 import { pickKoan } from './data/koans.js';
@@ -29,6 +30,8 @@ export default function App() {
   const cellAnswers = useGameStore((s) => s.cellAnswers);
   const completedLevels = useGameStore((s) => s.completedLevels);
   const themeMode = useGameStore((s) => s.themeMode);
+  const onboardingDone = useGameStore((s) => s.onboardingDone);
+  const completeOnboarding = useGameStore((s) => s.completeOnboarding);
   const recordArbiterAppearance = useGameStore((s) => s.recordArbiterAppearance);
   const recordAntypChallenge = useGameStore((s) => s.recordAntypChallenge);
   const recordMirrorAppearance = useGameStore((s) => s.recordMirrorAppearance);
@@ -125,6 +128,7 @@ export default function App() {
           onClose={() => setActiveCharacter(null)} />
       )}
       {mirror && <MirrorModal reflection={mirror} onClose={() => setMirror(null)} />}
+      {!onboardingDone && <OnboardingFlow onComplete={completeOnboarding} />}
     </div>
   );
 }

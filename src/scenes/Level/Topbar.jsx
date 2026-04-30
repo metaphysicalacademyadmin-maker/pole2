@@ -2,6 +2,7 @@ import { useGameStore } from '../../store/gameStore.js';
 import { PATH_MODES } from '../../data/pathmodes.js';
 import FieldNow from '../../components/panels/FieldNow.jsx';
 import ThemeToggle from '../../components/panels/ThemeToggle.jsx';
+import HelpButton from '../../components/panels/HelpButton.jsx';
 import '../../components/panels/panels.css';
 
 // Топбар — лого, режим, FieldNow (інтегральне поле), лічильники.
@@ -21,6 +22,7 @@ export default function Topbar({ onOpenSoulField }) {
       )}
       <FieldNow onOpen={onOpenSoulField} />
       <ThemeToggle />
+      <HelpButton />
       <div className="lvl-tb-stats">
         <span>
           <span className="lvl-tb-stat-num">{completedLevels.length}</span>/7

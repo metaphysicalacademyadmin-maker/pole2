@@ -142,6 +142,9 @@ const defaultState = {
   // ─── UI preferences ───
   uiMode: 'map',
   themeMode: 'dark',
+
+  // ─── Onboarding ───
+  onboardingDone: false,
 };
 
 function ensureSession(s) {

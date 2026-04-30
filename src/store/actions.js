@@ -178,6 +178,7 @@ export const uiActions = (set, get, ensure) => ({
   },
   setUiMode: (mode) => set({ uiMode: mode }),
   setThemeMode: (mode) => set({ themeMode: mode }),
+  completeOnboarding: () => set({ onboardingDone: true }),
 });
 
 // ───────────── DZERKALO (Mirror) ─────────────
