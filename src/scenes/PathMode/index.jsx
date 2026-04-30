@@ -1,6 +1,7 @@
 import { useGameStore } from '../../store/gameStore.js';
 import { PATH_MODES, PATH_MODE_ORDER } from '../../data/pathmodes.js';
 import PathCard from './PathCard.jsx';
+import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
 import './styles.css';
 
 // Перший екран: гравець обирає режим шляху.
@@ -28,6 +29,10 @@ export default function PathMode() {
 
         <div className="pm-foot">
           режим можна підвищити в середині гри · знизити — ні
+        </div>
+
+        <div style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid rgba(232,196,118,0.18)' }}>
+          <ContactsBlock variant="compact" title="Метафізична Академія" />
         </div>
       </div>
     </main>

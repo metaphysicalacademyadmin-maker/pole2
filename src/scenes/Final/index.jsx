@@ -1,6 +1,7 @@
 import { useGameStore } from '../../store/gameStore.js';
 import Mandala from './Mandala.jsx';
 import BodyMapDisplay from '../../components/BodyMap/BodyMapDisplay.jsx';
+import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
 import './styles.css';
 
 const SYS = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
@@ -123,6 +124,10 @@ export default function Final() {
           <button type="button" className="btn btn-primary" onClick={handleNew}>
             почати новий шлях
           </button>
+        </div>
+
+        <div style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(232,196,118,0.2)' }}>
+          <ContactsBlock title="Знайди нас" />
         </div>
       </div>
     </main>

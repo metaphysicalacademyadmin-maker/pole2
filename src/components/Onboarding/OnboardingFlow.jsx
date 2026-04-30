@@ -58,6 +58,20 @@ const STEPS = [
 
 Все. Зайди у поле. ✦`,
   },
+  {
+    icon: '✈',
+    title: 'Метафізична Академія',
+    text: `Гра — лише вступ у велику традицію.
+
+🎓 **metaphysical-way.academy** — курси і методики
+📷 **@metaphysical_way** в Instagram
+💬 **Чат гравців у Telegram** — підтримка від інших хто йде
+✈ **@dr_Zayats** — особистий контакт автора
+
+Усі посилання знайдеш внизу стартового екрану і у Final після гри.
+
+Тепер — у поле.`,
+  },
 ];
 
 export default function OnboardingFlow({ onComplete }) {
