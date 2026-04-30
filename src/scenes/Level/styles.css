@@ -108,10 +108,18 @@
 }
 .holo-svg {
   width: 100%;
-  max-width: 200px;
+  max-width: 240px;
   height: auto;
   display: block;
   margin: 0 auto;
+}
+.holo-body-breath {
+  transform-origin: 120px 240px;
+  animation: bodyBreath 6s ease-in-out infinite;
+}
+@keyframes bodyBreath {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.012); }
 }
 .holo-caption {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
