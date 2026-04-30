@@ -170,6 +170,44 @@ export const dilemmaActions = (set, get, ensure) => ({
   },
 });
 
+// ───────────── АРБІТР І АНТИП ─────────────
+
+export const characterActions = (set, get, ensure) => ({
+  recordArbiterAppearance: (lineId) => {
+    const s = get();
+    if (s.arbiterAppearances.some((a) => a.id === lineId)) return;
+    set({
+      ...ensure(s),
+      arbiterAppearances: [...s.arbiterAppearances, { id: lineId, ts: Date.now() }],
+      journal: [...s.journal, { text: 'Арбітр свідчить', tag: 'арбітр', ts: Date.now() }],
+    });
+  },
+  recordAntypChallenge: (provocationId, choice, opt) => {
+    const s = get();
+    const accepted = !!opt.arbiterTrigger;
+    const newResources = { ...s.resources };
+    if (opt.effect?.resource) {
+      for (const [k, delta] of Object.entries(opt.effect.resource)) {
+        newResources[k] = (newResources[k] || 0) + delta;
+      }
+    }
+    const newPraxis = (s.praxis || 5) + (opt.effect?.praxis || 0);
+    set({
+      ...ensure(s),
+      resources: newResources,
+      praxis: Math.max(0, Math.min(10, newPraxis)),
+      antypAppearances: [
+        ...s.antypAppearances,
+        { id: provocationId, choice, accepted, ts: Date.now() },
+      ],
+      journal: [...s.journal, {
+        text: `Антип ${accepted ? 'прийнятий' : 'відкинутий'}: ${opt.text.slice(0, 40)}…`,
+        tag: 'антип', ts: Date.now(),
+      }],
+    });
+  },
+});
+
 // ───────────── ГОЛОС ─────────────
 
 export const voiceActions = (set, get, ensure) => ({

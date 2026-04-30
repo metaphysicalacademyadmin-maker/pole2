@@ -12,6 +12,7 @@ import {
   dilemmaActions,
   voiceActions,
   fieldActions,
+  characterActions,
   buildArchive,
 } from './actions.js';
 
@@ -125,6 +126,14 @@ const defaultState = {
   bodyMeasurements: [],
   // {archetypeId: {ts, context}} — зустрінуті архетипи
   archetypesMet: [],
+
+  // ─── Арбітр і Антип (Хвиля 6) ───
+  // [{id, ts}] — які lіne-и Арбітра гравець вже бачив
+  arbiterAppearances: [],
+  // [{id, ts, choice, accepted}] — провокації Антипа
+  antypAppearances: [],
+  // лічильники для тригерів
+  praxis: 5,                      // початкова довіра до Антипа/Арбітра
 };
 
 function ensureSession(s) {
@@ -292,6 +301,7 @@ export const useGameStore = create(
       ...dilemmaActions(set, get, (s) => buildSession(s, genSessionId)),
       ...voiceActions(set, get, (s) => buildSession(s, genSessionId)),
       ...fieldActions(set, get, (s) => buildSession(s, genSessionId)),
+      ...characterActions(set, get, (s) => buildSession(s, genSessionId)),
     }),
     {
       name: SAVE_KEY,

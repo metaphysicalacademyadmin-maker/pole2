@@ -1,0 +1,87 @@
+/* Арбітр — золотисто-біла модалка зі суворим класичним стилем */
+
+.arb-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 2, 12, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 250;
+  padding: 24px;
+  animation: arbFadeIn 0.6s ease-out;
+}
+@keyframes arbFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.arb-modal {
+  max-width: 520px;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(20, 14, 30, 0.96), rgba(40, 28, 60, 0.96));
+  border: 2px solid #f0c574;
+  border-radius: 18px;
+  padding: 40px 32px 32px;
+  text-align: center;
+  box-shadow:
+    0 0 60px rgba(232, 196, 118, 0.25),
+    0 8px 32px rgba(0, 0, 0, 0.7);
+  animation: arbScaleIn 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@keyframes arbScaleIn {
+  from { opacity: 0; transform: scale(0.92) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.arb-symbol {
+  font-size: 48px;
+  color: #f0c574;
+  margin-bottom: 16px;
+  text-shadow: 0 0 24px rgba(232, 196, 118, 0.5);
+  animation: arbPulse 3s ease-in-out infinite;
+}
+@keyframes arbPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.05); }
+}
+
+.arb-name {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #f0c574;
+  margin-bottom: 24px;
+}
+
+.arb-text {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff7e0;
+  line-height: 1.5;
+  margin-bottom: 32px;
+  padding: 0 8px;
+}
+
+.arb-btn {
+  padding: 10px 28px;
+  background: linear-gradient(180deg, rgba(232,196,118,.32), rgba(120,76,30,.4));
+  border: 1.5px solid #f0c574;
+  border-radius: 999px;
+  color: #fff7e0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.arb-btn:hover {
+  background: linear-gradient(180deg, rgba(232,196,118,.45), rgba(150,100,42,.55));
+  box-shadow: 0 0 24px rgba(232, 196, 118, 0.35);
+}
