@@ -122,3 +122,109 @@
 /* ─── Kai trust ─── */
 .kt-bar { height: 4px; background: rgba(40,28,60,0.8); border-radius: 999px; overflow: hidden; margin-top: 4px; }
 .kt-fill { height: 100%; background: linear-gradient(90deg, #c89849, #f0c574); transition: width 0.6s ease; }
+
+/* ─── Practices panel ─── */
+.pp-panel { padding: 12px 12px 8px; }
+.pp-header { margin-bottom: 8px; }
+.pp-bar {
+  height: 4px;
+  background: rgba(40,28,60,0.8);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.pp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c89849, #f0c574, #ffe7a8);
+  transition: width 0.6s ease;
+}
+.pp-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.pp-tab {
+  flex: 1;
+  padding: 5px 6px;
+  background: rgba(40, 28, 60, 0.5);
+  border: 1px solid rgba(232, 196, 118, 0.18);
+  border-radius: 6px;
+  color: #c8bca8;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pp-tab:hover { border-color: rgba(232, 196, 118, 0.5); }
+.pp-tab.active {
+  border-color: #f0c574;
+  background: rgba(232,196,118,0.18);
+  color: #fff7e0;
+}
+.pp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.pp-list::-webkit-scrollbar { width: 4px; }
+.pp-list::-webkit-scrollbar-thumb { background: rgba(232,196,118,0.3); border-radius: 2px; }
+.pp-empty {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 12px;
+  color: #c8bca8;
+  text-align: center;
+  padding: 12px;
+}
+.pp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(20, 14, 30, 0.6);
+  border: 1px solid rgba(232, 196, 118, 0.18);
+  border-radius: 8px;
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #fff7e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+.pp-row:hover {
+  border-color: #c89849;
+  background: rgba(40, 28, 60, 0.8);
+}
+.pp-row.done {
+  background: rgba(168, 200, 152, 0.08);
+  border-color: rgba(168, 200, 152, 0.4);
+}
+.pp-icon { font-size: 18px; flex-shrink: 0; min-width: 22px; text-align: center; }
+.pp-row-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pp-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff7e0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pp-meta {
+  font-size: 10px;
+  color: #c8bca8;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+.pp-tick {
+  color: #a8c898;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}

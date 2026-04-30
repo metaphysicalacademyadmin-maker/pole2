@@ -9,7 +9,7 @@ import BarometersList from './BarometersList.jsx';
 import JournalMini from './JournalMini.jsx';
 import ActionsBar from './ActionsBar.jsx';
 import {
-  DailyPulse, ActiveChannels, ConstellationFigures, Archetypes, KaiTrust,
+  DailyPulse, ActiveChannels, ConstellationFigures, Archetypes, KaiTrust, PracticesPanel,
 } from '../../components/panels/index.js';
 import JournalModal from '../../components/modals/JournalModal.jsx';
 import ScalesModal from '../../components/modals/ScalesModal.jsx';
@@ -27,6 +27,7 @@ export default function Level({ openSoulField }) {
   const currentCellIdx = useGameStore((s) => s.currentCellIdx);
   const pathMode = useGameStore((s) => s.pathMode);
   const [openModal, setOpenModal] = useState(null);
+  const [autoLaunchPractice, setAutoLaunchPractice] = useState(null);
 
   const cells = getCellsForLevel(currentLevel, pathMode);
   const cell = cells[currentCellIdx];
@@ -53,6 +54,10 @@ export default function Level({ openSoulField }) {
 
         <aside>
           <BarometersList />
+          <PracticesPanel onLaunch={(p) => {
+            setAutoLaunchPractice(p);
+            setOpenModal('practices');
+          }} />
           <ActiveChannels onClick={() => setOpenModal('channels')} />
           <ConstellationFigures />
           <Archetypes />
@@ -65,7 +70,12 @@ export default function Level({ openSoulField }) {
 
       {openModal === 'journal' && <JournalModal onClose={() => setOpenModal(null)} />}
       {openModal === 'scales' && <ScalesModal onClose={() => setOpenModal(null)} />}
-      {openModal === 'practices' && <PracticesModal onClose={() => setOpenModal(null)} />}
+      {openModal === 'practices' && (
+        <PracticesModal
+          onClose={() => { setOpenModal(null); setAutoLaunchPractice(null); }}
+          autoLaunch={autoLaunchPractice}
+        />
+      )}
       {openModal === 'channels' && <ChannelsModal onClose={() => setOpenModal(null)} />}
       {openModal === 'daily' && <DailyRitualModal onClose={() => setOpenModal(null)} />}
       {openModal === 'reset' && <ResetConfirmDialog onClose={() => setOpenModal(null)} />}

@@ -8,10 +8,10 @@ import { showToast } from '../GlobalToast.jsx';
 
 const SYS = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
 
-export default function PracticesModal({ onClose }) {
+export default function PracticesModal({ onClose, autoLaunch }) {
   const currentLevel = useGameStore((s) => s.currentLevel);
   const completePractice = useGameStore((s) => s.completePractice);
-  const [running, setRunning] = useState(null);
+  const [running, setRunning] = useState(autoLaunch || null);
 
   const list = practicesForLevel(Math.max(1, currentLevel));
 
