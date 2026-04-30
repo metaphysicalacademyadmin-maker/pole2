@@ -1,0 +1,108 @@
+/* Стилі сцени Entry — максимально явні значення для гарантованого рендера */
+
+.entry-frame {
+  position: relative;
+  z-index: 50;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 64px 20px 48px;
+  text-align: center;
+}
+
+.entry-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #f0c574;
+  margin: 0 auto 24px;
+  display: block;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 999px;
+  border: 1px solid rgba(232, 196, 118, 0.5);
+  width: fit-content;
+}
+
+.entry-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: #fff7e0;
+  margin: 0 0 20px 0;
+  display: block;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.entry-instruction {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff7e0;
+  line-height: 1.6;
+  margin: 0 0 28px 0;
+  display: block;
+  padding: 14px 18px;
+  background: rgba(20, 14, 30, 0.7);
+  border-radius: 10px;
+  border: 1px solid rgba(232, 196, 118, 0.2);
+}
+
+.breath-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 28px 0;
+}
+
+.breath-orb {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #c89849;
+  background: radial-gradient(circle at center, rgba(232,196,118,.25) 0%, rgba(40,28,60,0.5) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff7e0;
+  animation: breathPulse 4s ease-in-out infinite;
+}
+.breath-orb:nth-child(2) { animation-delay: 1.3s; }
+.breath-orb:nth-child(3) { animation-delay: 2.6s; }
+
+@keyframes breathPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.intention-input {
+  display: block;
+  width: 100%;
+  min-height: 110px;
+  padding: 14px 16px;
+  background: #1e1828;
+  border: 2px solid #c89849;
+  border-radius: 12px;
+  color: #fff7e0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  resize: vertical;
+  margin: 0 0 24px 0;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+.intention-input::placeholder {
+  color: #968a7c;
+}
+.intention-input:focus {
+  border-color: #f0c574;
+  box-shadow: 0 0 0 3px rgba(232,196,118,.25);
+}

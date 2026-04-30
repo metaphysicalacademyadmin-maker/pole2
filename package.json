@@ -1,0 +1,27 @@
+{
+  "name": "pole-voploshchennia",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "ПОЛЕ · Втілення — Шлях Душі через Тіло. React-версія гри, single-file build для metaphysical-way.academy /demo.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:embed": "vite build --mode embed",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.0.0",
+    "@mui/material": "^9.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11",
+    "vite-plugin-singlefile": "^2.0.3"
+  }
+}

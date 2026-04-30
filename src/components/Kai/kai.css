@@ -1,0 +1,85 @@
+/* Кай — floating supercompanion справа знизу */
+
+.kai-bubble {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 150;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.kai-orb {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe7a8, #c89849 70%, #5b4520);
+  border: 2px solid #f0c574;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #1e1828;
+  box-shadow: 0 0 24px rgba(232, 196, 118, 0.35);
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  flex-shrink: 0;
+  animation: kaiBreath 6s ease-in-out infinite;
+}
+
+@keyframes kaiBreath {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(232,196,118,.35); }
+  50%      { transform: scale(1.06); box-shadow: 0 0 36px rgba(232,196,118,.55); }
+}
+
+.kai-text {
+  background: rgba(20, 14, 30, 0.95);
+  border: 1.5px solid rgba(232, 196, 118, 0.5);
+  border-radius: 14px;
+  padding: 12px 16px;
+  max-width: 280px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff7e0;
+  pointer-events: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  animation: kaiSlideIn 0.5s ease-out;
+}
+.kai-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #f0c574;
+  margin-bottom: 4px;
+  opacity: 0.85;
+}
+.kai-line {
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.kai-bubble.mood-concerned .kai-orb {
+  background: radial-gradient(circle at 35% 30%, #f0a8b8, #b86a78 70%, #5a2a38);
+  border-color: #d89098;
+}
+.kai-bubble.mood-concerned .kai-text { border-color: rgba(216, 144, 152, 0.55); }
+
+.kai-bubble.mood-celebratory .kai-orb {
+  background: radial-gradient(circle at 35% 30%, #ffe7a8, #f0c574 60%, #c89849);
+  box-shadow: 0 0 36px rgba(232, 196, 118, 0.55);
+}
+
+@keyframes kaiSlideIn {
+  from { opacity: 0; transform: translateX(8px) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@media (max-width: 720px) {
+  .kai-bubble { right: 12px; bottom: 12px; }
+  .kai-text { max-width: calc(100vw - 100px); font-size: 13px; }
+}

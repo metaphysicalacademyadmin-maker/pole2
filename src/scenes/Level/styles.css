@@ -1,0 +1,295 @@
+/* Сцена Level — головний робочий екран. Триколонкова сітка. */
+
+.lvl-tb {
+  position: relative;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(232, 196, 118, 0.2);
+}
+.lvl-tb-logo {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff7e0;
+}
+.lvl-tb-mode {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #f0c574;
+}
+.lvl-tb-stats {
+  display: flex;
+  gap: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  color: #c8bca8;
+}
+.lvl-tb-stat-num { color: #f0c574; font-weight: 700; }
+
+.lvl-grid {
+  position: relative;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 220px 1fr 240px;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 16px;
+  align-items: start;
+}
+@media (max-width: 980px) {
+  .lvl-grid { grid-template-columns: 1fr; }
+}
+
+.lvl-col-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #c8bca8;
+  margin-bottom: 12px;
+}
+
+/* ─── Pyramid ─── */
+.pyr-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px;
+  background: rgba(20, 14, 30, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(232, 196, 118, 0.2);
+}
+.pyr-row {
+  position: relative;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c8bca8;
+  border: 1px solid rgba(232, 196, 118, 0.2);
+  transition: all 0.3s ease;
+  background: rgba(40, 28, 60, 0.5);
+}
+.pyr-row.completed { color: #fff7e0; border-color: #f0c574; background: rgba(232,196,118,.12); }
+.pyr-row.current {
+  color: #f0c574;
+  border-color: #f0c574;
+  box-shadow: 0 0 16px rgba(232,196,118,.25);
+  background: rgba(232,196,118,.15);
+  font-weight: 700;
+}
+.pyr-row.locked { color: #968a7c; opacity: 0.55; }
+
+/* ─── Body hologram ─── */
+.holo-wrap {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(20, 14, 30, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(232, 196, 118, 0.2);
+  text-align: center;
+}
+.holo-svg { width: 100%; max-width: 130px; height: auto; }
+.holo-caption {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 13px;
+  color: #fff7e0;
+  margin-top: 8px;
+  opacity: 0.9;
+}
+
+/* ─── Center column — cell ─── */
+.lvl-center {
+  background: rgba(20, 14, 30, 0.85);
+  border-radius: 14px;
+  border: 1px solid rgba(232, 196, 118, 0.3);
+  padding: 28px;
+  min-height: 480px;
+}
+.cell-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #f0c574;
+  margin-bottom: 12px;
+}
+.cell-title {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff7e0;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+.cell-sub {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #c8bca8;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.cell-prologue {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 17px;
+  color: #fff7e0;
+  line-height: 1.55;
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  background: rgba(40, 28, 60, 0.5);
+  border-radius: 8px;
+  opacity: 0.95;
+}
+.cell-instruction {
+  background: rgba(232, 196, 118, 0.1);
+  border-left: 3px solid #c89849;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #fff7e0;
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+.cell-question {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #fff7e0;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.cell-note {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #c8bca8;
+  margin-bottom: 16px;
+}
+
+/* ─── Cell options ─── */
+.cell-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+.cell-option {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 14px 18px;
+  background: rgba(40, 28, 60, 0.7);
+  border: 1.5px solid rgba(232, 196, 118, 0.25);
+  border-radius: 10px;
+  color: #fff7e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.cell-option:hover {
+  border-color: rgba(232, 196, 118, 0.6);
+  background: rgba(60, 40, 90, 0.85);
+  transform: translateX(2px);
+}
+.cell-option.selected {
+  border-color: #f0c574;
+  background: rgba(232,196,118,.18);
+  box-shadow: 0 0 16px rgba(232,196,118,.3);
+}
+.cell-option-facet {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.cell-option-text {
+  font-family: inherit;
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.cell-option-hint {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #c8bca8;
+  margin-top: 6px;
+  text-transform: lowercase;
+}
+
+/* ─── Progress dots ─── */
+.progress-dots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(220, 200, 160, 0.32);
+  transition: all 0.3s ease;
+}
+.progress-dot.done    { background: #f0c574; }
+.progress-dot.current { background: #fff7e0; box-shadow: 0 0 8px #f0c574; }
+
+/* ─── Right column — state ─── */
+.state-section { margin-bottom: 20px; }
+.state-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #c8bca8;
+  margin-bottom: 8px;
+}
+.barometer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  transition: transform 0.3s ease;
+}
+.barometer-row.pulse {
+  animation: barometerPulse 1.2s ease-out;
+}
+@keyframes barometerPulse {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(6px); filter: brightness(1.3); }
+  100% { transform: translateX(0); filter: brightness(1); }
+}
+.barometer-name { flex: 1; color: #fff7e0; opacity: 0.9; }
+.barometer-value {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 14px;
+}

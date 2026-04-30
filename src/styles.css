@@ -1,0 +1,216 @@
+:root {
+  color-scheme: dark;
+
+  /* Глибокий простір */
+  --space-deep: #04020c;
+  --space-mid: #0a0418;
+  --space-shallow: #150a24;
+  --space-surface: rgba(40, 28, 60, 0.55);
+  --space-surface-strong: rgba(60, 40, 90, 0.65);
+
+  /* Золота вертикаль */
+  --gold-light: #fff7e0;
+  --gold-warm: #ffe7a8;
+  --gold: #e8c476;
+  --gold-deep: #c89849;
+  --gold-shadow: #8b5d1f;
+
+  /* Сім кольорів рівнів */
+  --lvl-1: #a8c898;
+  --lvl-2: #9fc8e8;
+  --lvl-3: #f5b870;
+  --lvl-4: #f0a8b8;
+  --lvl-5: #9fc8e8;
+  --lvl-6: #c9b3e8;
+  --lvl-7: #ffe7a8;
+
+  /* Текст */
+  --ink-primary: #fff7e0;
+  --ink-secondary: rgba(220, 200, 160, 0.78);
+  --ink-tertiary: rgba(220, 200, 160, 0.48);
+  --ink-muted: rgba(220, 200, 160, 0.32);
+
+  /* Межі */
+  --border-soft: rgba(232, 196, 118, 0.18);
+  --border-mid: rgba(232, 196, 118, 0.32);
+  --border-strong: rgba(232, 196, 118, 0.55);
+
+  /* Шари */
+  --z-bg: 0;
+  --z-content: 10;
+  --z-modal: 100;
+  --z-toast: 200;
+
+  /* Шрифт-стеки. Cormorant Garamond Cyrillic у normal weight рендериться
+     невидимо у деяких комбінаціях DPI/viewport — Georgia є надійним
+     fallback з повним кириличним покриттям у будь-якому weight/style. */
+  --font-display: Georgia, 'Times New Roman', 'Cormorant Garamond', serif;
+  --font-italic:  'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-mono:    'IBM Plex Mono', 'Menlo', 'Courier New', monospace;
+  --font-body:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+/* Сцени переозначають font-family самі. Тут лише дефолти через variables. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--space-deep);
+  color: var(--ink-primary);
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-serif { font-family: var(--font-display); }
+.font-mono  { font-family: var(--font-mono); }
+
+/* Дефолти для input/textarea (сцена може переозначати) */
+input, textarea {
+  font-family: var(--font-body);
+  color: var(--ink-primary);
+}
+
+/* ═══ Cosmic background ═══ */
+.cosmos-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, rgba(80, 40, 110, 0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 50% 100%, rgba(70, 22, 56, 0.28) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 100% at 20% 90%, rgba(26, 12, 46, 0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 100% at 80% 10%, rgba(44, 18, 60, 0.5) 0%, transparent 70%),
+    linear-gradient(180deg, #04020c 0%, #0a0418 50%, #03010a 100%);
+}
+
+.cosmos-stars {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(1px 1px at 12% 8%, rgba(255,247,228,.85), transparent 50%),
+    radial-gradient(1px 1px at 27% 22%, rgba(255,247,228,.6), transparent 50%),
+    radial-gradient(0.5px 0.5px at 8% 35%, rgba(255,247,228,.5), transparent 50%),
+    radial-gradient(1px 1px at 84% 14%, rgba(232,196,118,.7), transparent 50%),
+    radial-gradient(1px 1px at 65% 6%, rgba(184,150,255,.55), transparent 50%),
+    radial-gradient(1px 1px at 18% 78%, rgba(232,196,118,.5), transparent 50%),
+    radial-gradient(0.5px 0.5px at 90% 88%, rgba(255,247,228,.4), transparent 50%),
+    radial-gradient(1px 1px at 35% 92%, rgba(184,150,255,.4), transparent 50%),
+    radial-gradient(0.5px 0.5px at 70% 84%, rgba(232,196,118,.5), transparent 50%);
+}
+
+/* ═══ App layout ═══ */
+.app {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100vh;
+}
+
+.scene { display: block; }
+
+/* ═══ Buttons ═══ */
+.btn {
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(232, 196, 118, 0.4);
+  background: rgba(40, 28, 60, 0.85);
+  color: #fff7e0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+  text-decoration: none;
+}
+.btn:hover {
+  border-color: #f0c574;
+  transform: translateY(-1px);
+}
+.btn-primary {
+  background: linear-gradient(180deg, rgba(232,196,118,.35) 0%, rgba(120,76,30,.55) 100%);
+  border-color: #f0c574;
+  color: #fff7e0;
+  font-weight: 700;
+  box-shadow: 0 0 24px rgba(232,196,118,.25);
+}
+.btn-primary:hover {
+  background: linear-gradient(180deg, rgba(232,196,118,.45) 0%, rgba(150,100,42,.65) 100%);
+  box-shadow: 0 0 36px rgba(232,196,118,.4);
+}
+.btn-ghost {
+  background: rgba(20, 14, 30, 0.7);
+  border-color: rgba(220, 200, 160, 0.32);
+  color: #fff7e0;
+  opacity: 0.85;
+}
+.btn-ghost:hover { opacity: 1; }
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.btn:disabled:hover {
+  border-color: rgba(232, 196, 118, 0.4);
+  transform: none;
+  box-shadow: none;
+}
+
+/* ═══ Toast ═══ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--space-surface-strong);
+  color: var(--ink-primary);
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 0.5px solid var(--gold-deep);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: var(--z-toast);
+  backdrop-filter: blur(8px);
+}
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ═══ Common helpers ═══ */
+.muted { color: var(--ink-secondary); font-size: 14px; }
+.muted.small { font-size: 12px; margin-top: 4px; }
+
+code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  background: var(--space-shallow);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* ═══ Eyebrow / meta tag pattern (used in many scenes) ═══ */
+.eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
