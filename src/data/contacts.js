@@ -16,26 +16,19 @@ export const CONTACTS = {
     icon: '📷',
     description: 'Щоденні матеріали, практики, теорія',
   },
+  telegram_chat: {
+    label: 'Спільнота гравців ПОЛЕ',
+    handle: 'Telegram-чат · закрита група',
+    url: 'https://t.me/+xE6tLBQ81dhkY2M6',
+    icon: '👥',
+    description: 'Закрита група гравців — підтримка, відкриття, питання, обмін досвідом',
+  },
   telegram_personal: {
-    label: 'Telegram (особисто)',
+    label: 'Telegram особистий',
     handle: '@dr_Zayats',
     url: 'https://t.me/dr_Zayats',
-    icon: '✈',
-    description: 'Особистий контакт автора курсу',
-  },
-  telegram_chat: {
-    label: 'Чат гравців',
-    handle: 'Спільнота Поля',
-    url: 'https://t.me/+xE6tLBQ81dhkY2M6',
     icon: '💬',
-    description: 'Чат тих хто йде через Поле — підтримка, відкриття, питання',
-  },
-  appointment: {
-    label: 'Записатись на прийом',
-    handle: 'консультація з автором',
-    url: 'https://t.me/dr_Zayats',
-    icon: '🪷',
-    description: 'Особистий розбір через метафізичну Академію',
+    description: 'Прямий зв\'язок з автором курсу — питання, запис на прийом',
   },
 };
 
@@ -44,5 +37,4 @@ export const CONTACT_ORDER = [
   'instagram',
   'telegram_chat',
   'telegram_personal',
-  'appointment',
 ];
