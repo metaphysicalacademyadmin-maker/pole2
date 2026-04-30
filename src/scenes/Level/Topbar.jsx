@@ -1,8 +1,10 @@
 import { useGameStore } from '../../store/gameStore.js';
 import { PATH_MODES } from '../../data/pathmodes.js';
+import FieldNow from '../../components/panels/FieldNow.jsx';
+import '../../components/panels/panels.css';
 
-// Топбар — лого, режим шляху, лічильник пройдених рівнів і ключів.
-export default function Topbar() {
+// Топбар — лого, режим, FieldNow (інтегральне поле), лічильники.
+export default function Topbar({ onOpenSoulField }) {
   const pathMode = useGameStore((s) => s.pathMode);
   const completedLevels = useGameStore((s) => s.completedLevels);
   const keys = useGameStore((s) => s.keys);
@@ -16,6 +18,7 @@ export default function Topbar() {
           {mode.symbol} {mode.name}
         </div>
       )}
+      <FieldNow onOpen={onOpenSoulField} />
       <div className="lvl-tb-stats">
         <span>
           <span className="lvl-tb-stat-num">{completedLevels.length}</span>/7

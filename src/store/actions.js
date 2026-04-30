@@ -182,6 +182,42 @@ export const voiceActions = (set, get, ensure) => ({
   },
 });
 
+// ───────────── КАРТА ПОЛЯ ─────────────
+
+export const fieldActions = (set, get, ensure) => ({
+  recordBodyMeasurement: (bodyId, score) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      bodyMeasurements: [
+        ...s.bodyMeasurements,
+        { bodyId, score, ts: Date.now() },
+      ],
+      journal: [...s.journal, {
+        text: `Виміряно ${bodyId}: ${score}/100`,
+        tag: 'поле',
+        ts: Date.now(),
+      }],
+    });
+  },
+  addArchetype: (archetype) => {
+    const s = get();
+    if (s.archetypesMet.some((a) => a.id === archetype.id)) return;
+    set({
+      ...ensure(s),
+      archetypesMet: [
+        ...s.archetypesMet,
+        { id: archetype.id, ts: Date.now(), context: archetype.encounterText },
+      ],
+      journal: [...s.journal, {
+        text: `Архетип: ${archetype.name}`,
+        tag: 'архетип',
+        ts: Date.now(),
+      }],
+    });
+  },
+});
+
 // ───────────── АРХІВ + ЕВОЛЮЦІЯ ─────────────
 
 const HISTORY_KEY = 'pole_game_history_v1';

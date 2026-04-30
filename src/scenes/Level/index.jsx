@@ -8,6 +8,9 @@ import CellView from './CellView.jsx';
 import BarometersList from './BarometersList.jsx';
 import JournalMini from './JournalMini.jsx';
 import ActionsBar from './ActionsBar.jsx';
+import {
+  DailyPulse, ActiveChannels, ConstellationFigures, Archetypes, KaiTrust,
+} from '../../components/panels/index.js';
 import JournalModal from '../../components/modals/JournalModal.jsx';
 import ScalesModal from '../../components/modals/ScalesModal.jsx';
 import PracticesModal from '../../components/modals/PracticesModal.jsx';
@@ -18,10 +21,8 @@ import './styles.css';
 import './extras.css';
 
 // Композиція робочого рівня: топбар, 3-колонкова сітка
-// (піраміда + клітинка + барометри/журнал), панель дій.
-// Перехід у Key/Final-сцену — через store (awaitingKey, currentLevel),
-// не через локальний стейт.
-export default function Level() {
+// (піраміда + клітинка + барометри + 8 панелей), панель дій.
+export default function Level({ openSoulField }) {
   const currentLevel = useGameStore((s) => s.currentLevel);
   const currentCellIdx = useGameStore((s) => s.currentCellIdx);
   const pathMode = useGameStore((s) => s.pathMode);
@@ -30,17 +31,17 @@ export default function Level() {
   const cells = getCellsForLevel(currentLevel, pathMode);
   const cell = cells[currentCellIdx];
 
-  // Захист на випадок коли currentLevel взагалі не має клітинок (наприклад 0).
   if (!cell) return null;
 
   return (
     <main className="scene">
-      <Topbar />
+      <Topbar onOpenSoulField={openSoulField} />
 
       <div className="lvl-grid">
         <aside>
           <Pyramid />
           <BodyHologram />
+          <DailyPulse onClick={() => setOpenModal('daily')} />
         </aside>
 
         <CellView
@@ -52,6 +53,10 @@ export default function Level() {
 
         <aside>
           <BarometersList />
+          <ActiveChannels onClick={() => setOpenModal('channels')} />
+          <ConstellationFigures />
+          <Archetypes />
+          <KaiTrust />
           <JournalMini onOpen={() => setOpenModal('journal')} />
         </aside>
       </div>

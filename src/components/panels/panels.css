@@ -1,0 +1,124 @@
+/* Стилі панелей у sidebar Level + топбар */
+
+.panel {
+  padding: 12px 14px;
+  background: rgba(20, 14, 30, 0.85);
+  border: 1px solid rgba(232, 196, 118, 0.25);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.panel-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #c8bca8;
+  margin-bottom: 6px;
+}
+.panel-content { color: #fff7e0; font-size: 13px; }
+.panel-clickable { cursor: pointer; transition: border-color 0.2s ease; }
+.panel-clickable:hover { border-color: #f0c574; }
+
+/* ─── FieldNow у топбарі ─── */
+.field-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: rgba(20, 14, 30, 0.85);
+  border: 1px solid #f0c574;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.field-now:hover { background: rgba(232,196,118,0.15); }
+.field-now-icon {
+  font-size: 14px;
+  color: #f0c574;
+}
+.field-now-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #c8bca8;
+  text-transform: uppercase;
+}
+.field-now-percent {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f0c574;
+}
+
+/* ─── Daily pulse ─── */
+.dp-card-symbol { font-size: 22px; margin-right: 8px; }
+.dp-card-name { font-weight: 700; color: #fff7e0; font-size: 14px; }
+.dp-card-hint {
+  font-size: 12px;
+  font-style: italic;
+  color: #fff7e0;
+  opacity: 0.85;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.dp-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #c8bca8;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(232,196,118,0.2);
+}
+
+/* ─── Active channels ─── */
+.ac-list { display: flex; flex-wrap: wrap; gap: 4px; }
+.ac-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  color: #1e1828;
+  border: 1.5px solid currentColor;
+}
+.ac-empty { font-style: italic; color: #c8bca8; font-size: 12px; }
+
+/* ─── Constellation figures ─── */
+.cf-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.cf-symbol {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+  background: rgba(20, 14, 30, 0.7);
+}
+
+/* ─── Archetypes ─── */
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.arch-cell {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1.5px solid rgba(232,196,118,0.25);
+  font-size: 14px;
+  font-weight: 700;
+  background: rgba(40, 28, 60, 0.5);
+  color: #c8bca8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.arch-cell.met {
+  background: rgba(232, 196, 118, 0.15);
+  color: #fff7e0;
+}
+.arch-cell:hover { transform: scale(1.08); }
+
+/* ─── Kai trust ─── */
+.kt-bar { height: 4px; background: rgba(40,28,60,0.8); border-radius: 999px; overflow: hidden; margin-top: 4px; }
+.kt-fill { height: 100%; background: linear-gradient(90deg, #c89849, #f0c574); transition: width 0.6s ease; }

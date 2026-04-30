@@ -1,0 +1,246 @@
+/* SoulField — окрема сцена діагностики 7 тонких тіл */
+
+.sf-frame {
+  position: relative;
+  z-index: 50;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.sf-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.sf-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #f0c574;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 999px;
+  border: 1px solid rgba(232, 196, 118, 0.5);
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.sf-title {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: #fff7e0;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.sf-overall {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 17px;
+  color: #fff7e0;
+  opacity: 0.9;
+}
+.sf-overall .sf-percent {
+  color: #f0c574;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.sf-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 24px 0;
+}
+.sf-tab {
+  padding: 8px 18px;
+  background: rgba(20, 14, 30, 0.85);
+  border: 1.5px solid rgba(232, 196, 118, 0.3);
+  border-radius: 999px;
+  color: #fff7e0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.sf-tab:hover { border-color: #c89849; }
+.sf-tab.active { border-color: #f0c574; background: rgba(232,196,118,0.15); }
+
+/* ─── Mandala view ─── */
+.sf-mandala-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0;
+}
+.sf-ring {
+  fill: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.sf-ring:hover { filter: brightness(1.3); }
+.sf-ring-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  fill: #fff7e0;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* ─── List view ─── */
+.sf-body-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.sf-body-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  background: rgba(20, 14, 30, 0.85);
+  border: 1.5px solid rgba(232, 196, 118, 0.25);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.sf-body-row.weak { border-color: #d89098; box-shadow: 0 0 16px rgba(216, 144, 152, 0.18); }
+.sf-body-row.strong { border-color: #a8c898; box-shadow: 0 0 16px rgba(168, 200, 152, 0.18); }
+.sf-body-symbol {
+  font-size: 32px;
+  width: 48px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.sf-body-info { flex: 1; min-width: 0; }
+.sf-body-name {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff7e0;
+}
+.sf-body-sub {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #c8bca8;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.sf-body-bar {
+  height: 8px;
+  background: rgba(40, 28, 60, 0.8);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.sf-body-bar-fill { height: 100%; transition: width 0.6s ease; }
+.sf-body-score {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  min-width: 56px;
+  text-align: right;
+}
+.sf-body-trend {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.sf-body-trend.up   { color: #a8c898; }
+.sf-body-trend.down { color: #d89098; }
+.sf-body-trend.flat { color: #c8bca8; }
+.sf-measure-btn {
+  padding: 6px 12px;
+  background: transparent;
+  border: 1.5px solid #c89849;
+  border-radius: 999px;
+  color: #f0c574;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.sf-measure-btn:hover { background: rgba(232,196,118,0.15); }
+
+/* ─── Diagnostic ─── */
+.sf-diag-overlay {
+  position: fixed; inset: 0;
+  background: rgba(4, 2, 12, 0.92);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+.sf-diag-modal {
+  max-width: 560px;
+  width: 100%;
+  background: rgba(20, 14, 30, 0.95);
+  border: 2px solid #c89849;
+  border-radius: 16px;
+  padding: 32px 28px;
+  text-align: center;
+}
+.sf-diag-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #f0c574;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.sf-diag-question {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff7e0;
+  line-height: 1.35;
+  margin-bottom: 24px;
+}
+.sf-diag-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.sf-diag-option {
+  padding: 14px 18px;
+  background: rgba(40, 28, 60, 0.7);
+  border: 1.5px solid rgba(232, 196, 118, 0.25);
+  border-radius: 10px;
+  color: #fff7e0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.sf-diag-option:hover { border-color: #f0c574; background: rgba(60, 40, 90, 0.9); }
+.sf-diag-progress {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: #c8bca8;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ─── Trend ─── */
+.sf-trend {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+  background: rgba(20, 14, 30, 0.7);
+  border-radius: 14px;
+  border: 1px solid rgba(232,196,118,0.25);
+}
+.sf-trend-empty {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  color: #c8bca8;
+  text-align: center;
+  padding: 32px;
+}

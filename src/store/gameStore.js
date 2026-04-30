@@ -11,6 +11,7 @@ import {
   dailyActions,
   dilemmaActions,
   voiceActions,
+  fieldActions,
   buildArchive,
 } from './actions.js';
 
@@ -118,6 +119,12 @@ const defaultState = {
   // ─── Еволюція між сесіями ───
   // {previousSessionId, previousIntention, previousKeys, divergenceScore}
   evolutionEcho: null,
+
+  // ─── Карта Поля (Хвиля 5) ───
+  // [{bodyId, score, ts}] — історія вимірювань
+  bodyMeasurements: [],
+  // {archetypeId: {ts, context}} — зустрінуті архетипи
+  archetypesMet: [],
 };
 
 function ensureSession(s) {
@@ -190,19 +197,26 @@ export const useGameStore = create(
           newResources[payload.barometer] =
             (newResources[payload.barometer] || 0) + payload.delta;
         }
-        set({
+        const updates = {
           ...ensureSession(s),
-          cellAnswers: {
-            ...s.cellAnswers,
-            [cellId]: { ...payload, ts: Date.now() },
-          },
-          levelProgress: {
-            ...s.levelProgress,
-            [levelN]: { ...lp, answeredCells: answered },
-          },
+          cellAnswers: { ...s.cellAnswers, [cellId]: { ...payload, ts: Date.now() } },
+          levelProgress: { ...s.levelProgress, [levelN]: { ...lp, answeredCells: answered } },
           resources: newResources,
           visited: s.visited.includes(cellId) ? s.visited : [...s.visited, cellId],
-        });
+        };
+        set(updates);
+        // Детект архетипу — асинхронно (не блокує UI). Якщо знайдено новий — додаємо.
+        Promise.all([
+          import('../utils/archetype-detector.js'),
+          import('../data/archetypes.js'),
+        ]).then(([{ detectArchetype }, { findArchetype }]) => {
+          const newState = get();
+          const found = detectArchetype(newState, { type: 'answer', payload });
+          if (found) {
+            const full = findArchetype(found.id);
+            if (full) get().addArchetype(full);
+          }
+        }).catch(() => {});
       },
 
       advanceCell: (totalCells) => {
@@ -277,6 +291,7 @@ export const useGameStore = create(
       ...dailyActions(set, get, (s) => buildSession(s, genSessionId)),
       ...dilemmaActions(set, get, (s) => buildSession(s, genSessionId)),
       ...voiceActions(set, get, (s) => buildSession(s, genSessionId)),
+      ...fieldActions(set, get, (s) => buildSession(s, genSessionId)),
     }),
     {
       name: SAVE_KEY,
