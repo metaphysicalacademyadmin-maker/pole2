@@ -1,7 +1,9 @@
-// 25 практик з Метафізичної Академії. Кожна має level (рівень розблокування),
-// duration (хв), instruction (тілесний скрипт), barometer (на що впливає).
+// Базові практики (тілесні, мантри, дихання) + 9 академічних з методички.
+// Кожна має level, duration (хв), instruction, barometer.
 
-export const PRACTICES = [
+import { ACADEMY_PRACTICES } from './practices-academy.js';
+
+const BASIC_PRACTICES = [
   // ─── Рівень 1: Коріння ───
   { id: 'grounding',      level: 1, name: 'Заземлення', icon: '🌱', duration: 3, barometer: 'root',
     instruction: 'Стій босоніж або в шкарпетках. Стопи паралельно, на ширині таза. Закрий очі. Уяви, що з кожної стопи виростають коріння — глибоко, до серця землі. Дихай у стопи. 3 хвилини.' },
@@ -69,6 +71,11 @@ export const PRACTICES = [
     instruction: 'На вдиху уяви, що приймаєш енергію зірок крізь маківку. На видиху — віддаєш землі. 6 хвилин.' },
 ];
 
+// Об'єднуємо базові + 9 академічних практик
+export const PRACTICES = [...BASIC_PRACTICES, ...ACADEMY_PRACTICES];
+
 export function practicesForLevel(levelN) {
   return PRACTICES.filter((p) => p.level <= levelN);
 }
+
+export { ACADEMY_PRACTICES };
