@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import { useGameStore } from '../../store/gameStore.js';
-import { CHANNELS } from '../../data/channels.js';
+import { CHANNELS, CHANNEL_BLOCKS } from '../../data/channels.js';
 import { showToast } from '../GlobalToast.jsx';
 
 const SYS = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
@@ -22,26 +22,41 @@ export default function ChannelsModal({ onClose }) {
       </DialogTitle>
       <DialogContent dividers>
         <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#fff7e0', opacity: 0.85, fontSize: '14px', marginBottom: '16px' }}>
-          Канали — це частотні «підключення». Розблоковуються коли барометри
-          набирають достатньо. Активний канал лікує і фарбує твоє поле.
+          Канали Космоенергетики (Петров) — частотні підключення з 5 блоків:
+          буддистський · вищий · магічний · магістровський · зороастризм.
+          Розблоковуються коли барометри набирають достатньо.
         </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {CHANNELS.map((c) => {
-            const unlocked = channelsUnlocked.includes(c.id);
-            const active = channelsActive.includes(c.id);
-            const canUnlock = (resources[c.unlock.resource] || 0) >= c.unlock.threshold;
-            return (
-              <ChannelRow key={c.id}
-                channel={c}
+        {CHANNEL_BLOCKS.map((block) => {
+          const inBlock = CHANNELS.filter((c) => c.block === block);
+          if (inBlock.length === 0) return null;
+          return (
+            <div key={block} style={{ marginBottom: 18 }}>
+              <div style={{
+                fontFamily: SYS, fontSize: 11, fontWeight: 700,
+                letterSpacing: '4px', textTransform: 'uppercase',
+                color: '#f0c574', marginBottom: 8,
+              }}>
+                ◇ {block} блок
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {inBlock.map((c) => {
+                  const unlocked = channelsUnlocked.includes(c.id);
+                  const active = channelsActive.includes(c.id);
+                  const canUnlock = (resources[c.unlock.resource] || 0) >= c.unlock.threshold;
+                  return (
+                    <ChannelRow key={c.id} channel={c}
                 unlocked={unlocked || canUnlock}
                 active={active}
                 onActivate={() => { activate(c.id); showToast(`канал ${c.name} увімкнено`, 'success'); }}
                 onDeactivate={() => deactivate(c.id)}
                 resourceLevel={resources[c.unlock.resource] || 0}
               />
-            );
-          })}
-        </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </DialogContent>
     </Dialog>
   );
