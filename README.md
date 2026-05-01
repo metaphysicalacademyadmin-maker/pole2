@@ -22,20 +22,37 @@ npm run build:embed    # single-file dist/index.html для /demo
 npm run preview        # переглянути збілджений варіант
 ```
 
-## Workflow деплою (поточний — ручний)
+## Деплой одною командою
 
-> ⚠️ Auto-збірка через GitHub Actions у цьому репо вимкнена
-> (`.github/workflows/build-artifact.yml` у `.gitignore`, бо PAT не має
-> `workflow` scope). Тимчасово — збираємо локально.
+```bash
+npm run deploy
+```
 
-1. `git status` → переконатися що нема uncommitted змін
-2. `npm run build:embed` → отримати `dist/index.html`
-3. Перевірити розмір: `ls -lh dist/index.html` (≤ 500 KB — норм)
-4. Smoke-тест: відкрити `dist/index.html` у браузері, грати 30 сек,
-   перевірити що state пише в `localStorage[pole_game_state_v1]`
-5. Зайти на `metaphysical-way.academy/demo` (під superadmin)
-6. Заміна існуючої сторінки → ☁ «Замінити файл»; нова → «Завантажити HTML»
-7. Перевірити на `https://metaphysical-way.academy/<slug>` під whitelist-юзером
+Скрипт `scripts/deploy.js`:
+1. Запускає `vite build --mode embed`
+2. Бере `dist/index.html`
+3. Шле `PUT /api/static-pages/<slug>/content` з Bearer-токеном
+4. Сторінка `https://metaphysical-way.academy/<slug>` оновлена за ~10 сек
+
+**Налаштування (один раз):**
+1. На сайті: `/demo` під superadmin → **створити** StaticPage із потрібним slug,
+   white­list, заголовком, видимістю в меню. (Деплой-скрипт лише замінює HTML —
+   все решту бекенд лишає як є.)
+2. На сервері Lightsail: додати у `.env.local`:
+   ```
+   STATIC_DEPLOY_TOKEN=<довгий випадковий рядок>
+   ```
+   `pm2 restart metaphysical-way`.
+3. У цьому репо: скопіювати `.env.local.example` → `.env.local` і заповнити
+   `STATIC_DEPLOY_TOKEN` (той самий) і `STATIC_DEPLOY_SLUG` (slug із кроку 1).
+
+Подальші релізи — просто `npm run deploy`.
+
+## Ручний деплой (fallback)
+
+Якщо API-токен недоступний:
+1. `npm run build:embed` → `dist/index.html`
+2. `metaphysical-way.academy/demo` під superadmin → ☁ «Замінити файл»
 
 ## Структура проекту
 

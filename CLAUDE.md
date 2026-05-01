@@ -347,7 +347,13 @@ npm run dev            # → http://localhost:5173 (hot reload)
 npm run build          # split bundle у dist/ (для перевірки)
 npm run build:embed    # single-file dist/index.html (для /demo)
 npm run preview        # переглянути збілджений варіант
+npm run deploy         # build:embed + PUT на metaphysical-way.academy
 ```
+
+`npm run deploy` потребує `.env.local` з `STATIC_DEPLOY_TOKEN` і
+`STATIC_DEPLOY_SLUG` (див. `.env.local.example`). На бекенді ендпоінт
+`PUT /api/static-pages/[slug]/content` приймає Bearer-токен і замінює
+лише `htmlContent` + `fileName`, не чіпаючи whitelist/меню/назву.
 
 ## 🚀 Коли клієнт каже «гра готова, заливаємо на сайт»
 
