@@ -123,6 +123,37 @@ src/scenes/Mandala/
 точково правити маленький файл. Маленькі компоненти = швидші ітерації,
 менше помилок, легша підтримка людиною.
 
+**Перевірка перед коммітом:**
+```bash
+wc -l src/**/*.{js,jsx} | sort -rn | head -10
+```
+Якщо щось > 300 рядків — розбий ПЕРШ ніж писати нову фічу.
+
+### Конкретні файли pole2, які перевищують ліміт (борг)
+
+Цей репо успадкував файли, які вже > 300 рядків. **Перш ніж додавати в них код — спершу розбий їх:**
+
+- `src/store/gameStore.js` (339) → винеси `defaultState` у `src/store/defaultState.js`,
+  цикл `claimKey` / `recordAnswer` / `advanceCell` / `archiveAndReset` — у `src/store/cellActions.js`. У `gameStore.js` залиш лише композицію.
+- `src/store/actions.js` (324) → розбий по файлу на модуль:
+  `src/store/actions/constellation.js`, `bodyMap.js`, `practice.js`, `channel.js`,
+  `kai.js`, `daily.js`, `dilemma.js`, `voice.js`, `field.js`, `character.js`, `ui.js`, `mirror.js`. У `actions/index.js` — barrel.
+- `src/data/teacher.js` (369) → винеси діалоги в `src/data/teacher/dialogs.js`, методички в `src/data/teacher/lessons.js`. У `teacher.js` — лише експорт.
+
+### Анти-патерни, які вже ловили в pole2
+
+- ❌ **Дубль поля у `defaultState`.** В `gameStore.js` `archetypesMet` оголошено двічі (рядки 77 і 130) — другий перетирає перший, тип неузгоджений (масив vs об'єкт у коментарі). Перш ніж додавати поле — `grep` його по файлу.
+- ❌ **`uiActions` забули зареєструвати в `gameStore.js`** (фікс у коміті `e5e4457`). Завжди при додаванні нового модуля actions перевіряй, що він є в розгортанні `...moduleActions(...)` всередині `create(persist(...))`.
+- ❌ **Cormorant Garamond у `theme.js` для h1/h2/h3.** Кирилиця рендериться невидимо. Якщо MUI-тема має `typography.h1.fontFamily = 'Cormorant ...'` — постав fallback `-apple-system, system-ui` ПЕРЕД Cormorant, або взагалі прибери. **Перевіряй `src/theme.js` після кожної правки палітри.**
+- ❌ **README залишився від шаблону.** Якщо інструкції в `README.md` ще згадують `metaphysicalacademyadmin-maker/template` чи «Use this template» — їх давно треба переписати під поточну гру.
+
+### GitHub Actions (auto-build single-file)
+
+⚠️ `.github/workflows/build-artifact.yml` у цьому репо **в `.gitignore`** (комміт `b2d63cb`: «PAT lacks workflow scope»). Це означає:
+- Auto-збірка single-file артефакту через GitHub Actions **не працює**.
+- Тригер-фрази «залий на сайт» / «деплой» вимагають **локального** `npm run build:embed` і ручного завантаження `dist/index.html` через `/demo`.
+- Якщо клієнт хоче відновити автозбірку — треба згенерувати новий PAT з `workflow` scope, прибрати workflow з `.gitignore`, закоммітити файл.
+
 ### Стан гри
 - **Тільки через `useGameStore`** (`src/store/gameStore.js`).
   НЕ використовуй `useState` для ігрового стану.

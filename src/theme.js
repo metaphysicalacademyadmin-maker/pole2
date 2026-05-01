@@ -25,13 +25,14 @@ const theme = createTheme({
     divider: 'rgba(232, 196, 118, 0.32)',
   },
   typography: {
+    // Cyrillic-safe stack only. Cormorant Garamond прибрано — кирилиця у normal weight рендериться невидимо.
     fontFamily: '"IBM Plex Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
-    h1: { fontFamily: '"Cormorant Garamond", serif', fontWeight: 400 },
-    h2: { fontFamily: '"Cormorant Garamond", serif', fontWeight: 400 },
-    h3: { fontFamily: '"Cormorant Garamond", serif', fontWeight: 500 },
+    h1: { fontWeight: 400, letterSpacing: '0.01em' },
+    h2: { fontWeight: 400, letterSpacing: '0.01em' },
+    h3: { fontWeight: 500 },
   },
   shape: {
     borderRadius: 10,

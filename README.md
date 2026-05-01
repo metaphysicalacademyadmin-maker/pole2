@@ -2,35 +2,11 @@
 
 React-версія гри **ПОЛЕ · Втілення — Шлях Душі через Тіло**.
 Синтез ПОЛЯ (наратив, питання душі) + АКАДЕМІЇ ПРАКТИК (тіло, чакри).
-Зібрано з шаблону `metaphysicalacademyadmin-maker/template`.
 
-Готовий артефакт — single-file `dist/index.html` для завантаження
+Кінцевий артефакт — single-file `dist/index.html` для завантаження
 через `/demo` на metaphysical-way.academy.
 
-## Як стартанути нову гру з цього шаблону
-
-**Цей репо — GitHub Template Repository.** Не редагуй його напряму
-для конкретної гри. Замість цього:
-
-### Варіант A — через GitHub UI (одна кнопка)
-1. Відкрий цей репо на GitHub
-2. Натисни **«Use this template» → «Create a new repository»**
-3. Вкажи назву (наприклад `pole-game-meditation`) → Create
-4. На сторінці нового репо натисни **«Open with Codespaces»** або клонуй у Cursor:
-   ```
-   git clone <url-нового-репо>
-   ```
-5. Далі див. «Швидкий старт» нижче
-
-### Варіант B — через термінал (`gh CLI`)
-```bash
-gh repo create pole-game-meditation --template metaphysicalacademyadmin-maker/template --clone --public
-cd pole-game-meditation
-npm install
-npm run dev
-```
-
-## Швидкий старт (після клонування)
+## Швидкий старт
 
 ```bash
 npm install
@@ -46,54 +22,83 @@ npm run build:embed    # single-file dist/index.html для /demo
 npm run preview        # переглянути збілджений варіант
 ```
 
-## Workflow (для розробника)
+## Workflow деплою (поточний — ручний)
 
-1. Клонуй цей шаблон → нова гра
-2. Відкрий проект у Cursor/VS Code з Claude Code
-3. У панелі Claude напиши що хочеш — він сам редагуватиме файли за правилами
-4. Перевіряй у браузері (`npm run dev` має бути запущений)
-5. Коли готово — `git push` → GitHub Action збере single-file HTML
-6. Скачай артефакт `game-embed` зі сторінки Actions → завантаж `embed.html` через `/demo`
+> ⚠️ Auto-збірка через GitHub Actions у цьому репо вимкнена
+> (`.github/workflows/build-artifact.yml` у `.gitignore`, бо PAT не має
+> `workflow` scope). Тимчасово — збираємо локально.
 
-## Як налаштувати цей репо як шаблон (раз)
-
-```bash
-# 1. Створи порожній репо на GitHub: pole-game-template
-# 2. Прив'яжи і запушити
-git remote add origin git@github.com:metaphysicalacademyadmin-maker/template.git
-git push -u origin main
-# 3. На GitHub: Settings → General → ✅ Template repository
-```
-
-Після цього кнопка «Use this template» доступна на сторінці репо.
+1. `git status` → переконатися що нема uncommitted змін
+2. `npm run build:embed` → отримати `dist/index.html`
+3. Перевірити розмір: `ls -lh dist/index.html` (≤ 500 KB — норм)
+4. Smoke-тест: відкрити `dist/index.html` у браузері, грати 30 сек,
+   перевірити що state пише в `localStorage[pole_game_state_v1]`
+5. Зайти на `metaphysical-way.academy/demo` (під superadmin)
+6. Заміна існуючої сторінки → ☁ «Замінити файл»; нова → «Завантажити HTML»
+7. Перевірити на `https://metaphysical-way.academy/<slug>` під whitelist-юзером
 
 ## Структура проекту
 
 ```
 src/
-├── App.jsx               ← top-level layout
-├── main.jsx              ← React entry
-├── styles.css            ← глобальні стилі
-├── scenes/               ← сцени гри (Welcome, Mandala, …)
-├── components/           ← reusable UI
+├── App.jsx               ← top-level layout + роутинг сцен + 4 персонажі (Кай/Антип/Арбітр/Дзеркало)
+├── main.jsx              ← React entry + ThemeProvider
+├── theme.js              ← MUI dark theme (Cyrillic-safe stack, без Cormorant)
+├── styles.css            ← глобальні стилі + CSS variables
+│
+├── scenes/               ← по підпапці на сцену
+│   ├── PathMode/         ← вибір шляху (Дотик/Шлях/Глибина)
+│   ├── Entry/            ← намір
+│   ├── Level/            ← головний робочий екран (Topbar + Pyramid + BodyHologram + CellView + …)
+│   ├── Key/              ← ключ між рівнями + Voice recorder
+│   ├── Constellation/    ← Hellinger drag-drop на рівні 3
+│   ├── SoulField/        ← оверлей-діагностика
+│   └── Final/            ← Карта Втілення (Mandala + body map + evolution echo)
+│
+├── components/
+│   ├── Kai/              ← floating супутник
+│   ├── Arbiter/, Antyp/, Mirror/, Koan/  ← модалки внутрішніх фігур
+│   ├── Onboarding/       ← перший вхід
+│   ├── Teacher/          ← Учитель Поля (методики)
+│   ├── BodyMap/          ← Picker + Display (SVG силует)
+│   ├── modals/           ← Journal, Scales, Practices, Channels, DailyRitual, History, Reset
+│   ├── panels/           ← FieldNow, DailyPulse, Archetypes, KaiTrust, ActiveChannels, Practices, Help, Theme
+│   ├── Contacts/         ← блок «Академія / Instagram / Telegram»
+│   ├── Button.jsx, ErrorBoundary.jsx, GlobalToast.jsx, VoiceRecorder.jsx
+│
 ├── store/
-│   └── gameStore.js      ← Zustand store (state + персистенція)
-├── hooks/                ← кастомні hooks
-└── data/                 ← тексти питань, конфіги
+│   ├── gameStore.js      ← Zustand store (defaultState + базові мутації)
+│   ├── actions.js        ← actions для розширених модулів
+│   └── sanitize.js       ← merge/migrate захист від stale state
+│
+├── data/                 ← статичний контент (~3k рядків)
+│   ├── cells/level{1-7}.js   ← 108 клітинок-питань
+│   ├── levels.js, chakras.js, channels.js, archetypes.js
+│   ├── practices.js, practices-academy.js
+│   ├── dilemmas.js, daily-cards.js, koans.js, mirror.js
+│   ├── constellation/    ← Hellinger figures + readings + resolutions
+│   ├── teacher.js, contacts.js, scales.js, barometers.js,
+│   │   subtle-bodies.js, antyp.js, arbiter.js, pathmodes.js
+│
+└── utils/                ← archetype-detector, character-detector, integrity-calc, resonance, season
 ```
 
-## Правила
+## Правила розробки
 
 Усі обов'язкові архітектурні правила — у [`CLAUDE.md`](./CLAUDE.md).
-Він читається кожною Клауд-сесією. Дотримання цих правил гарантує,
-що результат будете легко інтегрувати з бекендом і підтримувати.
+Він читається кожною Клауд-сесією. Дотримуйся і отримуєш:
+
+- **≤ 300 рядків/файл, ≤ 150/компонент, ≤ 60/функція** — жорсткі ліміти
+- Стан **тільки** через `useGameStore`, не через `useState`
+- MUI імпорти **per-component**, інакше bundle роздуває до 500+ KB
+- Контракт із бекендом: ключі `pole_game_state_v1` / `pole_game_history_v1`
+  не перейменовувати, поля state беруться зі схеми `PoleSession.js` на бекенді
 
 ## Інтеграція з metaphysical-way.academy
 
-- Гра використовує `localStorage[pole_game_state_v1]` (через Zustand persist)
-- Парент-сторінка автоматично синхронізує state із MongoDB кожні 5с
-- Whitelist, меню-лінки і Telegram-сповіщення — налаштовуються на сайті
-  через адмін-панель `/demo`
+- Гра пише `localStorage[pole_game_state_v1]` (через `zustand persist`)
+- Парент-сторінка кожні 5с шле `POST /api/pole-sessions/sync`
+- MongoDB зберігає `current` як `in_progress`, `history[]` — як `completed`/`abandoned`
+- Whitelist, лінки в меню, Telegram-сповіщення — у адмін-панелі `/demo`
 
-Деталі контракту з бекендом — у [`CLAUDE.md`](./CLAUDE.md) → секція
-"Контракт із бекендом".
+Деталі контракту → [`CLAUDE.md`](./CLAUDE.md) → секція «Контракт із бекендом».
