@@ -1,0 +1,96 @@
+.arc-cal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(8, 4, 14, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  animation: arc-cal-fade 0.3s ease;
+}
+@keyframes arc-cal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.arc-cal-modal {
+  background: linear-gradient(180deg, #1a0f24, #2a1535);
+  border: 1px solid rgba(240, 197, 116, 0.4);
+  border-radius: 18px;
+  padding: 32px 28px 24px;
+  max-width: 560px;
+  width: calc(100% - 32px);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(240, 197, 116, 0.2);
+  animation: arc-cal-slide 0.4s ease;
+}
+@keyframes arc-cal-slide {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.arc-cal-eyebrow {
+  font-size: 11px; letter-spacing: 3px; color: #f0c574;
+  text-transform: uppercase; font-weight: 600;
+}
+.arc-cal-subtitle {
+  font-size: 13px; color: #c0b6a8; margin: 8px 0 22px;
+  line-height: 1.5; opacity: 0.85;
+}
+.arc-cal-suggestion { margin: 18px 0 22px; }
+.arc-cal-symbol { font-size: 56px; line-height: 1; margin-bottom: 8px; }
+.arc-cal-name {
+  font-size: 24px; color: #fff7e0; font-weight: 500;
+  letter-spacing: 1px; margin-bottom: 10px;
+}
+.arc-cal-desc {
+  font-size: 13px; color: #c0b6a8; line-height: 1.6;
+  max-width: 380px; margin: 0 auto; font-style: italic;
+}
+.arc-cal-q { font-size: 16px; color: #fff7e0; margin: 8px 0 18px; }
+.arc-cal-actions {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+}
+.arc-cal-btn {
+  border: none; padding: 10px 18px; border-radius: 8px;
+  cursor: pointer; font-size: 13px; font-family: inherit;
+  transition: all 0.2s;
+}
+.arc-cal-btn-skip {
+  background: transparent; border: 1px solid rgba(255,255,255,0.15);
+  color: #968a7c;
+}
+.arc-cal-btn-skip:hover { color: #c0b6a8; border-color: rgba(255,255,255,0.3); }
+.arc-cal-btn-other {
+  background: rgba(255,255,255,0.06); color: #c0b6a8;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.arc-cal-btn-other:hover { background: rgba(255,255,255,0.12); color: #fff7e0; }
+.arc-cal-btn-confirm {
+  background: linear-gradient(135deg, #f0c574, #e8a85a);
+  color: #1a0f0a; font-weight: 600;
+}
+.arc-cal-btn-confirm:hover { filter: brightness(1.1); }
+
+.arc-cal-grid-label { font-size: 13px; color: #f0c574; margin-bottom: 14px; font-weight: 500; }
+.arc-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.arc-cal-tile {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 12px 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.arc-cal-tile:hover {
+  background: rgba(240, 197, 116, 0.08);
+  border-color: rgba(240, 197, 116, 0.4);
+  transform: translateY(-2px);
+}
+.arc-cal-tile-symbol { font-size: 24px; margin-bottom: 4px; }
+.arc-cal-tile-name { font-size: 13px; color: #fff7e0; font-weight: 500; margin-bottom: 4px; }
+.arc-cal-tile-desc { font-size: 10px; color: #968a7c; line-height: 1.4; }

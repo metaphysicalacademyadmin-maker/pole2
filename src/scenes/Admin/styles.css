@@ -1,0 +1,143 @@
+.admin-overlay {
+  position: fixed; inset: 0; z-index: 1150;
+  background: rgba(8, 4, 14, 0.97);
+  overflow-y: auto;
+}
+.admin-frame {
+  max-width: 720px; margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+.admin-close {
+  background: transparent; border: 1px solid rgba(255,255,255,0.18);
+  color: #c0b6a8; padding: 8px 16px; border-radius: 8px;
+  font-family: inherit; font-size: 12px; cursor: pointer;
+  margin-bottom: 24px;
+  transition: all 0.2s;
+}
+.admin-close:hover { color: #fff7e0; border-color: rgba(255,255,255,0.35); }
+
+.admin-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; letter-spacing: 5px; color: #d89098;
+  text-transform: uppercase; font-weight: 700;
+}
+.admin-title {
+  font-size: 26px; color: #fff7e0; font-weight: 300;
+  margin: 8px 0 24px; letter-spacing: 0.5px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.admin-section {
+  background: rgba(20, 14, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+.admin-section h2 {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; letter-spacing: 3px; color: #f0c574;
+  text-transform: uppercase; font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.admin-profile {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+.admin-field {
+  display: flex; flex-direction: column;
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.3); border-radius: 8px;
+}
+.admin-field-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 9px; letter-spacing: 2px; color: #968a7c;
+  text-transform: uppercase; font-weight: 700;
+}
+.admin-field-value { font-size: 14px; color: #fff7e0; margin-top: 4px; }
+
+.admin-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px;
+}
+.admin-stat {
+  background: rgba(0,0,0,0.25); border-radius: 8px;
+  padding: 10px 6px; text-align: center;
+}
+.admin-stat-num { font-size: 20px; color: #f0c574; font-weight: 700; }
+.admin-stat-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 9px; letter-spacing: 1.5px; color: #968a7c;
+  text-transform: uppercase; margin-top: 2px;
+}
+
+.admin-barometers {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.admin-bar {
+  font-size: 12px; padding: 4px 10px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; color: #c0b6a8;
+}
+.admin-bar.bad { color: #d89098; border-color: rgba(216,144,152,0.4); background: rgba(216,144,152,0.08); }
+.admin-bar.good { color: #a8c898; border-color: rgba(168,200,152,0.4); background: rgba(168,200,152,0.08); }
+
+.admin-flags { display: flex; flex-direction: column; gap: 6px; }
+.admin-flag {
+  font-size: 13px; padding: 8px 12px; border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border-left: 3px solid;
+}
+.admin-flag.flag-red { color: #d89098; border-left-color: #d89098; background: rgba(216,144,152,0.08); }
+.admin-flag.flag-yellow { color: #f0c574; border-left-color: #f0c574; background: rgba(240,197,116,0.06); }
+.admin-flag.flag-green { color: #a8c898; border-left-color: #a8c898; background: rgba(168,200,152,0.08); }
+
+.admin-empty {
+  font-size: 13px; color: #968a7c; font-style: italic;
+  text-align: center; padding: 14px;
+}
+
+.admin-application {}
+.admin-app-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+.admin-app-status {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 12px; font-weight: 700;
+}
+.admin-app-status.status-submitted { background: rgba(240,197,116,0.15); color: #f0c574; }
+.admin-app-status.status-approved { background: rgba(168,200,152,0.15); color: #a8c898; }
+.admin-app-status.status-rejected { background: rgba(216,144,152,0.15); color: #d89098; }
+.admin-app-status.status-initiated { background: rgba(255,231,168,0.15); color: #ffe7a8; }
+.admin-app-date { font-size: 11px; color: #968a7c; }
+.admin-app-q {
+  font-size: 13px; color: #d8c8d8; padding: 8px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.08);
+  line-height: 1.6;
+}
+.admin-app-q:last-of-type { border-bottom: none; }
+.admin-app-q strong { color: #f0c574; margin-right: 6px; }
+
+.admin-app-actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+.admin-btn {
+  padding: 10px 20px; border-radius: 8px; cursor: pointer;
+  font-family: inherit; font-size: 13px; border: none;
+  transition: all 0.2s; font-weight: 600;
+}
+.admin-btn-reject {
+  background: transparent; border: 1px solid rgba(216,144,152,0.5); color: #d89098;
+}
+.admin-btn-reject:hover { background: rgba(216,144,152,0.1); }
+.admin-btn-approve {
+  background: linear-gradient(135deg, #a8c898, #6a9c5a);
+  color: #1a0f0a;
+}
+.admin-btn-approve:hover { filter: brightness(1.1); }
+.admin-btn-init {
+  background: linear-gradient(135deg, #ffe7a8, #c89849);
+  color: #1a0f0a; width: 100%;
+}
+.admin-btn-init:hover { filter: brightness(1.1); }

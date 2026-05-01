@@ -39,19 +39,30 @@ export function sanitizeState(s, defaults) {
 
   // 5. Масиви — гарантовано масиви.
   for (const k of ['unlockedLevels', 'completedLevels', 'journal', 'visited', 'keys',
-                    'archetypesMet', 'unlockedAbilities', 'completedInitiations']) {
+                    'archetypesMet', 'unlockedAbilities', 'completedInitiations',
+                    'auraReadings', 'snakePenalties', 'shadowMirrorHistory',
+                    'archetypeTransformations', 'cosmoIntroSeen', 'resonanceHistory',
+                    'modalQueue']) {
     if (!Array.isArray(s[k])) s[k] = [...(defaults[k] || [])];
   }
 
   // 6. Об'єкти — гарантовано об'єкти.
-  for (const k of ['levelKeys', 'levelProgress', 'cellAnswers']) {
+  for (const k of ['levelKeys', 'levelProgress', 'cellAnswers',
+                    'petalAnswers', 'petalProgress',
+                    'channelAnswers', 'channelProgress']) {
     if (!s[k] || typeof s[k] !== 'object') s[k] = {};
   }
+  if (!s.archetypeCalibration || typeof s.archetypeCalibration !== 'object') {
+    s.archetypeCalibration = { status: null, suggested: null, confirmed: null, ts: null };
+  }
 
-  // 7. Resources — всі 8 барометрів, числа.
+  // 7. Resources — всі 8 барометрів, полярні числа в межах -10..+10.
   if (!s.resources || typeof s.resources !== 'object') s.resources = {};
   for (const key of VALID_BAROMETERS) {
-    if (typeof s.resources[key] !== 'number') s.resources[key] = 0;
+    const v = s.resources[key];
+    if (typeof v !== 'number') s.resources[key] = 0;
+    else if (v < -10) s.resources[key] = -10;
+    else if (v > 10) s.resources[key] = 10;
   }
 
   // 8. State scales — всі 5 шкал, числа в межах -2..2.

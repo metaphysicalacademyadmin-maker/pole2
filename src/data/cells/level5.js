@@ -9,7 +9,7 @@ export default [
     options: [
       { text: 'Кажу як є. Можу формулювати — але не змінюю суть.', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Іноді кажу — частіше мовчу або згладжую.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Я говорю те, що від мене хочуть почути. Своє — мовчить.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'засліплення' },
+      { text: 'Я говорю те, що від мене хочуть почути. Своє — мовчить.', depth: 'shadow', barometer: 'voice', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 'v2', priority: 1,
@@ -20,7 +20,7 @@ export default [
     options: [
       { text: 'Я знаю їх. І знаю кому вони адресовані. Скажу — коли буде час.', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Підозрюю — але не хочу копати.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Усе сказано. У мене все нормально.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'благочестя' },
+      { text: 'Усе сказано. У мене все нормально.', depth: 'shadow', barometer: 'voice', delta: -1, shadow: 'благочестя' },
     ],
   },
   { id: 'v3', priority: 1,
@@ -31,7 +31,7 @@ export default [
     options: [
       { text: 'Так. Я обираю слова. Знаю силу «я зможу» і силу «я ніколи».', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Розумом — знаю. Часто говорю безвідповідально.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Слова — це слова. Що я скажу — нічого не зміниться.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'засліплення' },
+      { text: 'Слова — це слова. Що я скажу — нічого не зміниться.', depth: 'shadow', barometer: 'voice', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 'v4', priority: 1, kind: 'experiment',
@@ -44,7 +44,7 @@ export default [
     options: [
       { text: 'Тиша має звук. Свій. Я почув його. Або щось у ньому.', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Спочатку шум у голові. Потім трохи тихіше.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Не міг витримати. Дратівливо. Хотілось чимось заповнити.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'розлитий' },
+      { text: 'Не міг витримати. Дратівливо. Хотілось чимось заповнити.', depth: 'shadow', barometer: 'voice', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'v5', priority: 2,
@@ -55,7 +55,7 @@ export default [
     options: [
       { text: 'Що сказав — те зробив. Моє слово важить.', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Найбільше — так. Іноді не виходить.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Я багато обіцяю. Менше — виконую.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'розлитий' },
+      { text: 'Я багато обіцяю. Менше — виконую.', depth: 'shadow', barometer: 'voice', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'v6', priority: 2,
@@ -66,7 +66,7 @@ export default [
     options: [
       { text: 'Слухаю щоб зрозуміти. Без поспіху виправити, відповісти, повчити.', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Намагаюсь. Часто думаю про свою відповідь паралельно.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Чесно — щоб відповісти. Я знаю краще.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'гординя' },
+      { text: 'Чесно — щоб відповісти. Я знаю краще.', depth: 'shadow', barometer: 'voice', delta: -2, shadow: 'гординя' },
     ],
   },
   { id: 'v7', priority: 3,
@@ -77,7 +77,7 @@ export default [
     options: [
       { text: 'Так. Це моя пісня. Я знаю про що вона — і пою.', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Здогадуюсь. Боюсь що це нікому не цікаво.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Я не вірю що в мене є щось унікальне.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'засліплення' },
+      { text: 'Я не вірю що в мене є щось унікальне.', depth: 'shadow', barometer: 'voice', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 'v8', priority: 3,
@@ -88,7 +88,7 @@ export default [
     options: [
       { text: 'Так. Голос мій — і я можу його дати куди потрібно.', depth: 'deep', barometer: 'voice', delta: 2 },
       { text: 'Боюсь — але роблю якщо треба.', depth: 'mid', barometer: 'voice', delta: 1 },
-      { text: 'Ніколи. На людях я німію.', depth: 'shadow', barometer: 'voice', delta: 0, shadow: 'засліплення' },
+      { text: 'Ніколи. На людях я німію.', depth: 'shadow', barometer: 'voice', delta: -2, shadow: 'засліплення' },
     ],
   },
 ];

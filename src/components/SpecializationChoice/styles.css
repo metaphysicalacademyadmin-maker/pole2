@@ -1,0 +1,100 @@
+.spec-overlay {
+  position: fixed; inset: 0; z-index: 1080;
+  background: rgba(8, 4, 14, 0.93);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+  animation: spec-fade 0.7s ease;
+}
+@keyframes spec-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.spec-modal {
+  background: linear-gradient(180deg, #14081a, #1c0e28 60%, #14081a);
+  border: 1.5px solid rgba(240, 197, 116, 0.4);
+  border-radius: 18px;
+  padding: 36px 32px 28px;
+  max-width: 920px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 100px rgba(240, 197, 116, 0.25);
+  animation: spec-rise 0.7s ease;
+}
+@keyframes spec-rise {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.spec-eyebrow {
+  font-size: 11px; letter-spacing: 5px; color: #f0c574;
+  text-transform: uppercase; font-weight: 700;
+}
+.spec-title {
+  font-size: 32px; color: #fff7e0; font-weight: 300;
+  margin: 12px 0 8px; letter-spacing: 0.5px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.spec-subtitle {
+  font-size: 14px; color: #c0b6a8; line-height: 1.7;
+  max-width: 600px; margin: 0 auto 28px; font-style: italic;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.spec-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 22px 18px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s;
+  font-family: inherit;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.spec-card:hover {
+  background: rgba(240, 197, 116, 0.08);
+  border-color: rgba(240, 197, 116, 0.55);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(240, 197, 116, 0.18);
+}
+.spec-card-symbol { font-size: 42px; line-height: 1; }
+.spec-card-name {
+  font-size: 17px; font-weight: 500; letter-spacing: 0.5px;
+}
+.spec-card-focus {
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: #968a7c; font-weight: 600;
+}
+.spec-card-desc {
+  font-size: 12px; color: #c0b6a8; line-height: 1.55;
+  font-style: italic; flex: 1;
+}
+.spec-card-channels {
+  font-size: 10px; color: #968a7c;
+  border-top: 1px dashed rgba(255,255,255,0.1);
+  padding-top: 8px; line-height: 1.4;
+}
+.spec-card-channels strong { color: #f0c574; letter-spacing: 1px; }
+
+.spec-actions { margin-top: 14px; }
+.spec-btn-skip {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #968a7c;
+  padding: 9px 22px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.spec-btn-skip:hover { color: #c0b6a8; border-color: rgba(255,255,255,0.3); }

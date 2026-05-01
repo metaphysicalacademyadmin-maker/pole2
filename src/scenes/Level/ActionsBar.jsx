@@ -38,7 +38,10 @@ export default function ActionsBar({ onOpen }) {
         канали
       </button>
       <button type="button" className="btn btn-ghost" onClick={() => onOpen('daily')}>
-        ☉ ритуал
+        🌅 ранок
+      </button>
+      <button type="button" className="btn btn-ghost" onClick={() => onOpen('evening')}>
+        🌙 вечір
       </button>
       <button type="button" className="btn btn-ghost" onClick={() => onOpen('history')}>
         ⧖ історія

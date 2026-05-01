@@ -130,3 +130,214 @@
   border-color: rgba(216, 144, 152, 0.5);
   color: #d89098;
 }
+
+/* ─── Cell practice (ключові слова + вимір аури) ─── */
+.cell-practice-offer {
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: rgba(240, 197, 116, 0.08);
+  border: 1px solid rgba(240, 197, 116, 0.35);
+  border-radius: 14px;
+  text-align: center;
+}
+.cpo-title { font-size: 15px; color: #fff7e0; margin-bottom: 6px; font-weight: 500; }
+.cpo-hint { font-size: 12px; color: #c0b6a8; opacity: 0.85; margin-bottom: 14px; line-height: 1.5; }
+.cpo-actions { display: flex; gap: 10px; justify-content: center; }
+.cpo-btn-skip {
+  background: transparent; border: 1px solid rgba(255,255,255,0.15);
+  color: #968a7c; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;
+}
+.cpo-btn-skip:hover { color: #c0b6a8; border-color: rgba(255,255,255,0.3); }
+.cpo-btn-go {
+  background: linear-gradient(135deg, #f0c574, #e8a85a);
+  border: none; color: #1a0f0a; padding: 9px 22px; border-radius: 8px;
+  cursor: pointer; font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+}
+.cpo-btn-go:hover { filter: brightness(1.1); }
+
+.cell-practice {
+  margin-top: 16px;
+  padding: 22px 20px;
+  background: rgba(20, 12, 28, 0.55);
+  border: 1px solid rgba(240, 197, 116, 0.3);
+  border-radius: 14px;
+  animation: cp-fade-in 0.4s ease;
+}
+@keyframes cp-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.cp-title { font-size: 14px; color: #f0c574; font-weight: 600; letter-spacing: 0.4px; margin-bottom: 4px; }
+.cp-subtitle { font-size: 12px; color: #c0b6a8; opacity: 0.9; line-height: 1.5; margin-bottom: 14px; }
+.cp-phrase {
+  font-size: 17px; color: #fff7e0; font-style: italic; text-align: center;
+  padding: 12px 16px; margin-bottom: 12px;
+  background: rgba(240, 197, 116, 0.06);
+  border-left: 2px solid #f0c574; border-right: 2px solid #f0c574;
+  border-radius: 6px;
+}
+.cp-instructions { font-size: 12px; color: #968a7c; line-height: 1.6; margin-bottom: 14px; }
+.cp-words { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.cp-word-input {
+  background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 10px 14px; color: #fff7e0; font-size: 14px;
+  font-family: inherit;
+}
+.cp-word-input:focus { outline: none; border-color: #f0c574; box-shadow: 0 0 0 2px rgba(240,197,116,0.2); }
+.cp-pick-label {
+  font-size: 13px; color: #f0c574; margin: 14px 0 10px;
+  text-align: center; font-weight: 500; letter-spacing: 0.3px;
+}
+.cp-word-picks { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 14px; }
+.cp-hint-pick {
+  font-size: 12px; color: #f0c574; opacity: 0.75;
+  align-self: center; margin-right: auto;
+  animation: cp-pulse 1.6s ease-in-out infinite;
+}
+@keyframes cp-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+.cp-word-pick {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px; padding: 6px 14px; color: #c0b6a8; cursor: pointer; font-size: 13px;
+  transition: all 0.2s;
+}
+.cp-word-pick:hover { background: rgba(240,197,116,0.1); color: #fff7e0; }
+.cp-word-pick.chosen {
+  background: rgba(240,197,116,0.25); border-color: #f0c574; color: #fff7e0; font-weight: 600;
+  box-shadow: 0 0 14px rgba(240,197,116,0.3);
+  transform: scale(1.05);
+}
+
+.cp-slider-wrap { padding: 14px 0; }
+.cp-slider {
+  width: 100%; height: 6px; -webkit-appearance: none; appearance: none;
+  background: linear-gradient(90deg, rgba(159,200,232,0.3), rgba(240,197,116,0.5), rgba(232,168,184,0.3));
+  border-radius: 3px; outline: none;
+}
+.cp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
+  background: #f0c574; border-radius: 50%; cursor: pointer;
+  box-shadow: 0 0 12px rgba(240,197,116,0.5);
+}
+.cp-slider::-moz-range-thumb {
+  width: 22px; height: 22px; background: #f0c574; border-radius: 50%;
+  cursor: pointer; border: none; box-shadow: 0 0 12px rgba(240,197,116,0.5);
+}
+.cp-slider-value { text-align: center; margin-top: 12px; }
+.cp-cm { font-size: 32px; color: #fff7e0; font-weight: 300; }
+.cp-unit { font-size: 14px; color: #968a7c; margin-left: 4px; }
+
+.cp-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; }
+.cp-btn-skip, .cp-btn-primary {
+  border: none; padding: 9px 18px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-family: inherit;
+}
+.cp-btn-skip { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #968a7c; }
+.cp-btn-skip:hover { color: #c0b6a8; }
+.cp-btn-primary {
+  background: linear-gradient(135deg, #f0c574, #e8a85a); color: #1a0f0a; font-weight: 600;
+}
+.cp-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.cp-btn-primary:not(:disabled):hover { filter: brightness(1.1); }
+
+.cp-delta-preview {
+  text-align: center; font-size: 14px; color: #f0c574;
+  margin-top: 8px; opacity: 0.85; font-variant-numeric: tabular-nums;
+}
+.cp-final {
+  display: flex; align-items: baseline; justify-content: center; gap: 8px;
+  padding: 8px 0;
+}
+.cp-final-cm { font-size: 26px; color: #968a7c; font-weight: 300; font-variant-numeric: tabular-nums; }
+.cp-final-after { color: #f0c574; font-size: 36px; }
+.cp-final-arrow { color: #968a7c; font-size: 18px; }
+.cp-final-unit { font-size: 14px; color: #968a7c; margin-left: 4px; }
+
+/* ─── Полярні барометри (-10..+10) — шкала і тональність ─── */
+.barometer-bar {
+  position: relative;
+  width: 60px;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin: 0 4px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.barometer-bar-axis {
+  position: absolute;
+  left: 50%; top: -2px; bottom: -2px; width: 1px;
+  background: rgba(255,255,255,0.25);
+  transform: translateX(-0.5px);
+}
+.barometer-bar-fill {
+  position: absolute;
+  top: 0; bottom: 0;
+  border-radius: 2px;
+  transition: all 0.4s ease;
+}
+.barometer-row.tone-shadow .barometer-name,
+.barometer-row.tone-critical .barometer-name { opacity: 0.7; color: #c0a0a0; }
+.barometer-row.tone-stagnant .barometer-name { opacity: 0.6; color: #968a7c; }
+.barometer-row.tone-neutral .barometer-name { opacity: 0.65; }
+.barometer-row.tone-integrated .barometer-name {
+  text-shadow: 0 0 8px rgba(240,197,116,0.4);
+  font-weight: 500;
+}
+.barometer-row.tone-critical { animation: barometerCriticalPulse 2s ease-in-out infinite; }
+@keyframes barometerCriticalPulse {
+  0%, 100% { background: transparent; }
+  50% { background: rgba(216, 144, 152, 0.08); }
+}
+
+/* ─── Locked indicator (snake/awakening) ─── */
+.progress-locked {
+  margin-left: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  color: #968a7c;
+  background: rgba(122, 90, 120, 0.15);
+  border: 1px solid rgba(122, 90, 120, 0.3);
+  border-radius: 10px;
+  cursor: help;
+  letter-spacing: 0.5px;
+}
+.progress-locked:hover { color: #c0b6a8; }
+
+/* ─── Snake-клітинка (тіньова) ─── */
+.lvl-center.snake-cell {
+  position: relative;
+  background: radial-gradient(ellipse at top, rgba(90, 64, 96, 0.18), transparent 70%);
+  border-radius: 18px;
+  padding-top: 8px;
+}
+.lvl-center.snake-cell::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  pointer-events: none;
+  border: 1px solid rgba(216, 144, 152, 0.25);
+  box-shadow: inset 0 0 40px rgba(90, 64, 96, 0.15);
+}
+.lvl-center.snake-cell .cell-eyebrow {
+  color: #d89098;
+  letter-spacing: 4px;
+  text-shadow: 0 0 12px rgba(216, 144, 152, 0.4);
+}
+.lvl-center.snake-cell .cell-title {
+  color: #fff7e0;
+  text-shadow: 0 0 18px rgba(216, 144, 152, 0.35);
+  animation: snake-title-pulse 3s ease-in-out infinite;
+}
+@keyframes snake-title-pulse {
+  0%, 100% { text-shadow: 0 0 18px rgba(216, 144, 152, 0.35); }
+  50% { text-shadow: 0 0 24px rgba(216, 144, 152, 0.6); }
+}
+.lvl-center.snake-cell .cell-note {
+  color: #d89098;
+  font-style: italic;
+  font-weight: 500;
+}

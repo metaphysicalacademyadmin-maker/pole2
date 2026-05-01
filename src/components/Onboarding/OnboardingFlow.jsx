@@ -104,9 +104,19 @@ export default function OnboardingFlow({ onComplete }) {
           ))}
         </div>
 
+        {step === 0 && (
+          <div className="onb-breath-orb" aria-hidden="true">
+            <span className="onb-breath-inner" />
+          </div>
+        )}
+
         <div className="onb-icon">{cur.icon}</div>
         <h2 className="onb-title">{cur.title}</h2>
         <div className="onb-text" dangerouslySetInnerHTML={{ __html: format(cur.text) }} />
+
+        <div className="onb-ritual-note">
+          <em>це не пропускається — це ритуал входу</em>
+        </div>
 
         <div className="onb-actions">
           {step > 0 && (
@@ -114,11 +124,8 @@ export default function OnboardingFlow({ onComplete }) {
               ← назад
             </button>
           )}
-          <button type="button" className="onb-btn-skip" onClick={onComplete}>
-            пропустити
-          </button>
           <button type="button" className="onb-btn-next" onClick={next}>
-            {isLast ? 'розпочати ✦' : 'далі →'}
+            {isLast ? 'я готовий · у поле ✦' : 'далі →'}
           </button>
         </div>
       </div>

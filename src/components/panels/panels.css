@@ -71,6 +71,26 @@
   padding-top: 8px;
   border-top: 1px dashed rgba(232,196,118,0.2);
 }
+.dp-streak {
+  font-size: 11px;
+  color: #c8bca8;
+  margin-top: 6px;
+  letter-spacing: 0.4px;
+  text-align: center;
+  padding-top: 4px;
+}
+.dp-streak strong { font-size: 13px; font-weight: 700; }
+.dp-streak-tier-1 { color: #c9b3e8; }
+.dp-streak-tier-2 { color: #f0c574; text-shadow: 0 0 8px rgba(240, 197, 116, 0.3); }
+.dp-streak-tier-3 {
+  color: #ffe7a8;
+  text-shadow: 0 0 12px rgba(255, 231, 168, 0.5);
+  animation: streak-glow 3s ease-in-out infinite;
+}
+@keyframes streak-glow {
+  0%, 100% { text-shadow: 0 0 12px rgba(255, 231, 168, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(255, 231, 168, 0.8); }
+}
 
 /* ─── Active channels ─── */
 .ac-list { display: flex; flex-wrap: wrap; gap: 4px; }

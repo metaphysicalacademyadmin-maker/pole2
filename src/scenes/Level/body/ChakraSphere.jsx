@@ -1,9 +1,15 @@
 // Одна чакра у тілі — сфера з лотосними пелюстками і bija-літерою.
+// Стани: active, current, flashing (коротко), dimming (3с), shadowed (постійно якщо барометр<0).
 import LotusPetals from './LotusPetals.jsx';
 
-export default function ChakraSphere({ chakra, cx, cy, active, current, intensity, flashing, onClick }) {
+export default function ChakraSphere({ chakra, cx, cy, active, current, intensity,
+                                       flashing, dimming, shadowed, onClick }) {
   const baseR = 12;
   const sphereR = baseR + intensity * 4;
+
+  // Якщо чакра у тіньовому стані — мультиплікатор прозорості 0.3
+  const shadowMul = dimming ? 0.25 : shadowed ? 0.4 : 1;
+  const sphereOpacity = (0.55 + intensity * 0.45) * shadowMul;
 
   return (
     <g
@@ -16,8 +22,8 @@ export default function ChakraSphere({ chakra, cx, cy, active, current, intensit
         count={chakra.petals}
         color={chakra.color}
         radius={sphereR + 6}
-        active={active}
-        current={current}
+        active={active && !shadowed}
+        current={current && !shadowed}
       />
 
       {/* FLASH — короткий могутній спалах коли гравець відповідає */}
@@ -35,8 +41,17 @@ export default function ChakraSphere({ chakra, cx, cy, active, current, intensit
         </>
       )}
 
+      {/* DIM — тіньова хвиля коли гравець обрав shadow */}
+      {dimming && (
+        <circle r={sphereR + 25}
+          fill="#5a4060" opacity="0">
+          <animate attributeName="r" values={`${sphereR};${sphereR + 35}`} dur="2.5s" repeatCount="1" />
+          <animate attributeName="opacity" values="0.6;0" dur="2.5s" repeatCount="1" />
+        </circle>
+      )}
+
       {/* Зовнішнє свічення */}
-      {(active || current) && (
+      {(active || current) && !shadowed && (
         <circle r={sphereR + 14}
           fill={chakra.color}
           opacity={current ? 0.25 : 0.12}
@@ -47,15 +62,27 @@ export default function ChakraSphere({ chakra, cx, cy, active, current, intensit
         </circle>
       )}
 
+      {/* Постійна тіньова мітка для shadowed-чакри */}
+      {shadowed && (
+        <circle r={sphereR + 8}
+          fill="none"
+          stroke="#7a5a78"
+          strokeWidth="0.8"
+          strokeDasharray="2 3"
+          opacity="0.7">
+          <animate attributeName="opacity" values="0.4;0.75;0.4" dur="4s" repeatCount="indefinite" />
+        </circle>
+      )}
+
       {/* Сфера */}
       <circle r={sphereR}
         fill={`url(#chakra-${chakra.id})`}
-        stroke={active || current ? chakra.color : 'rgba(232,196,118,0.4)'}
+        stroke={shadowed ? '#7a5a78' : (active || current) ? chakra.color : 'rgba(232,196,118,0.4)'}
         strokeWidth={current ? 1.8 : active ? 1.4 : 0.9}
-        opacity={0.55 + intensity * 0.45}>
-        {current && (
+        opacity={sphereOpacity}>
+        {current && !shadowed && (
           <animate attributeName="opacity"
-            values={`${0.55 + intensity * 0.45};1;${0.55 + intensity * 0.45}`}
+            values={`${sphereOpacity};1;${sphereOpacity}`}
             dur="2.5s" repeatCount="indefinite" />
         )}
       </circle>

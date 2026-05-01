@@ -1,4 +1,5 @@
 import { PYRAMID_LEVELS } from '../../data/levels.js';
+import SacredGeometry from './SacredGeometry.jsx';
 
 const CENTER = 300;
 const PETAL_OUTER_R = 240;
@@ -35,6 +36,9 @@ export default function Mandala({ completedLevels, levelKeys }) {
           keyText={levelKeys[lvl.n]}
         />
       ))}
+
+      {/* Sacred Geometry — Меркаба → Куб Метатрона → Квітка Життя */}
+      <SacredGeometry keysCount={completedLevels.length} cx={CENTER} cy={CENTER} />
 
       {/* центральне коло */}
       <circle cx={CENTER} cy={CENTER} r={PETAL_INNER_R - 8} fill="rgba(20, 14, 30, 0.7)"

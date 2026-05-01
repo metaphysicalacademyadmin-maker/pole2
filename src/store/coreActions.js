@@ -51,8 +51,9 @@ export const cellActions = (set, get, ensure) => ({
       : [...lp.answeredCells, cellId];
     const newResources = { ...s.resources };
     if (payload.barometer && typeof payload.delta === 'number') {
-      newResources[payload.barometer] =
-        (newResources[payload.barometer] || 0) + payload.delta;
+      // Барометри полярні: -10..+10. Клампимо щоб уникнути overflow.
+      const next = (newResources[payload.barometer] || 0) + payload.delta;
+      newResources[payload.barometer] = Math.max(-10, Math.min(10, next));
     }
     set({
       ...ensure(s),
@@ -90,6 +91,24 @@ export const cellActions = (set, get, ensure) => ({
 
   resetCellIdx: () => set({ currentCellIdx: 0, awaitingKey: false }),
 
+  // Snake-bite: гравець обрав тіньовий варіант на snake-клітинці.
+  // Подвійне падіння: відкат на 2 клітинки назад, запис у journal.
+  applySnakeBite: ({ cellId, levelN, barometer }) => {
+    const s = get();
+    const jumpBack = 2;
+    const newIdx = Math.max(0, s.currentCellIdx - jumpBack);
+    set({
+      ...ensure(s),
+      currentCellIdx: newIdx,
+      awaitingKey: false,
+      snakePenalties: [...(s.snakePenalties || []), { cellId, levelN, barometer, jumpBack, ts: Date.now() }],
+      journal: [...s.journal, {
+        text: `🐍 Тіньова зустріч: ${barometer} впав ще глибше, повертаюсь на ${jumpBack} клітинки`,
+        tag: 'тінь', ts: Date.now(),
+      }],
+    });
+  },
+
   // Викликається з Key-екрану — гравець «бере ключ» і йде на наступний рівень.
   claimKey: (levelN, keyText) => {
     const s = get();
@@ -111,6 +130,21 @@ export const cellActions = (set, get, ensure) => ({
       awaitingKey: false,
       journal: [...s.journal, { text: `Ключ ${levelN}: ${keyText}`, tag: 'ключ', ts: Date.now() }],
     });
+    // Резонансне дзеркало — після ключа, асинхронно через 1.5с
+    Promise.all([
+      import('../utils/pseudo-player.js'),
+      import('../data/chakras.js'),
+    ]).then(([{ pickPseudoPlayer, pickResonanceMessage }, { chakraForLevel }]) => {
+      const chakra = chakraForLevel(levelN);
+      const barometer = chakra?.barometers?.[0] || 'light';
+      const seed = `${s.sessionId || ''}-${levelN}-${keyText}`;
+      const pseudoPlayer = pickPseudoPlayer(seed);
+      const message = pickResonanceMessage(barometer, seed + '-msg');
+      setTimeout(() => {
+        const trigger = get().triggerResonance;
+        if (trigger) trigger({ pseudoPlayer, message, levelN, barometer });
+      }, 1500);
+    }).catch(() => {});
   },
 });
 

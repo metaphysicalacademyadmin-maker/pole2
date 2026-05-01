@@ -20,10 +20,12 @@ const ABSENT_THRESHOLD_MS = 14 * 24 * 60 * 60 * 1000;   // 14 днів
 function activityScore(body, state) {
   let score = 30;     // базовий рівень — кожне тіло «жиє» на старті
 
-  // 1. Resources
+  // 1. Resources — полярні барометри (-10..+10)
+  //    Позитив додає (до 15%), негатив віднімає (до 12% — м'якше)
   for (const resKey of body.sourceResources || []) {
     const v = state.resources?.[resKey] || 0;
-    score += Math.min(15, v * 1.5);   // до 15% з одного ресурсу, capped
+    if (v >= 0) score += Math.min(15, v * 1.5);
+    else        score += Math.max(-12, v * 1.2);
   }
 
   // 2. Завершений «свій» рівень піраміди

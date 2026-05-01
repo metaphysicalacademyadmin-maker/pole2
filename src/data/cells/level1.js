@@ -22,7 +22,7 @@ export default [
         hint: 'функціонально', depth: 'mid', barometer: 'root', delta: 1 },
       { facet: 'Г · окуповане', facetColor: '#e8b0b8',
         text: 'У домі живе хтось ще — страх, біль, чужий голос. Я там не сам.',
-        hint: 'тінь', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'застряг' },
+        hint: 'тінь', depth: 'shadow', barometer: 'root', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'r2', priority: 1, kind: 'experiment',
@@ -35,7 +35,7 @@ export default [
     options: [
       { text: 'Тіло стало щільнішим. Голова менше шумить — землі стало більше.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Помітив стопи — раніше не помічав. Більше нічого.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Нічого. Як і було.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'розлитий' },
+      { text: 'Нічого. Як і було.', depth: 'shadow', barometer: 'root', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'r3', priority: 1,
@@ -46,7 +46,7 @@ export default [
     options: [
       { text: 'Так — конкретне місце, де я дихаю вільно. Я знаю його.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Іноді знаходжу — у природі або наодинці.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Я ніде не дозволяю собі бути собою повністю.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'розлитий' },
+      { text: 'Я ніде не дозволяю собі бути собою повністю.', depth: 'shadow', barometer: 'root', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'r4', priority: 1,
@@ -57,7 +57,7 @@ export default [
     options: [
       { text: 'Союзник. Я слухаю його сигнали — і йду за ними.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Інструмент. Працюю з ним — інколи проти нього.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Ворог. Зрадливе, незручне, негарне. Я з ним воюю.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'розлитий' },
+      { text: 'Ворог. Зрадливе, незручне, негарне. Я з ним воюю.', depth: 'shadow', barometer: 'root', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'r5', priority: 2,
@@ -68,7 +68,7 @@ export default [
     options: [
       { text: 'Земля. Я знаю свій рахунок. Маю опору на найближчі місяці.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Працюю з ними, але час до часу провалююсь у тривогу.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Тільки не дивитись. Якщо подивлюсь — впаду.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'застряг' },
+      { text: 'Тільки не дивитись. Якщо подивлюсь — впаду.', depth: 'shadow', barometer: 'root', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'r6', priority: 2,
@@ -79,7 +79,7 @@ export default [
     options: [
       { text: 'Поважаю. Сон, їжа, рух — це не "коли встигну", це базово.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Іноді. Але часто перевершую тіло — тоді хворію.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Експлуатую. Тіло — інструмент. Ламається — лагоджу.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'розлитий' },
+      { text: 'Експлуатую. Тіло — інструмент. Ламається — лагоджу.', depth: 'shadow', barometer: 'root', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'r7', priority: 3,
@@ -90,7 +90,7 @@ export default [
     options: [
       { text: 'Я знаю його. Можу назвати — і вже не злякаюсь.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Щось згадую — але туманно.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'У мене не було страхів у дитинстві.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'застряг' },
+      { text: 'У мене не було страхів у дитинстві.', depth: 'shadow', barometer: 'root', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'r8', priority: 3,
@@ -101,7 +101,7 @@ export default [
     options: [
       { text: 'Я чую її. Знаю, де перевершив свої межі.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Підозрюю — але не хочу зупинятись щоб слухати.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Хвороба — це біологія. Не вигадуйте символів.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'розлитий' },
+      { text: 'Хвороба — це біологія. Не вигадуйте символів.', depth: 'shadow', barometer: 'root', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'r9', priority: 3,
@@ -112,7 +112,7 @@ export default [
     options: [
       { text: 'Так. Сон — мій союзник. Засинаю спокійно, прокидаюся з силою.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'З перебоями. Іноді не засинаю, іноді не висипаюся.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Ніч — це боротьба. Закидаю себе в сон — або не сплю взагалі.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'застряг' },
+      { text: 'Ніч — це боротьба. Закидаю себе в сон — або не сплю взагалі.', depth: 'shadow', barometer: 'root', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'r10', priority: 3,
@@ -123,7 +123,7 @@ export default [
     options: [
       { text: 'Тепло і безпеку. Ці відчуття зі мною досі.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'І дари, і рани. Розрізняю одне від іншого.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Постійну готовність до удару. Не розслабляюсь у близькості.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'розлитий' },
+      { text: 'Постійну готовність до удару. Не розслабляюсь у близькості.', depth: 'shadow', barometer: 'root', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'r11', priority: 3, kind: 'experiment',
@@ -136,7 +136,7 @@ export default [
     options: [
       { text: "Тепло у долонях, плечі м'які, дихання глибше. Тіло вміє відпускати.", depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Долоні гудуть, але напруга десь ще є — у спині, шиї.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Не зрозумів — мабуть зробив неправильно. Все як було.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'розлитий' },
+      { text: 'Не зрозумів — мабуть зробив неправильно. Все як було.', depth: 'shadow', barometer: 'root', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'r12', priority: 3,
@@ -147,7 +147,24 @@ export default [
     options: [
       { text: 'Так. Смерть — як обрій. Вона нагадує мені бути тут.', depth: 'deep', barometer: 'root', delta: 2 },
       { text: 'Іноді. Зазвичай уникаю цієї думки.', depth: 'mid', barometer: 'root', delta: 1 },
-      { text: 'Не хочу про це думати. Уникаю.', depth: 'shadow', barometer: 'root', delta: 0, shadow: 'застряг' },
+      { text: 'Не хочу про це думати. Уникаю.', depth: 'shadow', barometer: 'root', delta: -2, shadow: 'застряг' },
+    ],
+  },
+  // ─── 🐍 Snake (тіньова) — доступна коли root ≤ -3 ───
+  { id: 'r_snake', priority: 4, kind: 'snake',
+    title: '🐍 Тіньова зустріч', sub: 'той, хто виживав замість мене',
+    unlock: { resource: 'root', max: -3 },
+    prologue: 'Поле бачить твій застій. Не покарання — запрошення в правду.',
+    question: 'Хто у тобі зараз не дозволяє відчути землю під ногами?',
+    note: 'Тіньова клітинка. Брехня тут — подвійне падіння.',
+    bodyHint: 'belly',
+    options: [
+      { text: 'Це я. Я бачу страх — і він мій. Можу побути з ним.',
+        depth: 'deep', barometer: 'root', delta: 3 },
+      { text: 'Це обставини. Я б давно стояв твердо, але світ хитається.',
+        depth: 'shadow', barometer: 'root', delta: -3, shadow: 'засліплення', snakeBite: true },
+      { text: 'Не хочу про це. Закрий клітинку.',
+        depth: 'shadow', barometer: 'root', delta: -2, shadow: 'застряг', snakeBite: true },
     ],
   },
 ];

@@ -8,6 +8,10 @@ import Key from './scenes/Key/index.jsx';
 import Constellation from './scenes/Constellation/index.jsx';
 import SoulField from './scenes/SoulField/index.jsx';
 import Final from './scenes/Final/index.jsx';
+import Petals from './scenes/Petals/index.jsx';
+import Cosmo from './scenes/Cosmo/index.jsx';
+import Admin from './scenes/Admin/index.jsx';
+import Partnership from './scenes/Partnership/index.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import GlobalToast from './components/GlobalToast.jsx';
 import KaiBubble from './components/Kai/KaiBubble.jsx';
@@ -16,6 +20,7 @@ import AntypModal from './components/Antyp/AntypModal.jsx';
 import MirrorModal from './components/Mirror/MirrorModal.jsx';
 import KoanCard from './components/Koan/KoanCard.jsx';
 import OnboardingFlow from './components/Onboarding/OnboardingFlow.jsx';
+import ResonanceMirror from './components/ResonanceMirror/index.jsx';
 import { detectCharacter } from './utils/character-detector.js';
 import { pickMirrorReflection } from './data/mirror.js';
 import { pickKoan } from './data/koans.js';
@@ -30,6 +35,7 @@ export default function App() {
   const constellations = useGameStore((s) => s.constellations);
   const cellAnswers = useGameStore((s) => s.cellAnswers);
   const completedLevels = useGameStore((s) => s.completedLevels);
+  const petalsActive = useGameStore((s) => s.petalsActive);
   const themeMode = useGameStore((s) => s.themeMode);
   const onboardingDone = useGameStore((s) => s.onboardingDone);
   const completeOnboarding = useGameStore((s) => s.completeOnboarding);
@@ -38,6 +44,11 @@ export default function App() {
   const recordMirrorAppearance = useGameStore((s) => s.recordMirrorAppearance);
 
   const [soulFieldOpen, setSoulFieldOpen] = useState(false);
+  const [cosmoOpen, setCosmoOpen] = useState(false);
+  const [partnershipOpen, setPartnershipOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(() =>
+    typeof window !== 'undefined' && window.location.search.includes('admin=true')
+  );
   const [activeCharacter, setActiveCharacter] = useState(null);
   const [mirror, setMirror] = useState(null);
   const [koan, setKoan] = useState(null);
@@ -120,7 +131,11 @@ export default function App() {
       <ErrorBoundary>
         {soulFieldOpen
           ? <SoulField onClose={() => setSoulFieldOpen(false)} />
-          : pickScene({ pathMode, intention, currentLevel, awaitingKey, constellations, openSoulField: () => setSoulFieldOpen(true) })}
+          : pickScene({ pathMode, intention, currentLevel, awaitingKey, constellations, petalsActive,
+              openSoulField: () => setSoulFieldOpen(true),
+              openCosmo: () => setCosmoOpen(true),
+              openAdmin: () => setAdminOpen(true),
+              openPartnership: () => setPartnershipOpen(true) })}
       </ErrorBoundary>
       <GlobalToast />
       {pathMode && intention && !soulFieldOpen && !activeCharacter && !mirror && <KaiBubble />}
@@ -136,19 +151,33 @@ export default function App() {
       )}
       {mirror && <MirrorModal reflection={mirror} onClose={() => setMirror(null)} />}
       {!onboardingDone && <OnboardingFlow onComplete={completeOnboarding} />}
+      {cosmoOpen && <Cosmo onClose={() => setCosmoOpen(false)} />}
+      {adminOpen && <Admin onClose={() => setAdminOpen(false)} />}
+      {partnershipOpen && <Partnership onClose={() => setPartnershipOpen(false)} />}
+      <ResonanceMirror />
     </div>
   );
 }
 
-function pickScene({ pathMode, intention, currentLevel, awaitingKey, constellations, openSoulField }) {
+export function useCosmoOpener() {
+  // Helper для дочірніх сцен — щоб відкрити cosmo з будь-якого місця.
+  // Поки не використовується, зарезервовано.
+  return null;
+}
+
+function pickScene({ pathMode, intention, currentLevel, awaitingKey, constellations, petalsActive,
+                    openSoulField, openCosmo, openAdmin, openPartnership }) {
   if (!pathMode) return <PathMode />;
   if (!intention) return <Entry />;
-  if (currentLevel > 7) return <Final />;
+  if (currentLevel > 7) {
+    if (petalsActive) return <Petals />;
+    return <Final openCosmo={openCosmo} openAdmin={openAdmin} openPartnership={openPartnership} />;
+  }
   if (awaitingKey) {
     if (currentLevel === 3 && !(constellations[3]?.resolution)) {
       return <Constellation />;
     }
     return <Key />;
   }
-  return <Level openSoulField={openSoulField} />;
+  return <Level openSoulField={openSoulField} openCosmo={openCosmo} openPartnership={openPartnership} />;
 }

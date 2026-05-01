@@ -2,24 +2,44 @@ import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { showToast } from '../../components/GlobalToast.jsx';
 import { chakraForLevel } from '../../data/chakras.js';
+import { detectShadow } from '../../utils/shadow-detector.js';
 import CellOption from './CellOption.jsx';
 import ProgressDots from './ProgressDots.jsx';
 import CustomAnswer from './CustomAnswer.jsx';
+import CellPractice from './CellPractice.jsx';
 
 // Один екран клітинки. Універсальний для kind: undefined | 'meeting' | 'experiment'.
-// Кожна клітинка дає або вибір з готових варіантів, або власну довшу
-// відповідь (CustomAnswer) — глибше переживання → +3 до барометра.
+// Після відповіді гравець може поглибити через практику ключових слів —
+// з виміром аури до/після (см) → записується у auraReadings → візуалізується на Aura.jsx.
 const CUSTOM_DELTA = 3;
 
-export default function CellView({ cell, levelN, totalCells, currentIdx }) {
+export default function CellView({ cell, levelN, totalCells, currentIdx, lockedCells }) {
   const recordAnswer = useGameStore((s) => s.recordAnswer);
   const advanceCell = useGameStore((s) => s.advanceCell);
+  const applySnakeBite = useGameStore((s) => s.applySnakeBite);
   const triggerChakraFlash = useGameStore((s) => s.triggerChakraFlash);
+  const triggerChakraDim = useGameStore((s) => s.triggerChakraDim);
+  const triggerShadowMirror = useGameStore((s) => s.triggerShadowMirror);
   const [selectedKey, setSelectedKey] = useState(null);
   const [customMode, setCustomMode] = useState(false);
+  const [phase, setPhase] = useState('answer');     // answer | offer | practice
+  const [answeredBarometer, setAnsweredBarometer] = useState(null);
 
   // Чакра рівня — вона спалахує коли гравець відповідає.
   const chakra = chakraForLevel(levelN);
+  const isSnake = cell.kind === 'snake';
+
+  function afterAnswer(barometer) {
+    setAnsweredBarometer(barometer);
+    setPhase('offer');
+  }
+
+  function skipPractice() {
+    advanceCell(totalCells);
+    setPhase('answer');
+    setAnsweredBarometer(null);
+    setSelectedKey(null);
+  }
 
   function handleSelect(option) {
     setSelectedKey(option.text);
@@ -32,11 +52,20 @@ export default function CellView({ cell, levelN, totalCells, currentIdx }) {
       shadow: option.shadow || null,
     });
     if (chakra && option.delta > 0) triggerChakraFlash(chakra.id);
-    showToast(`+${option.delta} ${option.barometer}`, 'success');
-    setTimeout(() => {
-      setSelectedKey(null);
-      advanceCell(totalCells);
-    }, 600);
+    if (chakra && option.delta < 0) triggerChakraDim(chakra.id);
+    const sign = option.delta >= 0 ? '+' : '';
+    showToast(`${sign}${option.delta} ${option.barometer}`, option.delta >= 0 ? 'success' : 'info');
+    // Snake-bite — гравець обрав тінь на тіньовій клітинці. Подвійне падіння.
+    if (isSnake && option.snakeBite) {
+      setTimeout(() => {
+        applySnakeBite({ cellId: cell.id, levelN, barometer: option.barometer });
+        showToast('🐍 Тінь зростає. Повертаюсь на 2 клітинки.', 'info');
+        setSelectedKey(null);
+        setPhase('answer');
+      }, 800);
+      return;
+    }
+    setTimeout(() => afterAnswer(option.barometer), 600);
   }
 
   function handleCustom(text) {
@@ -51,18 +80,23 @@ export default function CellView({ cell, levelN, totalCells, currentIdx }) {
     if (chakra) triggerChakraFlash(chakra.id);
     showToast(`+${CUSTOM_DELTA} ${barometer} · своя відповідь`, 'success');
     setCustomMode(false);
-    setTimeout(() => advanceCell(totalCells), 600);
+    // 🪞 Дзеркало Тіні — через 0.8с шукаємо тіньові тригери у тексті
+    const shadow = detectShadow(text);
+    if (shadow) {
+      setTimeout(() => triggerShadowMirror({ ...shadow, cellId: cell.id, customText: text }), 800);
+    }
+    setTimeout(() => afterAnswer(barometer), 600);
   }
 
   const isExperiment = cell.kind === 'experiment';
   const promptText = isExperiment ? cell.afterQuestion : cell.question;
 
   return (
-    <div className="lvl-center">
+    <div className={`lvl-center${isSnake ? ' snake-cell' : ''}`}>
       <div className="cell-eyebrow">
         рівень {levelN} · клітинка {currentIdx + 1} з {totalCells}
       </div>
-      <ProgressDots total={totalCells} current={currentIdx} />
+      <ProgressDots total={totalCells} current={currentIdx} locked={lockedCells} />
 
       <h2 className="cell-title">{cell.title}</h2>
       <div className="cell-sub">{cell.sub}</div>
@@ -78,7 +112,12 @@ export default function CellView({ cell, levelN, totalCells, currentIdx }) {
       {promptText && <p className="cell-question">{promptText}</p>}
       {cell.note && <p className="cell-note">{cell.note}</p>}
 
-      {customMode ? (
+      {phase === 'practice' ? (
+        <CellPractice cell={cell} levelN={levelN} barometer={answeredBarometer}
+          onDone={skipPractice} onSkip={skipPractice} />
+      ) : phase === 'offer' ? (
+        <PracticeOffer onSkip={skipPractice} onGo={() => setPhase('practice')} />
+      ) : customMode ? (
         <CustomAnswer onSubmit={handleCustom} onCancel={() => setCustomMode(false)} />
       ) : (
         <>
@@ -105,16 +144,23 @@ export default function CellView({ cell, levelN, totalCells, currentIdx }) {
   );
 }
 
-// Визначаємо барометр для своєї відповіді — беремо найчастіший з опцій клітинки.
 function inferBarometer(cell) {
   const counts = {};
   for (const o of cell.options) {
     if (o.barometer) counts[o.barometer] = (counts[o.barometer] || 0) + 1;
   }
-  let best = 'root';
-  let max = 0;
-  for (const [k, v] of Object.entries(counts)) {
-    if (v > max) { max = v; best = k; }
-  }
-  return best;
+  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || 'root';
+}
+
+function PracticeOffer({ onSkip, onGo }) {
+  return (
+    <div className="cell-practice-offer">
+      <div className="cpo-title">Відповідь записано. Поглибити через практику?</div>
+      <div className="cpo-hint">Ключові слова + вимір аури в см. ~2 хв. Δ збережеться на колі аури.</div>
+      <div className="cpo-actions">
+        <button type="button" className="cpo-btn-skip" onClick={onSkip}>пропустити</button>
+        <button type="button" className="cpo-btn-go" onClick={onGo}>🔑 поглибити</button>
+      </div>
+    </div>
+  );
 }

@@ -9,7 +9,7 @@ export default [
     options: [
       { text: 'Так. Тіло знає до слів. Коли йду проти — потім жалію.', depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: 'Іноді слухаю. Частіше — голова перемагає.', depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: 'Я не вірю в інтуїцію. Тільки факти і логіка.', depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'засліплення' },
+      { text: 'Я не вірю в інтуїцію. Тільки факти і логіка.', depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 's2', priority: 1,
@@ -20,7 +20,7 @@ export default [
     options: [
       { text: 'Знаю. Можу описати. Йду — крок за кроком.', depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: 'Здогадуюсь. Не наважуюсь повірити до кінця.', depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: 'Ні. Живу як склалось. Призначення — для обраних.', depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'засліплення' },
+      { text: 'Ні. Живу як склалось. Призначення — для обраних.', depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 's3', priority: 1,
@@ -31,7 +31,7 @@ export default [
     options: [
       { text: 'Так. Записую. Сни — мої вчителі.', depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: "Інколи запам'ятовую. Якщо вражає — думаю про нього.", depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: "Я не пам'ятаю снів. Або вони безглузді.", depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'засліплення' },
+      { text: "Я не пам'ятаю снів. Або вони безглузді.", depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 's4', priority: 1,
@@ -42,7 +42,7 @@ export default [
     options: [
       { text: 'Так. Я живу у діалозі зі світом. Знаки — моя орієнтація.', depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: 'Помічаю — але не до кінця довіряю.', depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: 'Це випадковості. Мозок шукає закономірності де їх нема.', depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'засліплення' },
+      { text: 'Це випадковості. Мозок шукає закономірності де їх нема.', depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 's5', priority: 2,
@@ -53,7 +53,7 @@ export default [
     options: [
       { text: "Так. Моя ясність — це не обов'язково правда. Я перевіряю.", depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: 'Раціонально — так. На практиці тримаюсь свого.', depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: 'Я добре бачу. Якщо хтось не бачить — це його проблема.', depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'гординя' },
+      { text: 'Я добре бачу. Якщо хтось не бачить — це його проблема.', depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'гординя' },
     ],
   },
   { id: 's6', priority: 2,
@@ -64,7 +64,7 @@ export default [
     options: [
       { text: 'Так. Образи, місця, відчуття — впізнаю. Не знаю звідки.', depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: 'Бувало. Але швидко відмахуюсь — «це уява».', depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: 'Ніколи. Я не вірю в реінкарнацію.', depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'засліплення' },
+      { text: 'Ніколи. Я не вірю в реінкарнацію.', depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 's7', priority: 3,
@@ -75,7 +75,7 @@ export default [
     options: [
       { text: 'Так. Я відчуваю стан, біль, силу. Не помиляюсь майже ніколи.', depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: 'Іноді відчуваю. Іноді обманююсь.', depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: 'Я довіряю тому, що люди про себе кажуть.', depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'засліплення' },
+      { text: 'Я довіряю тому, що люди про себе кажуть.', depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 's8', priority: 3,
@@ -86,7 +86,24 @@ export default [
     options: [
       { text: 'Так. Реальність — це реальність. Я не сперечаюсь з нею.', depth: 'deep', barometer: 'clarity', delta: 2 },
       { text: 'Намагаюсь. Часто гублюсь у «чому це не так як мало бути».', depth: 'mid', barometer: 'clarity', delta: 1 },
-      { text: 'Я постійно судю. «Так не повинно бути».', depth: 'shadow', barometer: 'clarity', delta: 0, shadow: 'гординя' },
+      { text: 'Я постійно судю. «Так не повинно бути».', depth: 'shadow', barometer: 'clarity', delta: -2, shadow: 'гординя' },
+    ],
+  },
+  // ─── ✦ Awakening (інсайт) — доступна коли clarity ≥ +5 ───
+  { id: 'c_awakening', priority: 5, kind: 'awakening',
+    title: '✦ Спалах · ясне бачення', sub: 'для тих, хто вже бачить',
+    unlock: { resource: 'clarity', min: 5 },
+    prologue: 'Аджна відкрилась. Ось питання тільки для тих, хто перестав боятись бачити.',
+    question: 'Що ти БАЧИШ у своєму житті, що тобі досі страшно ВИЗНАТИ?',
+    note: 'Інсайт-клітинка. Бачення без визнання — пів-сили. Скажи правду собі.',
+    bodyHint: 'head',
+    options: [
+      { text: 'Знаю — і вже почав діяти з цього. Це і є мій шлях зараз.',
+        depth: 'deep', barometer: 'clarity', delta: 3 },
+      { text: 'Бачу — але ще не назвав уголос. Сьогодні — назву.',
+        depth: 'deep', barometer: 'clarity', delta: 2 },
+      { text: 'Дивлюсь у те що бачу — але рухатись з цим страшно. Стою.',
+        depth: 'mid', barometer: 'clarity', delta: 1 },
     ],
   },
 ];

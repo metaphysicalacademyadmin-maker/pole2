@@ -1,0 +1,107 @@
+.reson-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(8, 4, 14, 0.90);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: reson-fade 0.8s ease;
+}
+@keyframes reson-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reson-modal {
+  background: linear-gradient(180deg, #1a1228, #2a1a3a);
+  border: 1px solid rgba(159, 200, 232, 0.4);
+  border-radius: 18px;
+  padding: 32px 28px 24px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 80px rgba(159, 200, 232, 0.2), inset 0 0 40px rgba(60, 40, 80, 0.3);
+  animation: reson-rise 0.7s ease;
+}
+@keyframes reson-rise {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.reson-eyebrow {
+  font-size: 11px; letter-spacing: 5px; color: #9fc8e8;
+  text-transform: uppercase; font-weight: 700;
+  text-shadow: 0 0 14px rgba(159, 200, 232, 0.5);
+}
+.reson-subtitle {
+  font-size: 13px; color: #c0b6a8; margin: 10px 0 24px;
+  line-height: 1.6; font-style: italic;
+}
+
+.reson-player {
+  margin: 18px 0;
+}
+.reson-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9fc8e8, #6a8fa8);
+  color: #fff7e0;
+  font-size: 26px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+  box-shadow: 0 0 24px rgba(159, 200, 232, 0.35);
+}
+.reson-player-name {
+  font-size: 20px; color: #fff7e0; font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.reson-player-meta {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px; color: #968a7c;
+  margin-top: 2px;
+}
+.reson-player-state {
+  font-size: 11px; color: #c0b6a8;
+  font-style: italic; margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+.reson-message {
+  margin: 22px auto;
+  padding: 20px 22px;
+  background: rgba(159, 200, 232, 0.06);
+  border-left: 2px solid #9fc8e8; border-right: 2px solid #9fc8e8;
+  border-radius: 6px;
+  font-size: 16px; color: #fff7e0;
+  font-style: italic; line-height: 1.65;
+  font-family: Georgia, 'Times New Roman', serif;
+  text-align: center;
+  max-width: 380px;
+}
+
+.reson-note {
+  font-size: 10px; color: #968a7c;
+  letter-spacing: 1px;
+  margin: 18px 0;
+  opacity: 0.7;
+}
+
+.reson-actions {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  margin-top: 18px;
+}
+.reson-btn {
+  border: none; padding: 10px 20px; border-radius: 10px;
+  cursor: pointer; font-size: 13px; font-family: inherit;
+  transition: all 0.25s;
+}
+.reson-btn-skip {
+  background: transparent; border: 1px solid rgba(255,255,255,0.15);
+  color: #968a7c;
+}
+.reson-btn-skip:hover { color: #c0b6a8; border-color: rgba(255,255,255,0.3); }
+.reson-btn-touched {
+  background: linear-gradient(135deg, #9fc8e8, #6a8fa8);
+  color: #1a0f0a; font-weight: 600;
+  box-shadow: 0 4px 18px rgba(159, 200, 232, 0.3);
+}
+.reson-btn-touched:hover { filter: brightness(1.1); transform: translateY(-1px); }

@@ -28,6 +28,10 @@ import {
   characterActions,
   uiActions,
   mirrorActions,
+  petalActions,
+  cosmoActions,
+  socialActions,
+  modalActions,
   buildArchive,
 } from './actions.js';
 
@@ -52,6 +56,7 @@ import {
 // ─────────────────────────────────────────────────────────────────
 
 const ensureLegacy = (s) => buildSession(s, genSessionId);
+
 
 export const useGameStore = create(
   persist(
@@ -78,6 +83,10 @@ export const useGameStore = create(
       ...characterActions(set, get, ensureLegacy),
       ...uiActions(set, get, ensureLegacy),
       ...mirrorActions(set, get, ensureLegacy),
+      ...petalActions(set, get, ensureLegacy),
+      ...cosmoActions(set, get, ensureLegacy),
+      ...socialActions(set, get, ensureLegacy),
+      ...modalActions(set, get, ensureLegacy),
     }),
     {
       name: SAVE_KEY,

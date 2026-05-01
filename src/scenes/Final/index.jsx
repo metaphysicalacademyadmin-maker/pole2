@@ -1,15 +1,18 @@
+import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { useProfileStore } from '../../store/profileStore.js';
 import Mandala from './Mandala.jsx';
 import BodyMapDisplay from '../../components/BodyMap/BodyMapDisplay.jsx';
 import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
+import SoulBook from '../../components/SoulBook/index.jsx';
+import Circles from '../../components/Circles/index.jsx';
 import './styles.css';
 
 const SYS = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
 // Фінальний екран: «Карта Втілення». Показує намір, ключі, статистику.
 // Гравець може почати новий шлях (archiveAndReset) або зберегти карту.
-export default function Final() {
+export default function Final({ openCosmo, openAdmin, openPartnership }) {
   const intention = useGameStore((s) => s.intention);
   const completedLevels = useGameStore((s) => s.completedLevels);
   const levelKeys = useGameStore((s) => s.levelKeys);
@@ -22,6 +25,8 @@ export default function Final() {
   const bodyMap = useGameStore((s) => s.bodyMap);
   const channelsUnlocked = useGameStore((s) => s.channelsUnlocked);
   const firstName = useProfileStore((s) => s.profile?.firstName);
+  const activatePetals = useGameStore((s) => s.activatePetals);
+  const [bookOpen, setBookOpen] = useState(false);
 
   const cellsAnswered = Object.keys(cellAnswers).length;
   const orderedKeys = completedLevels.map((n) => ({ n, text: levelKeys[n] }));
@@ -124,11 +129,31 @@ export default function Final() {
           <div className="final-quote-attr">арбітр-свідок</div>
         </div>
 
-        <div className="final-actions">
-          <button type="button" className="btn btn-primary" onClick={handleNew}>
+        <div className="final-actions" style={{ gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <button type="button" className="btn btn-primary" onClick={() => setBookOpen(true)}>
+            📜 Книга Душі
+          </button>
+          <button type="button" className="btn btn-primary" onClick={activatePetals}>
+            ✺ продовжити у 9 пелюсток
+          </button>
+          {openCosmo && (
+            <button type="button" className="btn btn-primary" onClick={openCosmo}>
+              🔮 космоенергетика
+            </button>
+          )}
+          {openPartnership && (
+            <button type="button" className="btn btn-primary" onClick={openPartnership}>
+              👯 партнерство
+            </button>
+          )}
+          <button type="button" className="btn btn-ghost" onClick={handleNew}>
             почати новий шлях
           </button>
         </div>
+
+        {bookOpen && <SoulBook onClose={() => setBookOpen(false)} />}
+
+        <Circles />
 
         <div style={{ marginTop: 48, paddingTop: 32, borderTop: '1px solid rgba(232,196,118,0.2)' }}>
           <ContactsBlock title="Знайди нас" />

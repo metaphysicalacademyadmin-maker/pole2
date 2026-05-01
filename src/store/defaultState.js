@@ -75,9 +75,10 @@ export const defaultState = {
   },
 
   // ─── Денні чек-іни ───
-  // [{date: '2026-04-30', scales: {...}, dream: '', morning: ''}]
+  // [{date, scales, dream, morning, ts}] — ранок / [{date, evening, ts}] — вечір
   dailyCheckIns: [],
-  lastCheckInDate: null,        // 'YYYY-MM-DD'
+  lastCheckInDate: null,        // 'YYYY-MM-DD' — ранковий
+  lastEveningDate: null,        // 'YYYY-MM-DD' — вечірній
 
   // ─── Моральні дилеми (рівень 4) ───
   // {dilemmaId: {choice, customText, weight, ts}}
@@ -106,9 +107,64 @@ export const defaultState = {
   // ─── Реактивне тіло (Хвиля 7) ───
   flashChakraId: null,
   flashCounter: 0,
+  // dim — пригасання чакри після shadow-вибору (3 сек)
+  dimChakraId: null,
+  dimCounter: 0,
 
   // ─── Mirror persona (Хвиля 7) ───
   mirrorAppearances: [],
+
+  // ─── Аура: вимірювання до/після практики ключових слів ───
+  // [{cellId, levelN, before, after, delta, keyword, ts}] — у см
+  auraReadings: [],
+
+  // ─── Калібровка архетипу (на 3-й клітинці) ───
+  archetypeCalibration: { status: null, suggested: null, confirmed: null, ts: null },
+
+  // ─── Трансформація архетипу (після рівнів 5-7) ───
+  currentArchetypeTransformation: null,
+  archetypeTransformations: [],
+
+  // ─── Спеціалізація (після рівня 4) ───
+  specialization: null,
+  specializationOpen: false,
+
+  // ─── 9 пелюсток (post-game expansion) ───
+  petalsActive: false,
+  currentPetalId: null,
+  petalAnswers: {},
+  petalProgress: {},
+
+  // ─── Гілка космоенергетики (5 рівнів) ───
+  cosmoApplication: null,
+  cosmoIntroSeen: [],
+  channelProgress: {},
+  channelAnswers: {},
+  currentChannelId: null,
+
+  // ─── Резонансні дзеркала (псевдо-соціал) ───
+  currentResonance: null,
+  resonanceHistory: [],
+  joinedCircle: null,
+
+  // ─── Партнерство ───
+  partnership: null,
+
+  // ─── Snake-клітинки: подвійне падіння ───
+  snakePenalties: [],
+
+  // ─── Дзеркало Тіні (AI-аналіз custom-відповіді) ───
+  currentShadowMirror: null,
+  shadowMirrorHistory: [],
+
+  // ─── Криза Системи + Точка Перевороту ───
+  crisisAcknowledgedTs: null,
+  turningPointShown: false,
+  turningPointResponse: null,
+
+  // ─── Черга модалок (одна за раз, з пріоритетами) ───
+  activeModal: null,
+  modalQueue: [],
 
   // ─── UI preferences ───
   uiMode: 'map',

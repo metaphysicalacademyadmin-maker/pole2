@@ -1,7 +1,9 @@
-// Базові практики (тілесні, мантри, дихання) + 9 академічних з методички.
+// Базові практики (тілесні, мантри, дихання) + академічні з методички
+// + практики зі "Збірки практик метафізики та космоенергетики".
 // Кожна має level, duration (хв), instruction, barometer.
 
 import { ACADEMY_PRACTICES } from './practices-academy.js';
+import { ZBIRKA_PRACTICES } from './practices-zbirka.js';
 
 const BASIC_PRACTICES = [
   // ─── Рівень 1: Коріння ───
@@ -71,11 +73,11 @@ const BASIC_PRACTICES = [
     instruction: 'На вдиху уяви, що приймаєш енергію зірок крізь маківку. На видиху — віддаєш землі. 6 хвилин.' },
 ];
 
-// Об'єднуємо базові + 9 академічних практик
-export const PRACTICES = [...BASIC_PRACTICES, ...ACADEMY_PRACTICES];
+// Об'єднуємо базові + академічні + зі збірки
+export const PRACTICES = [...BASIC_PRACTICES, ...ACADEMY_PRACTICES, ...ZBIRKA_PRACTICES];
 
 export function practicesForLevel(levelN) {
   return PRACTICES.filter((p) => p.level <= levelN);
 }
 
-export { ACADEMY_PRACTICES };
+export { ACADEMY_PRACTICES, ZBIRKA_PRACTICES };

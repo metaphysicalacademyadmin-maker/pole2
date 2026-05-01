@@ -11,7 +11,7 @@ export default [
     options: [
       { text: "Тепло, м'якість, щось що хоче рухатись. Бажання живе.", depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Якесь напруження — наче я туди давно не звертався.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Порожнеча. Або відчуження. Як чужий орган.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'застряг' },
+      { text: 'Порожнеча. Або відчуження. Як чужий орган.', depth: 'shadow', barometer: 'flow', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'f2', priority: 1, kind: 'meeting',
@@ -32,7 +32,7 @@ export default [
         hint: 'трансформація', depth: 'mid', barometer: 'flow', delta: 1 },
       { facet: 'Г · сховав', facetColor: '#e8b0b8',
         text: 'Заперечив що вона взагалі була. «Розумна людина не плаче.»',
-        hint: 'тінь', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'розлитий' },
+        hint: 'тінь', depth: 'shadow', barometer: 'flow', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'f3', priority: 1,
@@ -43,7 +43,7 @@ export default [
     options: [
       { text: 'Так. Насолода — це не нагорода. Це частина дихання.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Дозволяю — але часто за нею приходить провина.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Заслуговую тільки коли «зробив достатньо». Інакше — ні.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'благочестя' },
+      { text: 'Заслуговую тільки коли «зробив достатньо». Інакше — ні.', depth: 'shadow', barometer: 'flow', delta: -1, shadow: 'благочестя' },
     ],
   },
   { id: 'f4', priority: 1,
@@ -54,7 +54,7 @@ export default [
     options: [
       { text: 'Так. Я роблю щось своїми руками просто щоб робити.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Хотів би — але часу нема. Колись.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Творчість — це для тих, хто має на це талант. Не для мене.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'застряг' },
+      { text: 'Творчість — це для тих, хто має на це талант. Не для мене.', depth: 'shadow', barometer: 'flow', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'f5', priority: 2,
@@ -65,7 +65,7 @@ export default [
     options: [
       { text: 'Як живий потік. Я в контакті з нею — і вона рухає мене.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Тут і там. Іноді живо, іноді відключаюсь.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Замкнено. Або борг, або заборона. Своєї радості там нема.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'залежність' },
+      { text: 'Замкнено. Або борг, або заборона. Своєї радості там нема.', depth: 'shadow', barometer: 'flow', delta: -2, shadow: 'залежність' },
     ],
   },
   { id: 'f6', priority: 2,
@@ -76,7 +76,7 @@ export default [
     options: [
       { text: 'Плачу коли треба. Сльози — це чесно.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Сам із собою — плачу. На людях — ні.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Я давно не плакав/ла. Греблю не пробивало роками.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'застряг' },
+      { text: 'Я давно не плакав/ла. Греблю не пробивало роками.', depth: 'shadow', barometer: 'flow', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'f7', priority: 3,
@@ -87,7 +87,7 @@ export default [
     options: [
       { text: 'Сила. Я знаю де мій гнів — і він тримає мої межі.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Іноді сила, іноді — мене несе.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Я не дозволяю собі гніватись. «Хороші люди не злі.»', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'застряг' },
+      { text: 'Я не дозволяю собі гніватись. «Хороші люди не злі.»', depth: 'shadow', barometer: 'flow', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'f8', priority: 3,
@@ -98,7 +98,7 @@ export default [
     options: [
       { text: 'Так. Я ще вмію бути дурником — і це мене лікує.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Рідко. Тільки з дітьми або тваринами.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Грати? Я давно дорослий. Це несерйозно.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'благочестя' },
+      { text: 'Грати? Я давно дорослий. Це несерйозно.', depth: 'shadow', barometer: 'flow', delta: -1, shadow: 'благочестя' },
     ],
   },
   { id: 'f9', priority: 3,
@@ -109,7 +109,7 @@ export default [
     options: [
       { text: 'Я знаю їх. Не виконую — але і не виганяю. Бачу.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Десь чую — але одразу виганяю. Соромно.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'У мене таких бажань нема. Я не такий/така.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'благочестя' },
+      { text: 'У мене таких бажань нема. Я не такий/така.', depth: 'shadow', barometer: 'flow', delta: -1, shadow: 'благочестя' },
     ],
   },
   { id: 'f10', priority: 3,
@@ -120,7 +120,7 @@ export default [
     options: [
       { text: 'Я смакую життя. Перший ковток кави — це молитва.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Іноді. Зазвичай їм на автоматі.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Я майже нічого не помічаю. Тіло — для функцій.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'розлитий' },
+      { text: 'Я майже нічого не помічаю. Тіло — для функцій.', depth: 'shadow', barometer: 'flow', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'f11', priority: 3,
@@ -131,7 +131,7 @@ export default [
     options: [
       { text: 'Як до сигналу. Зупиняюсь, дихаю, чекаю — потік повернеться.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Воюю з ним. Іноді перемагаю, іноді ні.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: "Б'ю себе — «не лінуйся, працюй».", depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'насильство' },
+      { text: "Б'ю себе — «не лінуйся, працюй».", depth: 'shadow', barometer: 'flow', delta: -2, shadow: 'насильство' },
     ],
   },
   { id: 'f12', priority: 3,
@@ -142,7 +142,24 @@ export default [
     options: [
       { text: 'Так. Знаю коли в мені діє одна, коли інша. Можу перемикатись.', depth: 'deep', barometer: 'flow', delta: 2 },
       { text: 'Знаю одну краще. Інша — слабше розвинена.', depth: 'mid', barometer: 'flow', delta: 1 },
-      { text: 'Тільки одна. Інша — закрита або висміяна.', depth: 'shadow', barometer: 'flow', delta: 0, shadow: 'застряг' },
+      { text: 'Тільки одна. Інша — закрита або висміяна.', depth: 'shadow', barometer: 'flow', delta: -2, shadow: 'застряг' },
+    ],
+  },
+  // ─── 🐍 Snake (тіньова) — доступна коли flow ≤ -3 ───
+  { id: 'f_snake', priority: 4, kind: 'snake',
+    title: '🐍 Тіньова зустріч', sub: 'та, що замкнула серце',
+    unlock: { resource: 'flow', max: -3 },
+    prologue: 'Емоції давно не дихають. Поле бачить замок — і пропонує ключ.',
+    question: 'Що ти тримаєш стиснутим у грудях — і боїшся відчути?',
+    note: 'Тіньова клітинка. Уникнення тут — подвійна тінь.',
+    bodyHint: 'chest',
+    options: [
+      { text: 'Біль. Я знаю — він там. Готовий побути з ним.',
+        depth: 'deep', barometer: 'flow', delta: 3 },
+      { text: 'Нічого там нема. Я в порядку. Йду далі.',
+        depth: 'shadow', barometer: 'flow', delta: -3, shadow: 'засліплення', snakeBite: true },
+      { text: 'Хто часу на це не має. Емоції — для слабких.',
+        depth: 'shadow', barometer: 'flow', delta: -3, shadow: 'насильство', snakeBite: true },
     ],
   },
 ];

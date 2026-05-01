@@ -141,16 +141,31 @@ export const dailyActions = (set, get, ensure) => ({
     // payload: { scales, dream, morning }
     const s = get();
     const date = todayKey();
-    const entry = { date, ...payload, ts: Date.now() };
+    const entry = { date, kind: 'morning', ...payload, ts: Date.now() };
     set({
       ...ensure(s),
       dailyCheckIns: [...s.dailyCheckIns, entry],
       lastCheckInDate: date,
-      journal: [...s.journal, { text: `Ранковий чек-ін`, tag: 'ритуал', ts: Date.now() }],
+      journal: [...s.journal, { text: `🌅 Ранковий ритуал`, tag: 'ритуал', ts: Date.now() }],
+    });
+  },
+  completeEveningRitual: (evening) => {
+    // evening: { shadow, light, gratitude }
+    const s = get();
+    const date = todayKey();
+    const entry = { date, kind: 'evening', evening, ts: Date.now() };
+    set({
+      ...ensure(s),
+      dailyCheckIns: [...s.dailyCheckIns, entry],
+      lastEveningDate: date,
+      journal: [...s.journal, { text: `🌙 Вечірній ритуал · ${evening.gratitude?.slice(0, 40) || ''}`, tag: 'ритуал', ts: Date.now() }],
     });
   },
   needsDailyCheckIn: () => {
     return get().lastCheckInDate !== todayKey();
+  },
+  needsEveningRitual: () => {
+    return get().lastEveningDate !== todayKey();
   },
 });
 
@@ -170,11 +185,274 @@ export const dilemmaActions = (set, get, ensure) => ({
   },
 });
 
+// ───────────── КОСМОЕНЕРГЕТИКА ─────────────
+
+export const cosmoActions = (set, get, ensure) => ({
+  markCosmoIntroSeen: (cardId) => {
+    const s = get();
+    if (s.cosmoIntroSeen.includes(cardId)) return;
+    set({
+      ...ensure(s),
+      cosmoIntroSeen: [...s.cosmoIntroSeen, cardId],
+    });
+  },
+  submitCosmoApplication: (answers) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      cosmoApplication: {
+        answers,
+        status: 'submitted',
+        ts: Date.now(),
+        reviewedAt: null,
+      },
+      journal: [...s.journal, {
+        text: '🔮 Заявку у космоенергетику подано',
+        tag: 'шлях', ts: Date.now(),
+      }],
+    });
+  },
+  reviewCosmoApplication: (decision) => {
+    // decision: 'approved' | 'rejected' (admin action)
+    const s = get();
+    if (!s.cosmoApplication) return;
+    set({
+      ...ensure(s),
+      cosmoApplication: {
+        ...s.cosmoApplication,
+        status: decision,
+        reviewedAt: Date.now(),
+      },
+      journal: [...s.journal, {
+        text: `🔮 Заявку: ${decision === 'approved' ? 'прийнято' : 'відхилено'}`,
+        tag: 'шлях', ts: Date.now(),
+      }],
+    });
+  },
+  initiateCosmo: () => {
+    const s = get();
+    if (!s.cosmoApplication || s.cosmoApplication.status !== 'approved') return;
+    set({
+      ...ensure(s),
+      cosmoApplication: { ...s.cosmoApplication, status: 'initiated', initiatedAt: Date.now() },
+      journal: [...s.journal, {
+        text: '⚡ Ініціація космоенергетики',
+        tag: 'шлях', ts: Date.now(),
+      }],
+    });
+  },
+  enterChannel: (channelId) => set({ currentChannelId: channelId }),
+  exitChannel: () => set({ currentChannelId: null }),
+  recordChannelAnswer: (channelId, cellId, totalCells, payload) => {
+    const s = get();
+    const key = `${channelId}-${cellId}`;
+    const newResources = { ...s.resources };
+    if (payload.barometer && typeof payload.delta === 'number') {
+      const next = (newResources[payload.barometer] || 0) + payload.delta;
+      newResources[payload.barometer] = Math.max(-10, Math.min(10, next));
+    }
+    const prev = s.channelProgress[channelId] || { answeredIds: [], completed: false, certifiedAt: null };
+    const answeredIds = prev.answeredIds.includes(cellId)
+      ? prev.answeredIds : [...prev.answeredIds, cellId];
+    const completed = answeredIds.length >= totalCells;
+    set({
+      ...ensure(s),
+      resources: newResources,
+      channelAnswers: { ...s.channelAnswers, [key]: { ...payload, ts: Date.now() } },
+      channelProgress: {
+        ...s.channelProgress,
+        [channelId]: {
+          ...prev, answeredIds, completed,
+          certifiedAt: completed && !prev.certifiedAt ? Date.now() : prev.certifiedAt,
+        },
+      },
+      journal: completed && !prev.completed
+        ? [...s.journal, { text: `⚡ Сертифікат каналу: ${channelId}`, tag: 'шлях', ts: Date.now() }]
+        : s.journal,
+    });
+  },
+});
+
+// ───────────── РЕЗОНАНСНІ ДЗЕРКАЛА (соц) ─────────────
+
+export const socialActions = (set, get, ensure) => ({
+  triggerResonance: ({ pseudoPlayer, message, levelN, barometer }) => {
+    const s = get();
+    if (s.currentResonance) return;
+    set({
+      ...ensure(s),
+      currentResonance: { pseudoPlayer, message, levelN, barometer, ts: Date.now() },
+    });
+    get().showModal('resonance', 20);
+  },
+  resolveResonance: (response) => {
+    const s = get();
+    if (!s.currentResonance) return;
+    const r = s.currentResonance;
+    set({
+      ...ensure(s),
+      currentResonance: null,
+      resonanceHistory: [...s.resonanceHistory,
+        { pseudoPlayerId: r.pseudoPlayer.id, message: r.message,
+          response, levelN: r.levelN, ts: Date.now() },
+      ],
+    });
+    get().closeModal();
+  },
+  generateMyPartnershipCode: (code) => {
+    const s = get();
+    const existing = s.partnership;
+    if (existing?.myCode) return;
+    set({
+      ...ensure(s),
+      partnership: {
+        ...(existing || {}),
+        myCode: code,
+        partnerCode: existing?.partnerCode || null,
+        partnerData: existing?.partnerData || null,
+        sharedAnswers: existing?.sharedAnswers || {},
+        createdAt: Date.now(),
+      },
+    });
+  },
+  enterPartnerCode: (code, partnerData) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      partnership: {
+        ...(s.partnership || {}),
+        partnerCode: code,
+        partnerData,
+        sharedAnswers: s.partnership?.sharedAnswers || {},
+        lastSyncAt: Date.now(),
+      },
+      journal: [...s.journal, {
+        text: `👯 Партнерство активоване з ${partnerData.name}`,
+        tag: 'шлях', ts: Date.now(),
+      }],
+    });
+  },
+  recordSharedAnswer: (questionId, myText, partnerText) => {
+    const s = get();
+    if (!s.partnership) return;
+    set({
+      ...ensure(s),
+      partnership: {
+        ...s.partnership,
+        sharedAnswers: {
+          ...s.partnership.sharedAnswers,
+          [questionId]: { mine: myText, partners: partnerText, ts: Date.now() },
+        },
+        lastSyncAt: Date.now(),
+      },
+    });
+  },
+  exitPartnership: () => {
+    set({ partnership: null });
+  },
+  joinCircle: (circleId) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      joinedCircle: { id: circleId, joinedAt: Date.now() },
+      journal: [...s.journal, {
+        text: `🔮 Приєднано до Кола Сили: ${circleId}`,
+        tag: 'шлях', ts: Date.now(),
+      }],
+    });
+  },
+  leaveCircle: () => {
+    set({ joinedCircle: null });
+  },
+});
+
+// ───────────── 9 ПЕЛЮСТОК (post-game) ─────────────
+
+export const petalActions = (set, get, ensure) => ({
+  activatePetals: () => {
+    const s = get();
+    set({
+      ...ensure(s),
+      petalsActive: true,
+      journal: [...s.journal, {
+        text: '✦ Шлях продовжено — 9 пелюсток відкрито',
+        tag: 'шлях', ts: Date.now(),
+      }],
+    });
+  },
+  enterPetal: (petalId) => {
+    set({ currentPetalId: petalId });
+  },
+  exitPetal: () => {
+    set({ currentPetalId: null });
+  },
+  recordPetalAnswer: (petalId, cellId, totalCellsInPetal, payload) => {
+    const s = get();
+    const key = `${petalId}-${cellId}`;
+    const newResources = { ...s.resources };
+    if (payload.barometer && typeof payload.delta === 'number') {
+      const next = (newResources[payload.barometer] || 0) + payload.delta;
+      newResources[payload.barometer] = Math.max(-10, Math.min(10, next));
+    }
+    const prevProgress = s.petalProgress[petalId] || { completed: false, answeredIds: [], ts: null };
+    const answeredIds = prevProgress.answeredIds.includes(cellId)
+      ? prevProgress.answeredIds
+      : [...prevProgress.answeredIds, cellId];
+    const completed = answeredIds.length >= totalCellsInPetal;
+    set({
+      ...ensure(s),
+      resources: newResources,
+      petalAnswers: { ...s.petalAnswers, [key]: { ...payload, ts: Date.now() } },
+      petalProgress: {
+        ...s.petalProgress,
+        [petalId]: { completed, answeredIds, ts: Date.now() },
+      },
+      journal: completed && !prevProgress.completed
+        ? [...s.journal, { text: `✦ Пелюстка ${petalId} завершена`, tag: 'шлях', ts: Date.now() }]
+        : s.journal,
+    });
+  },
+});
+
+// ───────────── ЧЕРГА МОДАЛОК ─────────────
+
+export const modalActions = (set, get, ensure) => ({
+  showModal: (id, priority = 30) => {
+    const s = get();
+    const entry = { id, priority };
+    if (!s.activeModal) {
+      set({ activeModal: entry });
+      return;
+    }
+    // Якщо нова має вищий пріоритет — витісняє поточну (поточна → у чергу)
+    if (priority > s.activeModal.priority) {
+      const next = [...s.modalQueue, s.activeModal].sort((a, b) => b.priority - a.priority);
+      set({ activeModal: entry, modalQueue: next });
+    } else {
+      const next = [...s.modalQueue, entry].sort((a, b) => b.priority - a.priority);
+      set({ modalQueue: next });
+    }
+  },
+  closeModal: () => {
+    const s = get();
+    if (s.modalQueue.length === 0) {
+      set({ activeModal: null });
+    } else {
+      const [next, ...rest] = s.modalQueue;
+      set({ activeModal: next, modalQueue: rest });
+    }
+  },
+});
+
 // ───────────── РЕАКТИВНЕ ТІЛО + UI ─────────────
 
 export const uiActions = (set, get, ensure) => ({
   triggerChakraFlash: (chakraId) => {
     set({ flashChakraId: chakraId, flashCounter: (get().flashCounter || 0) + 1 });
+  },
+  triggerChakraDim: (chakraId) => {
+    // Чакра пригасає на 3 секунди (shadow-вибір на її рівні)
+    set({ dimChakraId: chakraId, dimCounter: (get().dimCounter || 0) + 1 });
   },
   setUiMode: (mode) => set({ uiMode: mode }),
   setThemeMode: (mode) => set({ themeMode: mode }),
@@ -196,6 +474,164 @@ export const mirrorActions = (set, get, ensure) => ({
 // ───────────── АРБІТР І АНТИП ─────────────
 
 export const characterActions = (set, get, ensure) => ({
+  startArchetypeCalibration: (suggestedId) => {
+    const s = get();
+    if (s.archetypeCalibration?.status) return;
+    set({
+      ...ensure(s),
+      archetypeCalibration: { status: 'pending', suggested: suggestedId, confirmed: null, ts: null },
+    });
+    get().showModal('archetype-calibration', 35);
+  },
+  confirmArchetype: (archetypeId) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      archetypeCalibration: {
+        status: 'confirmed',
+        suggested: s.archetypeCalibration?.suggested || null,
+        confirmed: archetypeId,
+        ts: Date.now(),
+      },
+      journal: [...s.journal, {
+        text: `Калібровка: я — ${archetypeId}`,
+        tag: 'архетип', ts: Date.now(),
+      }],
+    });
+    get().closeModal();
+  },
+  skipArchetypeCalibration: () => {
+    const s = get();
+    set({
+      ...ensure(s),
+      archetypeCalibration: {
+        ...(s.archetypeCalibration || {}),
+        status: 'skipped',
+        ts: Date.now(),
+      },
+    });
+    get().closeModal();
+  },
+  startArchetypeTransformation: ({ fromId, toId, eligibleLevel }) => {
+    const s = get();
+    if (s.currentArchetypeTransformation) return;
+    set({
+      ...ensure(s),
+      currentArchetypeTransformation: { fromId, toId, eligibleLevel, ts: Date.now() },
+    });
+    get().showModal('archetype-transform', 60);
+  },
+  acceptArchetypeTransformation: () => {
+    const s = get();
+    const t = s.currentArchetypeTransformation;
+    if (!t) return;
+    set({
+      ...ensure(s),
+      archetypeCalibration: {
+        ...(s.archetypeCalibration || {}),
+        confirmed: t.toId,
+        ts: Date.now(),
+      },
+      currentArchetypeTransformation: null,
+      archetypeTransformations: [...s.archetypeTransformations,
+        { from: t.fromId, to: t.toId, eligibleLevel: t.eligibleLevel, response: 'accepted', ts: Date.now() },
+      ],
+      journal: [...s.journal, {
+        text: `✦ Трансформація архетипу: ${t.fromId} → ${t.toId}`,
+        tag: 'архетип', ts: Date.now(),
+      }],
+    });
+    get().closeModal();
+  },
+  openSpecializationChoice: () => {
+    const s = get();
+    if (s.specialization) return;
+    set({ ...ensure(s), specializationOpen: true });
+    get().showModal('specialization', 40);
+  },
+  setSpecialization: (id) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      specialization: { id, ts: Date.now() },
+      specializationOpen: false,
+      journal: [...s.journal, {
+        text: `✦ Спеціалізація обрана: ${id}`,
+        tag: 'архетип', ts: Date.now(),
+      }],
+    });
+    get().closeModal();
+  },
+  closeSpecializationChoice: () => {
+    set({ specializationOpen: false });
+    get().closeModal();
+  },
+  rejectArchetypeTransformation: () => {
+    const s = get();
+    const t = s.currentArchetypeTransformation;
+    if (!t) return;
+    set({
+      ...ensure(s),
+      currentArchetypeTransformation: null,
+      archetypeTransformations: [...s.archetypeTransformations,
+        { from: t.fromId, to: t.toId, eligibleLevel: t.eligibleLevel, response: 'rejected', ts: Date.now() },
+      ],
+    });
+    get().closeModal();
+  },
+  triggerShadowMirror: (payload) => {
+    // payload: {category, label, keyword, reflection, helpline, cellId, customText}
+    const s = get();
+    set({
+      ...ensure(s),
+      currentShadowMirror: { ...payload, ts: Date.now() },
+    });
+    get().showModal('shadow-mirror', payload.helpline ? 95 : 50);
+  },
+  acknowledgeCrisis: () => {
+    const s = get();
+    set({
+      ...ensure(s),
+      crisisAcknowledgedTs: Date.now(),
+      journal: [...s.journal, {
+        text: '⚡ Криза Системи · усвідомлено',
+        tag: 'тінь', ts: Date.now(),
+      }],
+    });
+    get().closeModal();
+  },
+  resolveTurningPoint: ({ choice, barometer }) => {
+    const s = get();
+    const newResources = { ...s.resources };
+    newResources[barometer] = Math.max(-10, Math.min(10, (newResources[barometer] || 0) + 2));
+    set({
+      ...ensure(s),
+      resources: newResources,
+      turningPointShown: true,
+      turningPointResponse: { choice, barometer, ts: Date.now() },
+      journal: [...s.journal, {
+        text: `⚡ Точка Перевороту: ${choice.slice(0, 50)}…`,
+        tag: 'тінь', ts: Date.now(),
+      }],
+    });
+    get().closeModal();
+  },
+  resolveShadowMirror: (response) => {
+    // response: 'seen' | 'not_mine'
+    const s = get();
+    if (!s.currentShadowMirror) return;
+    const entry = { ...s.currentShadowMirror, response, resolvedAt: Date.now() };
+    set({
+      ...ensure(s),
+      currentShadowMirror: null,
+      shadowMirrorHistory: [...s.shadowMirrorHistory, entry],
+      journal: [...s.journal, {
+        text: `🪞 Дзеркало Тіні (${entry.label}): ${response === 'seen' ? 'побачив' : 'не моє'} — «${entry.keyword}»`,
+        tag: 'тінь-дзеркало', ts: Date.now(),
+      }],
+    });
+    get().closeModal();
+  },
   recordArbiterAppearance: (lineId) => {
     const s = get();
     if (s.arbiterAppearances.some((a) => a.id === lineId)) return;
@@ -266,6 +702,23 @@ export const fieldActions = (set, get, ensure) => ({
       journal: [...s.journal, {
         text: `Виміряно ${bodyId}: ${score}/100`,
         tag: 'поле',
+        ts: Date.now(),
+      }],
+    });
+  },
+  recordAuraReading: ({ cellId, levelN, before, after, keyword }) => {
+    const s = get();
+    const delta = (after || 0) - (before || 0);
+    const sign = delta > 0 ? '+' : '';
+    set({
+      ...ensure(s),
+      auraReadings: [
+        ...s.auraReadings,
+        { cellId, levelN, before, after, delta, keyword, ts: Date.now() },
+      ],
+      journal: [...s.journal, {
+        text: `Аура: ${before}→${after}см (${sign}${delta}). Ключ: «${keyword}»`,
+        tag: 'аура',
         ts: Date.now(),
       }],
     });

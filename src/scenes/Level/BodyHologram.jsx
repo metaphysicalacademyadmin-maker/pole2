@@ -23,9 +23,11 @@ function shouldGlowHands(state) {
 // Все клікабельне → показує ChakraInfoModal.
 export default function BodyHologram() {
   const state = useGameStore();
-  const { completedLevels, currentLevel, resources, flashChakraId, flashCounter } = state;
+  const { completedLevels, currentLevel, resources,
+          flashChakraId, flashCounter, dimChakraId, dimCounter } = state;
   const [openChakra, setOpenChakra] = useState(null);
   const [flashingId, setFlashingId] = useState(null);
+  const [dimmingId, setDimmingId] = useState(null);
   const glowHands = shouldGlowHands(state);
 
   // Слухаємо flashCounter — коли інкрементиться, тригернути спалах
@@ -35,6 +37,14 @@ export default function BodyHologram() {
     const t = setTimeout(() => setFlashingId(null), 1500);
     return () => clearTimeout(t);
   }, [flashCounter, flashChakraId]);
+
+  // Слухаємо dimCounter — пригасання на 3 секунди (shadow-вибір)
+  useEffect(() => {
+    if (!dimChakraId) return;
+    setDimmingId(dimChakraId);
+    const t = setTimeout(() => setDimmingId(null), 3000);
+    return () => clearTimeout(t);
+  }, [dimCounter, dimChakraId]);
 
   return (
     <>
@@ -80,11 +90,13 @@ export default function BodyHologram() {
             const active = completedLevels.includes(ch.levelN);
             const current = currentLevel === ch.levelN;
             const resourceLevel = resources[ch.barometers[0]] || 0;
+            // Постійний dim — якщо барометр у мінусі, чакра тьмяна
+            const shadowed = resourceLevel < 0;
             const intensity = active
               ? 1
               : current
                 ? 0.85
-                : Math.min(0.55, resourceLevel / 18);
+                : Math.min(0.55, Math.max(0, resourceLevel) / 18);
             const cy = TOP_Y + ((BOTTOM_Y - TOP_Y) * ch.yPercent) / 100;
             return (
               <ChakraSphere key={ch.id}
@@ -95,6 +107,8 @@ export default function BodyHologram() {
                 current={current}
                 intensity={intensity}
                 flashing={flashingId === ch.id}
+                dimming={dimmingId === ch.id}
+                shadowed={shadowed}
                 onClick={() => setOpenChakra(ch.id)} />
             );
           })}

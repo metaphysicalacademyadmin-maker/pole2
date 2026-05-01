@@ -1,10 +1,11 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
-import { FIGURE_TYPES, REQUIRED_FIGURES, OPTIONAL_FIGURES, INITIAL_POSITIONS } from '../../data/constellation/figures.js';
+import { INITIAL_POSITIONS } from '../../data/constellation/figures.js';
 import { readField } from '../../data/constellation/readings.js';
 import { buildResolution } from '../../data/constellation/resolutions.js';
 import { showToast } from '../../components/GlobalToast.jsx';
 import Field from './Field.jsx';
+import Toolbar from './Toolbar.jsx';
 import './styles.css';
 
 const LEVEL = 3;
@@ -111,33 +112,6 @@ export default function Constellation() {
         )}
       </div>
     </main>
-  );
-}
-
-function Toolbar({ placedTypes, onAdd, onRemove, figures }) {
-  const all = [...REQUIRED_FIGURES, ...OPTIONAL_FIGURES];
-  return (
-    <div className="const-toolbar">
-      {all.map((type) => {
-        const def = FIGURE_TYPES[type];
-        const placed = placedTypes.has(type);
-        const figure = figures.find((f) => f.type === type);
-        return (
-          <button
-            key={type}
-            type="button"
-            className={`const-fig-btn${placed ? ' placed' : ''}`}
-            onClick={() => placed && figure ? onRemove(figure.id) : onAdd(type)}
-            style={{ borderColor: def.color, color: def.color }}
-            title={def.description}
-          >
-            <span style={{ fontSize: '16px' }}>{def.symbol}</span>
-            <span>{def.name}</span>
-            <span style={{ opacity: 0.5, fontSize: '11px' }}>{placed ? '×' : '+'}</span>
-          </button>
-        );
-      })}
-    </div>
   );
 }
 

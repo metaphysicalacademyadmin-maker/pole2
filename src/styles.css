@@ -35,11 +35,16 @@
   --border-mid: rgba(232, 196, 118, 0.32);
   --border-strong: rgba(232, 196, 118, 0.55);
 
-  /* Шари */
+  /* Шари (нижче → вище) */
   --z-bg: 0;
   --z-content: 10;
-  --z-modal: 100;
-  --z-toast: 200;
+  --z-character: 200;          /* Кай, Антип, Арбітр, Mirror, Коан */
+  --z-modal-low: 1000;          /* ResonanceMirror, ArchetypeCalibrator */
+  --z-modal-mid: 1100;          /* SpecializationChoice, ShadowMirror, Cosmo, Partnership */
+  --z-modal-high: 1200;         /* SoulBook, Admin */
+  --z-modal-block: 5000;        /* CrisisModal — блокуюча */
+  --z-onboarding: 9000;         /* Welcome — ритуал входу, поверх усіх модалок */
+  --z-toast: 9999;              /* Toast — поверх усього */
 
   /* Шрифт-стеки. Cormorant Garamond Cyrillic у normal weight рендериться
      невидимо у деяких комбінаціях DPI/viewport — Georgia є надійним

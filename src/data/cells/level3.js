@@ -9,7 +9,7 @@ export default [
     options: [
       { text: 'Так. Моє «ні» — не пояснюється. Тиша після — це теж відповідь.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Можу — але потім виправдовуюсь.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Я майже не кажу «ні». Боюсь розчарувати.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'застряг' },
+      { text: 'Я майже не кажу «ні». Боюсь розчарувати.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'w2', priority: 1,
@@ -20,7 +20,7 @@ export default [
     options: [
       { text: 'Так. Не як ідеал — а як даність. Вони дали мені життя — цього достатньо.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Розумом — приймаю. Тілом — все ще боляче.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Я тримаю на них образу. Вони мали бути іншими.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'гординя' },
+      { text: 'Я тримаю на них образу. Вони мали бути іншими.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'гординя' },
     ],
   },
   { id: 'w3', priority: 1,
@@ -31,7 +31,7 @@ export default [
     options: [
       { text: 'Те, що обрав сам. Можу пояснити чому це моє.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Частково моє, частково — спадщина від батьків чи суспільства.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Я давно не питав себе — моє це чи ні. Просто роблю.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'застряг' },
+      { text: 'Я давно не питав себе — моє це чи ні. Просто роблю.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'w4', priority: 1,
@@ -42,7 +42,7 @@ export default [
     options: [
       { text: 'Так. Я не зрадник, якщо обираю себе.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Інколи. Але часто гублюсь у тому, що думають інші.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Я підлаштовуюсь. Не люблю конфліктів. Свого «я» майже не чути.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'розлитий' },
+      { text: 'Я підлаштовуюсь. Не люблю конфліктів. Свого «я» майже не чути.', depth: 'shadow', barometer: 'will', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'w5', priority: 2,
@@ -53,7 +53,7 @@ export default [
     options: [
       { text: 'Так. Мій гнів — це частина моєї цілості. Я можу казати: «Так не можна».', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Іноді. Найчастіше пригнічую — і потім вибухаю.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Я боюсь свого гніву. Думаю, він — це я найгірший/а.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'насильство' },
+      { text: 'Я боюсь свого гніву. Думаю, він — це я найгірший/а.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'насильство' },
     ],
   },
   { id: 'w6', priority: 2,
@@ -64,7 +64,7 @@ export default [
     options: [
       { text: 'Так. Знаю чий це страх, чия це скованість. Можу повернути власнику.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Підозрюю. Але не завжди розрізняю де моє, де чуже.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Усе своє. Нічого від інших я не несу.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'благочестя' },
+      { text: 'Усе своє. Нічого від інших я не несу.', depth: 'shadow', barometer: 'will', delta: -1, shadow: 'благочестя' },
     ],
   },
   { id: 'w7', priority: 3, kind: 'meeting',
@@ -85,7 +85,7 @@ export default [
         hint: 'недозалічена', depth: 'mid', barometer: 'will', delta: 1 },
       { facet: 'Г · стіна', facetColor: '#e8b0b8',
         text: 'Не можу його уявити. Або є — але у плечах все стискається. Не йду туди.',
-        hint: 'тінь', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'гординя' },
+        hint: 'тінь', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'гординя' },
     ],
   },
   { id: 'w8', priority: 3, kind: 'meeting',
@@ -106,7 +106,7 @@ export default [
         hint: 'умовна', depth: 'mid', barometer: 'will', delta: 1 },
       { facet: 'Г · холод', facetColor: '#e8b0b8',
         text: 'Очі холодні або закриті. Або я не дозволяю собі дивитись довго — біль.',
-        hint: 'тінь', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'застряг' },
+        hint: 'тінь', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'w9', priority: 3,
@@ -117,7 +117,7 @@ export default [
     options: [
       { text: 'Так. Я визнаю їх. У всіх вас є місце в моєму серці.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Знаю про когось. Не до кінця прийняв їх.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'У нашому роді таких нема. Або я не знаю.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'благочестя' },
+      { text: 'У нашому роді таких нема. Або я не знаю.', depth: 'shadow', barometer: 'will', delta: -1, shadow: 'благочестя' },
     ],
   },
   { id: 'w10', priority: 3,
@@ -128,7 +128,7 @@ export default [
     options: [
       { text: 'Полегшення. Я готовий жити СВОЄ життя — і це правда.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Тривога. Я ще не повірив в це до кінця.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Опір. Я думаю, що зрадник якщо живу своє.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'застряг' },
+      { text: 'Опір. Я думаю, що зрадник якщо живу своє.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'w11', priority: 3,
@@ -139,7 +139,7 @@ export default [
     options: [
       { text: 'Так. Я знаю його. Несу. Це моя радість і відповідальність.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Здогадуюсь — але не до кінця знаю як його жити.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'У моєму роді не було ніяких дарів. Тільки втрати.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'застряг' },
+      { text: 'У моєму роді не було ніяких дарів. Тільки втрати.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'w12', priority: 3,
@@ -150,7 +150,24 @@ export default [
     options: [
       { text: 'Так. Я кличу їх. Нехай прийдуть — я вистою.', depth: 'deep', barometer: 'will', delta: 2 },
       { text: 'Боюсь, але йду. Це і є дорослість.', depth: 'mid', barometer: 'will', delta: 1 },
-      { text: 'Не сьогодні. Я ще не готовий.', depth: 'shadow', barometer: 'will', delta: 0, shadow: 'розлитий' },
+      { text: 'Не сьогодні. Я ще не готовий.', depth: 'shadow', barometer: 'will', delta: -1, shadow: 'розлитий' },
+    ],
+  },
+  // ─── 🐍 Snake (тіньова) — доступна коли will ≤ -3 ───
+  { id: 'w_snake', priority: 4, kind: 'snake',
+    title: '🐍 Тіньова зустріч', sub: 'той, кому я зрадив свою волю',
+    unlock: { resource: 'will', max: -3 },
+    prologue: 'Воля давно не твоя. Хтось у тобі живе чужим бажанням.',
+    question: 'Чию волю ти носиш як свою?',
+    note: 'Тіньова клітинка. Знайти і назвати — найважче. Брехня тут — подвійне падіння.',
+    bodyHint: 'belly',
+    options: [
+      { text: 'Мами. Бачу це. Можу почати повертати свою.',
+        depth: 'deep', barometer: 'will', delta: 3 },
+      { text: 'Тата. Я знаю — і це біль. Але це правда.',
+        depth: 'deep', barometer: 'will', delta: 3 },
+      { text: 'Нічию. Я живу своє.',
+        depth: 'shadow', barometer: 'will', delta: -3, shadow: 'благочестя', snakeBite: true },
     ],
   },
 ];

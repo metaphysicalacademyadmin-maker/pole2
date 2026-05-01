@@ -1,0 +1,203 @@
+/* Книга Душі — preview + print-friendly. */
+
+.soulbook-overlay {
+  position: fixed; inset: 0; z-index: 1200;
+  background: rgba(8, 4, 14, 0.97);
+  overflow-y: auto;
+  padding: 0;
+}
+.soulbook-toolbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 24px;
+  background: rgba(8, 4, 14, 0.95);
+  border-bottom: 1px solid rgba(240, 197, 116, 0.3);
+  backdrop-filter: blur(8px);
+}
+.sb-toolbar-title {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px; font-weight: 600; color: #f0c574; letter-spacing: 1px;
+}
+.sb-btn-close, .sb-btn-print {
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent; color: #c0b6a8;
+  padding: 8px 16px; border-radius: 8px;
+  font-family: inherit; font-size: 13px; cursor: pointer;
+  transition: all 0.2s;
+}
+.sb-btn-close:hover { color: #fff7e0; border-color: rgba(255,255,255,0.4); }
+.sb-btn-print {
+  background: linear-gradient(135deg, #f0c574, #e8a85a);
+  color: #1a0f0a; font-weight: 600; border: none;
+}
+.sb-btn-print:hover { filter: brightness(1.1); }
+
+.soulbook-page {
+  max-width: 720px;
+  margin: 32px auto;
+  padding: 60px 56px;
+  background: #fdf8ec;
+  color: #1a0f0a;
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.7;
+  box-shadow: 0 0 80px rgba(0,0,0,0.4);
+  border-radius: 4px;
+}
+
+.sb-section {
+  margin-bottom: 48px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(40, 24, 16, 0.12);
+}
+.sb-section:last-child { border-bottom: none; }
+
+.sb-cover { text-align: center; padding-top: 60px; padding-bottom: 80px; border-bottom-color: #c89849; border-bottom-width: 2px; }
+.sb-cover-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; letter-spacing: 5px; color: #c89849;
+  text-transform: uppercase; font-weight: 700;
+}
+.sb-cover-title {
+  font-size: 56px; font-weight: 400; color: #1a0f0a;
+  margin: 18px 0 12px; letter-spacing: 1px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.sb-cover-sub { font-style: italic; color: #5a4a3a; font-size: 16px; margin-bottom: 40px; }
+.sb-cover-intention {
+  margin: 40px auto; max-width: 480px;
+  padding: 24px;
+  border-left: 3px solid #c89849; border-right: 3px solid #c89849;
+  font-style: italic; font-size: 18px; color: #2a1f14;
+}
+.sb-cover-date {
+  margin-top: 30px; font-size: 13px; color: #7a6a5a;
+  letter-spacing: 1px;
+}
+.sb-cover-session { margin-top: 8px; font-size: 11px; color: #968a7c; font-family: monospace; }
+
+.sb-h2 {
+  font-size: 26px; font-weight: 400; color: #1a0f0a;
+  margin: 0 0 8px; letter-spacing: 0.5px;
+}
+.sb-subhead { font-style: italic; color: #5a4a3a; font-size: 14px; margin-bottom: 22px; }
+.sb-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 3px; color: #c89849;
+  text-transform: uppercase; font-weight: 700; margin-bottom: 6px;
+}
+
+.sb-stats-grid, .sb-shadow-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 14px; margin: 18px 0;
+}
+.sb-stat { text-align: center; padding: 14px 8px; border: 1px solid rgba(200,152,73,0.3); border-radius: 6px; }
+.sb-stat-num { font-size: 26px; font-weight: 600; color: #c89849; }
+.sb-stat-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 9px; letter-spacing: 2px; color: #7a6a5a;
+  text-transform: uppercase; margin-top: 4px;
+}
+.sb-pathmode { margin-top: 14px; font-size: 14px; }
+.sb-echo {
+  margin-top: 20px; padding: 14px 18px;
+  background: rgba(200, 152, 73, 0.08);
+  border-left: 3px solid #c89849; border-radius: 4px;
+  font-style: italic; font-size: 14px;
+}
+
+.sb-keys { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+.sb-key {
+  display: flex; gap: 18px; align-items: baseline;
+  padding: 12px 16px; background: rgba(200, 152, 73, 0.06);
+  border-radius: 4px; border-left: 2px solid #c89849;
+}
+.sb-key-num {
+  font-size: 24px; color: #c89849; font-weight: 700;
+  min-width: 30px;
+}
+.sb-key-text { font-size: 18px; font-style: italic; color: #2a1f14; line-height: 1.5; }
+
+.sb-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.sb-table tr { border-bottom: 1px solid rgba(40, 24, 16, 0.1); }
+.sb-table td { padding: 10px 8px; font-size: 14px; }
+.sb-bar-name { color: #1a0f0a; font-weight: 500; }
+.sb-bar-val { font-family: monospace; font-size: 16px; color: #5a4a3a; text-align: center; min-width: 60px; }
+.sb-bar-tier { color: #7a6a5a; font-size: 12px; text-align: right; font-style: italic; }
+.sb-row-shadow .sb-bar-val { color: #b87080; }
+.sb-row-strong .sb-bar-val { color: #c89849; font-weight: 700; }
+
+.sb-archetype { text-align: center; margin: 18px 0; }
+.sb-archetype-symbol { font-size: 64px; line-height: 1; }
+.sb-archetype-name { font-size: 28px; margin: 8px 0; letter-spacing: 1px; }
+.sb-archetype-desc { font-style: italic; color: #5a4a3a; max-width: 440px; margin: 0 auto; font-size: 15px; }
+.sb-archetype-meta {
+  margin-top: 22px; padding: 12px 18px;
+  background: rgba(150, 100, 150, 0.08);
+  border-left: 2px solid #966496; border-radius: 4px;
+  font-size: 13px; color: #4a3a4a; font-style: italic;
+}
+.sb-archetype-skipped { color: #7a6a5a; font-style: italic; text-align: center; }
+
+.sb-shadow-cats { margin-top: 20px; }
+.sb-shadow-tag {
+  display: inline-block; margin: 4px 6px 4px 0;
+  padding: 4px 10px; background: rgba(180, 120, 140, 0.15);
+  border: 1px solid rgba(180, 120, 140, 0.4); border-radius: 12px;
+  font-size: 12px; color: #5a3040;
+}
+
+.sb-aura-numbers {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px; margin-top: 14px;
+}
+.sb-aura-num { padding: 10px 14px; background: rgba(200, 152, 73, 0.08); border-radius: 4px; font-size: 13px; }
+.sb-aura-keywords { margin-top: 22px; }
+.sb-aura-keyword {
+  display: inline-block; margin: 4px 6px 4px 0;
+  padding: 3px 9px; background: rgba(200, 152, 73, 0.1);
+  border-radius: 12px; font-size: 12px; color: #5a4a3a; font-style: italic;
+}
+
+.sb-quote {
+  margin: 14px 0; padding: 16px 22px;
+  border-left: 3px solid #c89849;
+  background: rgba(200, 152, 73, 0.05);
+  font-style: italic; font-size: 15px;
+  color: #2a1f14; line-height: 1.65;
+}
+.sb-quote-meta {
+  margin-top: 10px; font-size: 11px;
+  color: #968a7c; letter-spacing: 2px; text-transform: uppercase;
+  font-style: normal;
+}
+
+.sb-closing { text-align: center; padding: 60px 0 20px; border-bottom: none; }
+.sb-closing-quote {
+  font-size: 22px; font-style: italic; color: #1a0f0a;
+  line-height: 1.7; margin-bottom: 22px;
+}
+.sb-closing-attr {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; letter-spacing: 4px; color: #c89849;
+  text-transform: uppercase;
+}
+
+/* ─── PRINT ─── */
+@media print {
+  .no-print { display: none !important; }
+  .soulbook-overlay {
+    position: static; background: white; overflow: visible;
+  }
+  .soulbook-page {
+    box-shadow: none; margin: 0; padding: 24px 18px;
+    max-width: none; border-radius: 0;
+    background: white;
+  }
+  .sb-section { page-break-inside: avoid; margin-bottom: 28px; padding-bottom: 18px; }
+  .sb-cover { page-break-after: always; }
+  .sb-h2 { page-break-after: avoid; }
+  body { background: white; }
+  /* На принт — лише страница, без iframe-обгортки */
+  body > #root > * { display: none !important; }
+  body > #root > .soulbook-overlay { display: block !important; }
+}

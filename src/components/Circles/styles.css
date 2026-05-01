@@ -1,0 +1,86 @@
+.circles-block {
+  background: rgba(20, 14, 30, 0.55);
+  border: 1px solid rgba(159, 200, 232, 0.25);
+  border-radius: 14px;
+  padding: 22px 22px 18px;
+  margin: 24px 0;
+}
+.circles-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; letter-spacing: 4px; color: #9fc8e8;
+  text-transform: uppercase; font-weight: 700;
+  text-align: center;
+}
+.circles-subtitle {
+  font-size: 13px; color: #c0b6a8; line-height: 1.6;
+  text-align: center; margin: 8px auto 18px;
+  max-width: 460px; font-style: italic;
+}
+
+.circles-joined-banner {
+  text-align: center; padding: 10px 14px;
+  background: rgba(159, 200, 232, 0.1);
+  border: 1px solid rgba(159, 200, 232, 0.4);
+  border-radius: 10px; margin-bottom: 14px;
+  font-size: 13px; color: #fff7e0;
+}
+.circles-joined-banner strong { color: #9fc8e8; }
+.circles-leave {
+  margin-left: 12px; background: transparent;
+  border: 1px solid rgba(255,255,255,0.2); color: #968a7c;
+  padding: 4px 12px; border-radius: 6px; font-size: 11px;
+  cursor: pointer; font-family: inherit;
+}
+.circles-leave:hover { color: #d89098; }
+
+.circles-list {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.circle-card {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 14px 14px 12px;
+  transition: all 0.25s;
+}
+.circle-card.recommended {
+  border-color: rgba(159, 200, 232, 0.5);
+  background: rgba(159, 200, 232, 0.06);
+}
+.circle-card.joined {
+  border-color: rgba(168, 200, 152, 0.6);
+  background: rgba(168, 200, 152, 0.08);
+}
+.circle-rec-badge {
+  position: absolute; top: -8px; right: 10px;
+  background: linear-gradient(135deg, #9fc8e8, #6a8fa8);
+  color: #1a0f0a; font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; padding: 3px 8px;
+  border-radius: 999px; text-transform: uppercase;
+}
+.circle-name {
+  font-size: 14px; font-weight: 600; color: #fff7e0;
+  margin-bottom: 4px; letter-spacing: 0.3px;
+}
+.circle-intention {
+  font-size: 12px; color: #f0c574; font-style: italic;
+  margin-bottom: 6px;
+}
+.circle-desc {
+  font-size: 11px; color: #968a7c; line-height: 1.5;
+  margin-bottom: 10px;
+}
+.circle-join {
+  background: rgba(159, 200, 232, 0.15);
+  border: 1px solid rgba(159, 200, 232, 0.4);
+  color: #9fc8e8; padding: 5px 12px; border-radius: 8px;
+  font-size: 11px; cursor: pointer; font-family: inherit;
+  transition: all 0.2s;
+}
+.circle-join:hover { background: rgba(159, 200, 232, 0.25); color: #fff7e0; }
+.circle-in {
+  font-size: 11px; color: #a8c898; font-weight: 600;
+  letter-spacing: 1px;
+}

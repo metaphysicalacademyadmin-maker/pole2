@@ -9,7 +9,7 @@ export default [
     options: [
       { text: 'Так. Я можу любити навіть на самоті — це моя власна температура.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Любов є коли є кого любити. Без обʼєкта — порожньо.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: "Я не знаю що таке любов. Тільки прив'язаність і обовʼязок.", depth: 'shadow', barometer: 'love', delta: 0, shadow: 'холодний розум' },
+      { text: "Я не знаю що таке любов. Тільки прив'язаність і обовʼязок.", depth: 'shadow', barometer: 'love', delta: -1, shadow: 'холодний розум' },
     ],
   },
   { id: 'h2', priority: 1,
@@ -20,7 +20,7 @@ export default [
     options: [
       { text: 'Так. Любов не вимагає мене знищити. Я тримаюсь у собі.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Намагаюсь. Іноді розчиняюсь у іншому.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: 'У мене зразок: любити — означає віддати все.', depth: 'shadow', barometer: 'love', delta: 0, shadow: 'розлитий' },
+      { text: 'У мене зразок: любити — означає віддати все.', depth: 'shadow', barometer: 'love', delta: -1, shadow: 'розлитий' },
     ],
   },
   { id: 'h3', priority: 1,
@@ -31,7 +31,7 @@ export default [
     options: [
       { text: 'Так. Я несу цю біль довше ніж потрібно. Час відпустити.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Розумом — так. Тілом — ще ні.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: 'Я не пробачу. І не маю.', depth: 'shadow', barometer: 'love', delta: 0, shadow: 'холодний розум' },
+      { text: 'Я не пробачу. І не маю.', depth: 'shadow', barometer: 'love', delta: -1, shadow: 'холодний розум' },
     ],
   },
   { id: 'h4', priority: 1, kind: 'experiment',
@@ -44,7 +44,7 @@ export default [
     options: [
       { text: 'Тепло, спокій, ніби вдома. Я можу так сам із собою.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Зніяковіло — наче «зайве» так робити з собою.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: 'Хотілось забрати руки. Зустріч з собою — не моя сильна сторона.', depth: 'shadow', barometer: 'love', delta: 0, shadow: 'насильство' },
+      { text: 'Хотілось забрати руки. Зустріч з собою — не моя сильна сторона.', depth: 'shadow', barometer: 'love', delta: -2, shadow: 'насильство' },
     ],
   },
   { id: 'h5', priority: 2,
@@ -55,7 +55,7 @@ export default [
     options: [
       { text: 'Так. Я знаю свій сум. Він приходить — і йде. Я не тікаю.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Стримаюсь, щоб «не розкисати». Іноді прориває.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: 'Я не дозволяю собі сумувати. «Сильні люди не плачуть».', depth: 'shadow', barometer: 'love', delta: 0, shadow: 'холодний розум' },
+      { text: 'Я не дозволяю собі сумувати. «Сильні люди не плачуть».', depth: 'shadow', barometer: 'love', delta: -1, shadow: 'холодний розум' },
     ],
   },
   { id: 'h6', priority: 2,
@@ -66,7 +66,7 @@ export default [
     options: [
       { text: 'Так. Серце буде болите — і це його робота. Воно живе.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Хочу — але побудував багато стін.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: 'Ні. Я закрився. Краще не любити, ніж знов так боліти.', depth: 'shadow', barometer: 'love', delta: 0, shadow: 'холодний розум' },
+      { text: 'Ні. Я закрився. Краще не любити, ніж знов так боліти.', depth: 'shadow', barometer: 'love', delta: -1, shadow: 'холодний розум' },
     ],
   },
   { id: 'h7', priority: 3,
@@ -77,7 +77,7 @@ export default [
     options: [
       { text: 'Так. Він теж страждав. Це не виправдання — це факт.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Намагаюсь. Розумом — бачу, тілом — закрите.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: 'Ні. Він — монстр. Інше — від лукавого.', depth: 'shadow', barometer: 'love', delta: 0, shadow: 'холодний розум' },
+      { text: 'Ні. Він — монстр. Інше — від лукавого.', depth: 'shadow', barometer: 'love', delta: -1, shadow: 'холодний розум' },
     ],
   },
   { id: 'h8', priority: 3,
@@ -88,7 +88,24 @@ export default [
     options: [
       { text: 'Так. Я обираю любов щоранку — словом, дотиком, увагою.', depth: 'deep', barometer: 'love', delta: 2 },
       { text: 'Іноді. Залежить від настрою.', depth: 'mid', barometer: 'love', delta: 1 },
-      { text: 'Любов — це почуття. Воно або є, або нема. Не моя справа.', depth: 'shadow', barometer: 'love', delta: 0, shadow: 'холодний розум' },
+      { text: 'Любов — це почуття. Воно або є, або нема. Не моя справа.', depth: 'shadow', barometer: 'love', delta: -1, shadow: 'холодний розум' },
+    ],
+  },
+  // ─── ✦ Awakening (інсайт) — доступна коли love ≥ +5 ───
+  { id: 'l_awakening', priority: 5, kind: 'awakening',
+    title: '✦ Спалах · інсайт серця', sub: 'для тих, хто вже відкрив',
+    unlock: { resource: 'love', min: 5 },
+    prologue: 'Поле бачить — твоє серце відкрите. Ось питання тільки для тих, хто туди дійшов.',
+    question: 'Кого ти любиш так глибоко, що готовий відпустити його у його власне життя — навіть без тебе?',
+    note: 'Інсайт-клітинка. Тут немає тіньового варіанту — тільки рівні дозрівання.',
+    bodyHint: 'heart',
+    options: [
+      { text: 'Знаю одного. Можу назвати ім\'я. І це мій найбільший подарунок.',
+        depth: 'deep', barometer: 'love', delta: 3 },
+      { text: 'Так, у мить дозрівання — знаю про що ти. Але не завжди в цьому стою.',
+        depth: 'deep', barometer: 'love', delta: 2 },
+      { text: 'Ще ні. Любов і власність у мені досі переплетені.',
+        depth: 'mid', barometer: 'love', delta: 1 },
     ],
   },
 ];

@@ -12,7 +12,7 @@ export default [
     options: [
       { text: 'Я був. Без імен, без ролей. Просто є — і це достатньо.', depth: 'deep', barometer: 'light', delta: 2 },
       { text: "На мить упіймав. Потім знову з'являлись думки.", depth: 'mid', barometer: 'light', delta: 1 },
-      { text: 'Не зрозумів — або голова не давала тиші. Я в думках про себе постійно.', depth: 'shadow', barometer: 'light', delta: 0, shadow: 'засліплення' },
+      { text: 'Не зрозумів — або голова не давала тиші. Я в думках про себе постійно.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 'src2', priority: 1, kind: 'meeting',
@@ -36,7 +36,7 @@ export default [
         hint: 'безіменне', depth: 'deep', barometer: 'light', delta: 2 },
       { facet: 'Д · сам', facetColor: '#e8b0b8',
         text: 'Я сам. Більше за мене нічого нема. Це чесно.',
-        hint: 'тінь або правда', depth: 'shadow', barometer: 'light', delta: 0, shadow: 'засліплення' },
+        hint: 'тінь або правда', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 'src3', priority: 1,
@@ -47,7 +47,7 @@ export default [
     options: [
       { text: 'Так. Коли роблю своє — здаюся. Решту — поле допильнує.', depth: 'deep', barometer: 'light', delta: 2 },
       { text: 'Намагаюсь. Найчастіше — тримаю кермо.', depth: 'mid', barometer: 'light', delta: 1 },
-      { text: 'Контролювати все — мій спосіб не зломатись.', depth: 'shadow', barometer: 'light', delta: 0, shadow: 'гординя' },
+      { text: 'Контролювати все — мій спосіб не зломатись.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'гординя' },
     ],
   },
   { id: 'src4', priority: 1,
@@ -58,7 +58,7 @@ export default [
     options: [
       { text: 'Так. Я часто прокидаюсь і просто — дякую. Не за щось, а за все.', depth: 'deep', barometer: 'gratitude', delta: 2 },
       { text: 'Дякую коли є очевидний привід.', depth: 'mid', barometer: 'gratitude', delta: 1 },
-      { text: 'Я не часто дякую. Бачу більше що не вистачає.', depth: 'shadow', barometer: 'gratitude', delta: 0, shadow: 'застряг' },
+      { text: 'Я не часто дякую. Бачу більше що не вистачає.', depth: 'shadow', barometer: 'gratitude', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'src5', priority: 2,
@@ -69,7 +69,7 @@ export default [
     options: [
       { text: 'Так. Памʼятати про смерть — це памʼятати про життя.', depth: 'deep', barometer: 'light', delta: 2 },
       { text: 'Іноді. Зазвичай уникаю цієї думки.', depth: 'mid', barometer: 'light', delta: 1 },
-      { text: 'Я не хочу про це думати.', depth: 'shadow', barometer: 'light', delta: 0, shadow: 'застряг' },
+      { text: 'Я не хочу про це думати.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'застряг' },
     ],
   },
   { id: 'src7', priority: 2,
@@ -80,7 +80,7 @@ export default [
     options: [
       { text: 'Так. Є щось у мені що було завжди — до імені, до історії, до ролі.', depth: 'deep', barometer: 'light', delta: 2 },
       { text: 'Іноді торкаюсь. Здебільшого живу через імена.', depth: 'mid', barometer: 'light', delta: 1 },
-      { text: 'Я — це мої ролі. Без них мене нема.', depth: 'shadow', barometer: 'light', delta: 0, shadow: 'засліплення' },
+      { text: 'Я — це мої ролі. Без них мене нема.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'засліплення' },
     ],
   },
   { id: 'src6', priority: 3,
@@ -91,7 +91,7 @@ export default [
     options: [
       { text: 'Так. У глибокій тиші, у любові, у природі — межа зникає. Я і є поле.', depth: 'deep', barometer: 'light', delta: 2 },
       { text: 'Ловив це відчуття. Швидко повертаюсь у звичне «я».', depth: 'mid', barometer: 'light', delta: 1 },
-      { text: 'Не відчуваю. Я завжди тут — і це межа.', depth: 'shadow', barometer: 'light', delta: 0, shadow: 'засліплення' },
+      { text: 'Не відчуваю. Я завжди тут — і це межа.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'засліплення' },
     ],
   },
 ];
