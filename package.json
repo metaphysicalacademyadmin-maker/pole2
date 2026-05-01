@@ -6,7 +6,6 @@
   "description": "ПОЛЕ · Втілення — Шлях Душі через Тіло. React-версія гри, single-file build для metaphysical-way.academy /demo.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
     "build:embed": "vite build --mode embed",
     "preview": "vite preview",
     "deploy": "node scripts/deploy.js"

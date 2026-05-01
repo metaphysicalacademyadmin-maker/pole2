@@ -17,7 +17,6 @@ npm run dev          # відкриється http://localhost:5173
 
 ```bash
 npm run dev            # dev сервер з hot reload
-npm run build          # split bundle (для дебагу)
 npm run build:embed    # single-file dist/index.html для /demo
 npm run preview        # переглянути збілджений варіант
 ```
