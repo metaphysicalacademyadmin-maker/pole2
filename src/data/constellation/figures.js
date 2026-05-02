@@ -65,12 +65,52 @@ export const FIGURE_TYPES = {
     description: 'Брат/сестра/дитина, що пішли раніше часу',
     optional: true,
   },
+  // Внутрішні фігури — частини самого гравця, що домінують у системі.
+  // Виставляються там, де відчуваєш їх вплив на твою лінію.
+  mind: {
+    id: 'mind',
+    name: 'Розум / Логіка',
+    symbol: '✧',
+    color: '#9985b8',
+    weight: 1.0,
+    description: 'Голова, аналіз, контроль, бажання все зрозуміти — коли голос розуму голосніший за тіло',
+    optional: true,
+  },
+  pain: {
+    id: 'pain',
+    name: 'Біль',
+    symbol: '✕',
+    color: '#c47878',
+    weight: 1.4,
+    description: 'Незавершена рана, що тримає тебе на місці — фізичний, душевний, родовий біль',
+    optional: true,
+  },
+  block: {
+    id: 'block',
+    name: 'Блок',
+    symbol: '◰',
+    color: '#7a7a7a',
+    weight: 1.3,
+    description: 'Енергетичний/системний затор — те, що не пускає рух у певну сферу',
+    optional: true,
+  },
+  // Зовнішні фігури — впливи з-поза тебе чи роду.
+  external: {
+    id: 'external',
+    name: 'Сторонній вплив',
+    symbol: '✶',
+    color: '#5a4a3a',
+    weight: 1.5,
+    description: 'Чужа енергія, яка зайшла у поле — відьма/чаклун/недобрі побажання, важкі емоції від інших',
+    optional: true,
+  },
 };
 
 export const REQUIRED_FIGURES = ['self', 'father', 'mother'];
 
 export const OPTIONAL_FIGURES = [
   'grandfather', 'grandmother', 'excluded', 'early_dead',
+  'mind', 'pain', 'block', 'external',
 ];
 
 // Початкове розташування — лінія з Я знизу, батьки вище за тобою.
@@ -83,4 +123,8 @@ export const INITIAL_POSITIONS = {
   grandmother: { x: 420, y: 140, rotation: 180 },
   excluded:    { x: 90,  y: 380, rotation: 0 },
   early_dead:  { x: 510, y: 380, rotation: 0 },
+  mind:        { x: 250, y: 380, rotation: 0 },
+  pain:        { x: 350, y: 380, rotation: 0 },
+  block:       { x: 150, y: 470, rotation: 0 },
+  external:    { x: 450, y: 470, rotation: 0 },
 };

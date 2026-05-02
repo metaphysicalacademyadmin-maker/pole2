@@ -241,6 +241,15 @@ export const voiceActions = (set, get, ensure) => ({
       voiceRecordings: { ...s.voiceRecordings, [keyN]: dataUrl },
     });
   },
+  clearVoiceRecording: (keyN) => {
+    const s = get();
+    const next = { ...s.voiceRecordings };
+    delete next[keyN];
+    set({
+      ...ensure(s),
+      voiceRecordings: next,
+    });
+  },
 });
 
 // ───────────── КАРТА ПОЛЯ ─────────────
