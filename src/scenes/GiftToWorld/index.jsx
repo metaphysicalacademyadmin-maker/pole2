@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { GIFT_KINDS, communityCount, publishGift } from '../../utils/community.js';
 import { showToast } from '../../components/GlobalToast.jsx';
@@ -15,7 +15,11 @@ export default function GiftToWorld({ onClose }) {
   const [activeKind, setActiveKind] = useState(null);
   const totalInField = communityCount();
 
-  if (!acknowledged) acknowledge();
+  // Acknowledge у useEffect — не у render (інакше React warning + потенційно
+  // блок рендеру).
+  useEffect(() => {
+    if (!acknowledged) acknowledge();
+  }, [acknowledged, acknowledge]);
 
   async function handleSubmit({ text, kind, forLevelN }) {
     const gift = submitGift({ text, kind, forLevelN });
@@ -33,16 +37,16 @@ export default function GiftToWorld({ onClose }) {
 
   if (activeKind) {
     return (
-      <main className="scene gtw-scene">
+      <div className="gtw-overlay">
         <GiftForm kind={activeKind}
           onSubmit={handleSubmit}
           onCancel={() => setActiveKind(null)} />
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="scene gtw-scene">
+    <div className="gtw-overlay">
       <div className="gtw-frame">
         <button type="button" className="gtw-close" onClick={onClose}>← повернутись</button>
         <div className="gtw-eyebrow">четверта спіраль</div>
@@ -101,7 +105,7 @@ export default function GiftToWorld({ onClose }) {
           побачать ті, для кого це зараз потрібно.
         </p>
       </div>
-    </main>
+    </div>
   );
 }
 
