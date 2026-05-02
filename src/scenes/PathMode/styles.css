@@ -162,10 +162,85 @@
 }
 .pm-num { color: #f0c574; font-weight: 700; }
 
+/* ─── Tier-бейдж (free / unlocked / locked) ──────────────── */
+.pm-tier {
+  position: absolute;
+  top: 14px; right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.pm-tier--free {
+  background: rgba(133, 217, 155, 0.15);
+  color: #85d99b;
+  border: 1px solid rgba(133, 217, 155, 0.4);
+}
+.pm-tier--unlocked {
+  background: rgba(232, 196, 118, 0.15);
+  color: #ffe7a8;
+  border: 1px solid rgba(232, 196, 118, 0.4);
+}
+.pm-tier--locked {
+  background: rgba(232, 196, 118, 0.08);
+  color: #c8bca8;
+  border: 1px solid rgba(232, 196, 118, 0.25);
+}
+.pm-tier-icon { font-size: 10px; line-height: 1; }
+.pm-card.tier-locked { opacity: 0.85; }
+.pm-card.tier-locked:hover { opacity: 1; }
+
+/* ─── Hover-розкривні деталі режиму ──────────────────────── */
+.pm-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  color: #c8bca8;
+  text-align: left;
+  width: 100%;
+  margin-top: 0;
+}
+.pm-details-item {
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+  padding-left: 4px;
+}
+.pm-card:hover .pm-details,
+.pm-card:focus .pm-details,
+.pm-card:focus-within .pm-details {
+  max-height: 140px;
+  opacity: 0.85;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(232, 196, 118, 0.18);
+}
+
 .pm-foot {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-style: italic;
   font-size: 14px;
   color: #968a7c;
   margin-top: 32px;
+  text-align: center;
 }
+.pm-foot-tier {
+  margin-top: 10px;
+  font-size: 12px;
+  font-style: normal;
+  color: #c8bca8;
+  opacity: 0.85;
+  letter-spacing: 0.3px;
+}
+.pm-foot-tier strong { color: #f0c574; font-weight: 700; }

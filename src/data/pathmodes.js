@@ -1,6 +1,11 @@
 // 3 режими шляху. Гравець обирає на старті, може підвищити в середині гри (не понизити).
 // questionsPerLevel — скільки питань кожного рівня бачить гравець.
 // shadowsActive — чи показувати «тіньові» варіанти відповідей (priority 1 завжди видно).
+//
+// Tier (рівень доступу):
+//   free      — Дотик, доступний без оплати
+//   standard  — Шлях, потребує підписки на metaphysical-way.academy
+//   deep      — Глибина, потребує розширеного доступу
 
 export const PATH_MODES = {
   touch: {
@@ -16,6 +21,14 @@ export const PATH_MODES = {
     arbiterFreq: 'sparse',
     shadowsActive: false,
     constellationDepth: 'simple',
+    details: [
+      '4 питання на рівні',
+      'без тіньових варіантів',
+      'проста розстановка на 3-му',
+      'Антип з`являється рідко',
+    ],
+    tier: 'free',
+    tierLabel: 'безкоштовно',
   },
   path: {
     id: 'path',
@@ -31,6 +44,14 @@ export const PATH_MODES = {
     shadowsActive: true,
     constellationDepth: 'full',
     recommended: true,
+    details: [
+      '6 питань на рівні',
+      'тінь завжди доступна',
+      'повна розстановка з родом',
+      'Антип з`являється регулярно',
+    ],
+    tier: 'standard',
+    tierLabel: 'підписка',
   },
   depth: {
     id: 'depth',
@@ -45,6 +66,14 @@ export const PATH_MODES = {
     arbiterFreq: 'frequent',
     shadowsActive: true,
     constellationDepth: 'recursive',
+    details: [
+      '12 питань на рівні · максимум',
+      'тінь і власні відповіді — основа',
+      'рекурсивна розстановка з кармою',
+      'Антип — постійний супутник',
+    ],
+    tier: 'deep',
+    tierLabel: 'розширений доступ',
   },
 };
 

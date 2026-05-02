@@ -28,7 +28,11 @@ export default function PathMode() {
         </div>
 
         <div className="pm-foot">
-          режим можна підвищити в середині гри · знизити — ні
+          <div>режим можна підвищити в середині гри · знизити — ні</div>
+          <div className="pm-foot-tier">
+            ✦ <strong>Дотик</strong> — безкоштовно. <strong>Шлях</strong> і <strong>Глибина</strong> —
+            через підписку на metaphysical-way.academy
+          </div>
         </div>
 
         <div style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid rgba(232,196,118,0.18)' }}>
