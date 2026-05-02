@@ -1,7 +1,8 @@
 // Розширені actions для нових модулів. Імпортуються у gameStore.js.
 // Кожен повертає функцію (set, get) → (...args) щоб уникнути циркулярних посилань.
 
-import { HISTORY_KEY } from './defaultState.js';
+import { HISTORY_KEY, SAVE_KEY } from './defaultState.js';
+import { PETALS } from '../data/petals.js';
 
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -522,6 +523,111 @@ export const uiActions = (set, get, ensure) => ({
   setThemeMode: (mode) => set({ themeMode: mode }),
   completeOnboarding: () => set({ onboardingDone: true }),
   resetOnboarding: () => set({ onboardingDone: false }),
+});
+
+// ───────────── DEV / TESTER ─────────────
+// Швидкі телепорти для тестування без проходження гри з нуля.
+// Доступні лише через Admin-сцену (?admin=true).
+
+const ALL_CHANNEL_IDS = ['tata', 'farun-budda', 'farun', 'zevs', 'simargl',
+  'sutra-karma', 'kkr', 'firast', 'kraon', 'dzhilius', 'gold-pyramid'];
+
+export const devActions = (set, get, ensure) => ({
+  __devJumpToLevel: (n) => {
+    const s = get();
+    const completed = [];
+    const levelKeys = { ...s.levelKeys };
+    for (let i = 1; i < n; i++) {
+      completed.push(i);
+      if (!levelKeys[i]) levelKeys[i] = `тест-ключ-${i}`;
+    }
+    set({
+      ...ensure(s),
+      pathMode: s.pathMode || 'path',
+      intention: s.intention || 'тестова сесія',
+      currentLevel: n,
+      completedLevels: completed,
+      levelKeys,
+      awaitingKey: false,
+      currentCellIdx: 0,
+      onboardingDone: true,
+    });
+  },
+  __devActivatePetals: () => {
+    const s = get();
+    set({
+      ...ensure(s),
+      pathMode: s.pathMode || 'path',
+      intention: s.intention || 'тестова сесія',
+      currentLevel: 8,
+      completedLevels: [1, 2, 3, 4, 5, 6, 7],
+      levelKeys: { 1: 'тест-1', 2: 'тест-2', 3: 'тест-3', 4: 'тест-4', 5: 'тест-5', 6: 'тест-6', 7: 'тест-7' },
+      petalsActive: true,
+      onboardingDone: true,
+      awaitingKey: false,
+    });
+  },
+  __devCompleteAllPetals: () => {
+    const s = get();
+    const petalProgress = {};
+    PETALS.forEach((p) => {
+      petalProgress[p.id] = {
+        completed: true,
+        answeredIds: (p.cells || []).map((c) => c.id),
+        ts: Date.now(),
+      };
+    });
+    set({
+      ...ensure(s),
+      petalsActive: true,
+      petalProgress,
+      currentLevel: 8,
+      mandalaFinalShown: false,
+    });
+  },
+  __devUnlockAllChannels: () => {
+    const s = get();
+    set({
+      ...ensure(s),
+      channelsUnlocked: ALL_CHANNEL_IDS,
+      cosmoApplication: { status: 'initiated', ts: Date.now(), initiatedAt: Date.now(), answers: {} },
+    });
+  },
+  __devFullCompletion: () => {
+    // Все одразу: 7 рівнів + 12 пелюсток + 11 каналів = 4-та спіраль розкрита
+    const s = get();
+    const petalProgress = {};
+    PETALS.forEach((p) => {
+      petalProgress[p.id] = {
+        completed: true,
+        answeredIds: (p.cells || []).map((c) => c.id),
+        ts: Date.now(),
+      };
+    });
+    set({
+      ...ensure(s),
+      pathMode: s.pathMode || 'path',
+      intention: s.intention || 'тестова сесія',
+      currentLevel: 8,
+      completedLevels: [1, 2, 3, 4, 5, 6, 7],
+      levelKeys: { 1: 'тест-1', 2: 'тест-2', 3: 'тест-3', 4: 'тест-4', 5: 'тест-5', 6: 'тест-6', 7: 'тест-7' },
+      petalsActive: true,
+      petalProgress,
+      channelsUnlocked: ALL_CHANNEL_IDS,
+      cosmoApplication: { status: 'initiated', ts: Date.now(), initiatedAt: Date.now(), answers: {} },
+      mandalaFinalShown: true,
+      fourthSpiralAcknowledged: false,
+      onboardingDone: true,
+      awaitingKey: false,
+    });
+  },
+  __devResetGame: () => {
+    if (typeof window !== 'undefined') {
+      try { localStorage.removeItem(SAVE_KEY); } catch (_) {}
+      try { localStorage.removeItem(HISTORY_KEY); } catch (_) {}
+      window.location.reload();
+    }
+  },
 });
 
 // ───────────── DZERKALO (Mirror) ─────────────

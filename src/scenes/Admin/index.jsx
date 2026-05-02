@@ -13,6 +13,12 @@ export default function Admin({ onClose }) {
   const state = useGameStore();
   const review = useGameStore((s) => s.reviewCosmoApplication);
   const initiate = useGameStore((s) => s.initiateCosmo);
+  const devJump = useGameStore((s) => s.__devJumpToLevel);
+  const devActivatePetals = useGameStore((s) => s.__devActivatePetals);
+  const devCompletePetals = useGameStore((s) => s.__devCompleteAllPetals);
+  const devUnlockChannels = useGameStore((s) => s.__devUnlockAllChannels);
+  const devFull = useGameStore((s) => s.__devFullCompletion);
+  const devReset = useGameStore((s) => s.__devResetGame);
 
   const archetype = state.archetypeCalibration?.confirmed
     ? findArchetype(state.archetypeCalibration.confirmed) : null;
@@ -49,6 +55,35 @@ export default function Admin({ onClose }) {
   function doInitiate() {
     initiate();
     showToast('⚡ Гравця ініційовано — канали відкрито', 'success');
+  }
+
+  function jumpTo(n) {
+    devJump(n);
+    showToast(`🚀 телепорт на рівень ${n}`, 'success');
+    onClose();
+  }
+  function jumpPetals() {
+    devActivatePetals();
+    showToast('🚀 пелюстки відкриті', 'success');
+    onClose();
+  }
+  function fillPetals() {
+    devCompletePetals();
+    showToast('✺ всі 12 пелюсток завершено · MandalaFinal попереду', 'success');
+    onClose();
+  }
+  function unlockChannels() {
+    devUnlockChannels();
+    showToast('🔮 11 каналів розблоковано', 'success');
+  }
+  function fullCompletion() {
+    devFull();
+    showToast('✨ повне проходження · 4-та спіраль розкрита', 'success');
+    onClose();
+  }
+  function hardReset() {
+    if (!window.confirm('Стерти ВЕСЬ прогрес і перезавантажити? Це не відкатиш.')) return;
+    devReset();
   }
 
   return (
@@ -92,6 +127,48 @@ export default function Admin({ onClose }) {
                 {k}: <strong>{v > 0 ? `+${v}` : v}</strong>
               </span>
             ))}
+          </div>
+        </div>
+
+        <div className="admin-section admin-dev">
+          <h2>🧪 dev tester · телепорти</h2>
+          <p className="admin-dev-hint">
+            швидкі переходи для тестування — не для гравця
+          </p>
+          <div className="admin-dev-row">
+            <span className="admin-dev-label">піраміда:</span>
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+              <button key={n} type="button" className="admin-dev-btn" onClick={() => jumpTo(n)}>
+                рівень {n}
+              </button>
+            ))}
+          </div>
+          <div className="admin-dev-row">
+            <span className="admin-dev-label">мандала:</span>
+            <button type="button" className="admin-dev-btn" onClick={jumpPetals}>
+              ✺ відкрити пелюстки
+            </button>
+            <button type="button" className="admin-dev-btn" onClick={fillPetals}>
+              ✺ завершити всі 12
+            </button>
+          </div>
+          <div className="admin-dev-row">
+            <span className="admin-dev-label">космо:</span>
+            <button type="button" className="admin-dev-btn" onClick={unlockChannels}>
+              🔮 розблокувати 11 каналів
+            </button>
+          </div>
+          <div className="admin-dev-row">
+            <span className="admin-dev-label">все:</span>
+            <button type="button" className="admin-dev-btn admin-dev-btn-go" onClick={fullCompletion}>
+              ✨ повне проходження (відкриває 4-ту спіраль)
+            </button>
+          </div>
+          <div className="admin-dev-row">
+            <span className="admin-dev-label">скидання:</span>
+            <button type="button" className="admin-dev-btn admin-dev-btn-danger" onClick={hardReset}>
+              ↻ стерти прогрес і перезавантажити
+            </button>
           </div>
         </div>
 

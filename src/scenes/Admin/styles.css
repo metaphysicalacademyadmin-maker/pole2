@@ -141,3 +141,52 @@
   color: #1a0f0a; width: 100%;
 }
 .admin-btn-init:hover { filter: brightness(1.1); }
+
+/* ─── Dev tester ─────────────────────────────────────────── */
+.admin-dev {
+  border: 1.5px dashed rgba(232, 196, 118, 0.4);
+  background: rgba(40, 28, 60, 0.4);
+  padding: 14px 18px;
+  border-radius: 10px;
+}
+.admin-dev h2 { color: #f0c574; }
+.admin-dev-hint {
+  font-size: 11px; color: #968a7c;
+  font-style: italic; letter-spacing: 0.3px;
+  margin: 0 0 14px;
+}
+.admin-dev-row {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap; margin-bottom: 10px;
+}
+.admin-dev-label {
+  font-size: 11px; color: #c8bca8;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  font-weight: 700; min-width: 80px;
+}
+.admin-dev-btn {
+  padding: 6px 12px; border-radius: 8px;
+  background: rgba(20, 14, 30, 0.7);
+  border: 1px solid rgba(232, 196, 118, 0.3);
+  color: #fff7e0; font-family: inherit;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.admin-dev-btn:hover {
+  background: rgba(232, 196, 118, 0.15);
+  border-color: #f0c574;
+}
+.admin-dev-btn-go {
+  background: linear-gradient(135deg, rgba(232,196,118,0.25), rgba(120,76,30,0.4));
+  border-color: #f0c574;
+  color: #ffe7a8;
+  font-weight: 700;
+}
+.admin-dev-btn-danger {
+  border-color: rgba(216, 144, 152, 0.5);
+  color: #d89098;
+}
+.admin-dev-btn-danger:hover {
+  background: rgba(216, 144, 152, 0.1);
+  border-color: #d89098;
+}
