@@ -47,7 +47,7 @@ export default function Archetypes() {
                       {a.description}
                     </span>
                   }
-                  componentsProps={{
+                  slotProps={{
                     tooltip: {
                       sx: {
                         bgcolor: 'rgba(20,14,30,0.97)',
