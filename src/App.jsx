@@ -64,6 +64,20 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', themeMode || 'dark');
   }, [themeMode]);
 
+  // Hidden admin shortcut — Ctrl+Shift+A (Cmd+Shift+A на Mac).
+  // Працює навіть в iframe, де URL ?admin=true не передається.
+  useEffect(() => {
+    function onKeyDown(e) {
+      const isShortcut = (e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a';
+      if (isShortcut) {
+        e.preventDefault();
+        setAdminOpen((v) => !v);
+      }
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   // Завантажуємо профіль зареєстрованого юзера (з metaphysical-way.academy).
   // Тиха помилка якщо щось не так — гра працює і без імені.
   useEffect(() => {
