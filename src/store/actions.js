@@ -375,7 +375,7 @@ export const petalActions = (set, get, ensure) => ({
       ...ensure(s),
       petalsActive: true,
       journal: [...s.journal, {
-        text: '✦ Шлях продовжено — 9 пелюсток відкрито',
+        text: '✦ Шлях продовжено — 12 пелюсток відкрито',
         tag: 'шлях', ts: Date.now(),
       }],
     });

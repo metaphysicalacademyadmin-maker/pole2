@@ -9,7 +9,7 @@ export default function JourneyPreview() {
     <div className="onb-journey">
       <Stage label="перша спіраль" sub="7 рівнів"><Pyramid /></Stage>
       <Arrow />
-      <Stage label="друга спіраль" sub="9 пелюсток"><Mandala /></Stage>
+      <Stage label="друга спіраль" sub="12 пелюсток"><Mandala /></Stage>
       <Arrow />
       <Stage label="третя спіраль" sub="11 каналів"><Channels /></Stage>
     </div>
@@ -47,18 +47,18 @@ function Pyramid() {
   );
 }
 
-// ─── 2. Мандала — 9 пелюсток навколо центру ─────────────────────
+// ─── 2. Мандала — 12 пелюсток навколо центру ────────────────────
 function Mandala() {
-  const petals = Array.from({ length: 9 });
+  const petals = Array.from({ length: 12 });
   return (
     <svg viewBox="-35 -35 70 70" width="100%" height="100%">
       {petals.map((_, i) => {
-        const angle = (i * 360) / 9;
+        const angle = (i * 360) / 12;
         return (
-          <ellipse key={i} cx="0" cy="-18" rx="5" ry="13"
+          <ellipse key={i} cx="0" cy="-18" rx="4" ry="13"
             transform={`rotate(${angle})`}
             fill="rgba(232,196,118,0.45)"
-            stroke="#f0c574" strokeWidth="0.7" />
+            stroke="#f0c574" strokeWidth="0.6" />
         );
       })}
       <circle r="6" fill="#ffe7a8" stroke="#c89849" strokeWidth="0.8" />

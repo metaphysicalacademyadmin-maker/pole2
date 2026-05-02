@@ -8,9 +8,10 @@ const CENTER = 300;
 const PETAL_R = 220;
 const PETAL_INNER = 90;
 
-// Мандала з 9 пелюсток для post-game expansion. Кожну можна обрати.
+// Мандала з 12 пелюсток для post-game expansion. Кожну можна обрати.
 // Завершені — золотисті, з "✓" у центрі. У роботі — кольорові з прогресом.
-export default function Mandala9() {
+// Кут між пелюстками 360°/12 = 30°.
+export default function Mandala12() {
   const enterPetal = useGameStore((s) => s.enterPetal);
   const progress = useGameStore((s) => s.petalProgress);
   const total = PETALS.length;
@@ -22,9 +23,9 @@ export default function Mandala9() {
     <main className="scene petals-scene">
       <div className="petals-frame">
         <div className="petals-eyebrow">розширений шлях</div>
-        <h1 className="petals-title">9 сфер життя</h1>
+        <h1 className="petals-title">12 сфер життя</h1>
         <p className="petals-subtitle">
-          Ти пройшов вертикаль чакр. Тепер — 9 горизонтальних сфер. Обери свою — будь-яку.
+          Ти пройшов вертикаль чакр. Тепер — 12 горизонтальних сфер. Обери свою — будь-яку.
           Мандала не лінійна.
         </p>
 
@@ -43,7 +44,7 @@ export default function Mandala9() {
             const tipY = CENTER + Math.sin(rad) * PETAL_R;
             const perpX = Math.cos(rad + Math.PI / 2);
             const perpY = Math.sin(rad + Math.PI / 2);
-            const halfW = 38;
+            const halfW = 28;
             const c1x = px + perpX * halfW, c1y = py + perpY * halfW;
             const c2x = px - perpX * halfW, c2y = py - perpY * halfW;
             const path = `M ${startX} ${startY}
@@ -113,7 +114,7 @@ export default function Mandala9() {
 
         {allDone && (
           <div className="petals-done">
-            ✺ <em>Усі 9 пелюсток розкриті. Квітка Життя у тобі.</em> ✺
+            ✺ <em>Усі 12 пелюсток розкриті. Квітка Життя у тобі.</em> ✺
           </div>
         )}
       </div>

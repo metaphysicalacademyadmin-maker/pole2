@@ -1,6 +1,8 @@
-// 9 пелюсток — розширений шлях після завершення 7 рівнів свідомості.
+// 12 пелюсток — розширений шлях після завершення 7 рівнів свідомості.
 // Кожна пелюстка — окрема сфера життя зі своїм ключем цілісності.
-// 3 клітинки на пелюстку = 27 клітинок post-game контенту.
+// 3 клітинки на пелюстку = 36 клітинок post-game контенту.
+// Порядок: Я → Тіло → Рід → Дім → Стосунки → Творчість → Реалізація →
+//          Духовність → Знання → Призначення → Тінь → Єдність
 
 export const PETALS = [
   {
@@ -228,7 +230,91 @@ export const PETALS = [
     ],
   },
   {
-    id: 'ix_unity', n: 9, name: 'Єдність', symbol: 'IX', color: '#ffe7a8',
+    id: 'ix_knowledge', n: 9, name: 'Знання', symbol: 'IX', color: '#9fb8d8',
+    domain: 'допитливість · навчання · істина',
+    description: 'Не накопичення фактів — живе дослідження. Бачити ясніше, ніж учора.',
+    cells: [
+      { id: 'k1', title: 'Жива допитливість',
+        question: 'Чи живе у тобі дитяче «чому?» — чи його зашили дорослістю?',
+        options: [
+          { text: 'Так. Світ для мене — питання, не відповідь.', depth: 'deep', barometer: 'flow', delta: 3 },
+          { text: 'Іноді спалахує. У нових місцях, з новими людьми.', depth: 'mid', barometer: 'flow', delta: 1 },
+          { text: 'Я знаю достатньо. Нове — стрес.', depth: 'shadow', barometer: 'voice', delta: -2, shadow: 'засліплення' },
+        ] },
+      { id: 'k2', title: 'Учитись як спосіб життя',
+        question: 'Чи продовжуєш ти вчитись — навіть коли «уже все знаєш»?',
+        options: [
+          { text: 'Так. Вчитись = жити. Зупинитись = вмерти.', depth: 'deep', barometer: 'voice', delta: 3 },
+          { text: 'Колись вчився багато. Зараз менше — час, втома.', depth: 'mid', barometer: 'voice', delta: 1 },
+          { text: 'У моєму віці вже все засвоєно.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'гординя' },
+        ] },
+      { id: 'k3', title: 'Правда дорожча за зручність',
+        question: 'Чи готовий ти шукати правду навіть коли вона руйнує комфорт?',
+        options: [
+          { text: 'Готовий. Зручна неправда коштує найдорожче.', depth: 'deep', barometer: 'light', delta: 3 },
+          { text: 'Шукаю. Іноді відвертаюсь коли занадто боляче.', depth: 'mid', barometer: 'light', delta: 1 },
+          { text: 'Краще не знати. Спокій важливіший за правду.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'засліплення' },
+        ] },
+    ],
+  },
+  {
+    id: 'x_purpose', n: 10, name: 'Призначення', symbol: 'X', color: '#e8a050',
+    domain: 'дар · місія · служіння світу',
+    description: 'Те унікальне, що ти приніс — і що світ потребує саме від тебе',
+    cells: [
+      { id: 'p1', title: 'Унікальний дар',
+        question: 'Чи знаєш ти, що тільки ти можеш дати у цей світ?',
+        options: [
+          { text: 'Знаю. Це моя ноша — і моя свобода.', depth: 'deep', barometer: 'voice', delta: 3 },
+          { text: 'Шукаю. Відчуваю напрям, не точку.', depth: 'mid', barometer: 'voice', delta: 1 },
+          { text: 'Усе, що я роблю — інші зроблять краще.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'розлитий' },
+        ] },
+      { id: 'p2', title: 'Жити для когось',
+        question: 'Кому ти служиш окрім себе — і це наповнює, не виснажує?',
+        options: [
+          { text: 'Служу через те, що люблю. Це наповнює.', depth: 'deep', barometer: 'gratitude', delta: 3 },
+          { text: 'Іноді служу — іноді тону у власних справах.', depth: 'mid', barometer: 'gratitude', delta: 1 },
+          { text: 'Жити для себе. Усі решта — їхня справа.', depth: 'shadow', barometer: 'gratitude', delta: -2, shadow: 'гординя' },
+        ] },
+      { id: 'p3', title: 'Чути запит життя',
+        question: 'Чи слухаєш ти, чого життя хоче ВІД тебе — не лише ти від нього?',
+        options: [
+          { text: 'Слухаю. Часто життя точніше за мої плани.', depth: 'deep', barometer: 'flow', delta: 3 },
+          { text: 'Іноді чую — особливо коли все валиться.', depth: 'mid', barometer: 'flow', delta: 1 },
+          { text: 'Я сам собі архітектор. Ніяких "запитів життя".', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'гординя' },
+        ] },
+    ],
+  },
+  {
+    id: 'xi_shadow', n: 11, name: 'Тінь', symbol: 'XI', color: '#7a5a8a',
+    domain: 'інтеграція · правда про себе · робота з негативом',
+    description: 'Те, від чого ти ховаєшся — і що тримає тебе у пів-сили',
+    cells: [
+      { id: 'sh1', title: 'Те, що ніколи не покажеш',
+        question: 'Є щось у тобі, що ти НІКОЛИ не покажеш — навіть найближчому?',
+        options: [
+          { text: 'Бачу свою тінь. Не воюю — спостерігаю.', depth: 'deep', barometer: 'light', delta: 3 },
+          { text: 'Ховаю частину. Іноді показую найближчим.', depth: 'mid', barometer: 'voice', delta: 1 },
+          { text: 'Є те, чого я сам не бачу. І не хочу бачити.', depth: 'shadow', barometer: 'light', delta: -2, shadow: 'засліплення' },
+        ] },
+      { id: 'sh2', title: 'Те, що дратує в інших',
+        question: 'Кого ти не виносиш — і що це говорить про тебе?',
+        options: [
+          { text: 'Зрозумів. Те, що дратує — моє відображення.', depth: 'deep', barometer: 'voice', delta: 3 },
+          { text: 'Іноді ловлю себе. «О, це ж я.»', depth: 'mid', barometer: 'voice', delta: 1 },
+          { text: 'Інші просто погані. До чого тут я?', depth: 'shadow', barometer: 'voice', delta: -2, shadow: 'гординя' },
+        ] },
+      { id: 'sh3', title: 'Інтеграція замість війни',
+        question: 'Чи дозволяєш тіні навчати тебе — замість боротись із нею?',
+        options: [
+          { text: 'Так. Тінь — мій найкращий учитель. Слухаю.', depth: 'deep', barometer: 'light', delta: 3 },
+          { text: 'Працюю з нею через терапію/практики. Помалу.', depth: 'mid', barometer: 'flow', delta: 1 },
+          { text: 'Тінь треба перемогти. Я її не випущу.', depth: 'shadow', barometer: 'will', delta: -2, shadow: 'насильство' },
+        ] },
+    ],
+  },
+  {
+    id: 'ix_unity', n: 12, name: 'Єдність', symbol: 'XII', color: '#ffe7a8',
     domain: 'подяка · здавання · "Я є"',
     description: 'Те, що залишається коли ти перестаєш бути окремим',
     cells: [

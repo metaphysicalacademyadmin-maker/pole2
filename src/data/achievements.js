@@ -13,8 +13,8 @@ export const ACHIEVEMENTS = [
     desc: 'Усі 7 рівнів свідомості пройдено.',
     when: (s) => (s.completedLevels || []).length >= 7 },
   { id: 'flower_of_life', icon: '✺', tier: 'platinum', title: 'Квітка Життя',
-    desc: '9 пелюсток розкриті. Ти — повний.',
-    when: (s) => Object.values(s.petalProgress || {}).filter((p) => p.completed).length >= 9 },
+    desc: '12 пелюсток розкриті. Ти — повний.',
+    when: (s) => Object.values(s.petalProgress || {}).filter((p) => p.completed).length >= 12 },
 
   // ─── Тінь ───
   { id: 'first_snake', icon: '🐍', tier: 'silver', title: 'Перша зустріч з тінню',

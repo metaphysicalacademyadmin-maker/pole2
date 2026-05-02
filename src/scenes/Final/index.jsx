@@ -139,7 +139,7 @@ export default function Final({ openCosmo, openAdmin, openPartnership }) {
           <div className="final-paths-label">або продовжити шлях:</div>
           <div className="final-paths-row">
             <button type="button" className="final-btn-path" onClick={activatePetals}>
-              <span>✺</span> 9 пелюсток
+              <span>✺</span> 12 пелюсток
             </button>
             {openCosmo && (
               <button type="button" className="final-btn-path" onClick={openCosmo}>

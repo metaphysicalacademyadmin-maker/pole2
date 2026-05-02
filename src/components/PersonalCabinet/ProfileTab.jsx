@@ -94,7 +94,7 @@ export default function ProfileTab() {
       {/* Stats line */}
       <div className="cab-stats-line">
         <div className="cab-stat"><strong>{(state.completedLevels || []).length}</strong>/7 рівнів</div>
-        <div className="cab-stat"><strong>{petalsCount}</strong>/9 пелюсток</div>
+        <div className="cab-stat"><strong>{petalsCount}</strong>/12 пелюсток</div>
         <div className="cab-stat"><strong>{certifiedCount}</strong>/11 каналів</div>
         <div className="cab-stat"><strong>{customCount}</strong> своїх відповідей</div>
         <div className="cab-stat"><strong>{(state.practiceCompletions || []).length}</strong> практик</div>

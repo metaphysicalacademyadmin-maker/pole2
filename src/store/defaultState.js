@@ -129,7 +129,7 @@ export const defaultState = {
   specialization: null,
   specializationOpen: false,
 
-  // ─── 9 пелюсток (post-game expansion) ───
+  // ─── 12 пелюсток (post-game expansion) ───
   petalsActive: false,
   currentPetalId: null,
   petalAnswers: {},
