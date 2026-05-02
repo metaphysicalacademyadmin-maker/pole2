@@ -3,7 +3,6 @@ import { useGameStore } from '../../store/gameStore.js';
 import { useProfileStore } from '../../store/profileStore.js';
 import { PATH_MODES } from '../../data/pathmodes.js';
 import FieldNow from '../../components/panels/FieldNow.jsx';
-import ThemeToggle from '../../components/panels/ThemeToggle.jsx';
 import HelpButton from '../../components/panels/HelpButton.jsx';
 import PresenceButton from '../../components/FieldPresence/PresenceButton.jsx';
 import PresenceModal from '../../components/FieldPresence/PresenceModal.jsx';
@@ -41,7 +40,6 @@ export default function Topbar({ onOpenSoulField, onOpenCabinet }) {
           👤
         </button>
       )}
-      <ThemeToggle />
       <HelpButton />
       <div className="lvl-tb-stats">
         <span>
