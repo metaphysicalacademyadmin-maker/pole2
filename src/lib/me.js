@@ -5,10 +5,31 @@
 //
 // Деталі — у CLAUDE.md → секція «👤 Профіль юзера».
 
+// Визначення slug:
+// Гра рендериться через <iframe srcDoc> на metaphysical-way.academy/<slug>.
+// У srcdoc-iframe `window.location.pathname` === "/srcdoc" (бо документ
+// — about:srcdoc), і простий `split('/')[0]` дає "srcdoc" замість справжнього
+// slug. srcdoc-iframe успадковує origin парента, тому `window.parent.location`
+// доступний без CORS-помилки.
 const detectSlug = () => {
   if (typeof window === "undefined") return "";
+  // Спершу — pathname парент-сторінки (працює всередині srcdoc iframe).
+  try {
+    if (window.parent && window.parent !== window) {
+      const parentPath = window.parent.location?.pathname;
+      if (parentPath) {
+        const seg = parentPath.split("/").filter(Boolean)[0];
+        if (seg && seg !== "srcdoc") return seg;
+      }
+    }
+  } catch {
+    // Cross-origin block — рідкісний випадок (наприклад вбудовано на іншому
+    // домені). Падаємо на власний location.
+  }
+  // Fallback: власний location (для standalone preview build:embed → file://).
   const seg = window.location.pathname.split("/").filter(Boolean)[0];
-  return seg || "";
+  if (seg && seg !== "srcdoc") return seg;
+  return "";
 };
 
 /**
