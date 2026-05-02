@@ -156,3 +156,61 @@
   0%, 100% { transform: scale(0.85); opacity: 0.7; }
   50% { transform: scale(1.15); opacity: 1; }
 }
+
+/* ─── JourneyPreview — 3 спіралі візуалізація ──────────────────── */
+.onb-journey {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 28px;
+  max-width: 480px;
+  flex-wrap: wrap;
+  padding: 18px 14px;
+  background: rgba(20, 14, 30, 0.4);
+  border: 1px solid rgba(232, 196, 118, 0.18);
+  border-radius: 14px;
+}
+.onb-journey__stage {
+  flex: 1 1 0;
+  min-width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.onb-journey__svg {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 0 6px rgba(232, 196, 118, 0.25));
+}
+.onb-journey__label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #f0c574;
+  text-transform: uppercase;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.onb-journey__sub {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  color: #fff7e0;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.onb-journey__arrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 18px;
+  color: #c89849;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+@media (max-width: 480px) {
+  .onb-journey { gap: 4px; padding: 14px 8px; }
+  .onb-journey__svg { width: 44px; height: 44px; }
+  .onb-journey__label { font-size: 9px; letter-spacing: 1px; }
+  .onb-journey__sub { font-size: 10px; }
+  .onb-journey__arrow { font-size: 14px; }
+}

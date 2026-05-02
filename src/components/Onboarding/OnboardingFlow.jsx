@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useProfileStore } from '../../store/profileStore.js';
+import JourneyPreview from './JourneyPreview.jsx';
 import './onboarding.css';
 
 const STEPS = [
@@ -97,6 +98,7 @@ const STEPS = [
   {
     icon: '✺',
     title: 'Після піраміди — продовження',
+    showJourney: true,
     text: `Гра **не закінчується** на 7-му ключі. Це лише **перша спіраль** — ти знайшов себе.
 
 **Друга спіраль — 9 пелюсток мандали ✺**
@@ -164,6 +166,7 @@ export default function OnboardingFlow({ onComplete }) {
 
         <div className="onb-icon">{cur.icon}</div>
         <h2 className="onb-title">{cur.title}</h2>
+        {cur.showJourney && <JourneyPreview />}
         <div className="onb-text" dangerouslySetInnerHTML={{ __html: format(cur.text) }} />
 
         <div className="onb-ritual-note">
