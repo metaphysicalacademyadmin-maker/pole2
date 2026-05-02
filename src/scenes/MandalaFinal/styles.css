@@ -9,12 +9,12 @@
 .mf-attr{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#c89849;opacity:.7;font-weight:600;margin-bottom:24px}
 
 .mf-mandala-wrap{display:flex;justify-content:center;margin:0 auto 28px;max-width:540px}
-.mf-mandala-svg{width:100%;height:auto;filter:drop-shadow(0 0 28px rgba(232,196,118,.25));animation:mf-mandala-rise 1.8s ease both;animation-delay:.3s;opacity:0}
+.mf-mandala-svg{width:100%;height:auto;filter:drop-shadow(0 0 36px rgba(232,196,118,.4));animation:mf-mandala-rise 1.8s ease both;animation-delay:.3s;opacity:0}
 @keyframes mf-mandala-rise{from{opacity:0;transform:scale(.92) rotate(-4deg)}to{opacity:1;transform:scale(1) rotate(0)}}
 .mf-petal-glow{animation:mf-petal-pulse 4s ease-in-out infinite}
 .mf-petal-glow:nth-child(2n){animation-delay:.3s}
 .mf-petal-glow:nth-child(3n){animation-delay:.6s}
-@keyframes mf-petal-pulse{0%,100%{filter:brightness(.95)}50%{filter:brightness(1.1)}}
+@keyframes mf-petal-pulse{0%,100%{filter:brightness(.92)}50%{filter:brightness(1.15)}}
 
 .mf-summary{display:flex;justify-content:center;gap:32px;margin-bottom:28px;flex-wrap:wrap}
 .mf-summary__item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}

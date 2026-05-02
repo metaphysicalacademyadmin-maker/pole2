@@ -22,6 +22,15 @@
   width: 100%; max-width: 580px; height: auto;
   margin: 12px auto;
   display: block;
+  filter: drop-shadow(0 0 30px rgba(232, 196, 118, 0.25));
+}
+.m12-petal {
+  animation: m12-bloom 1.4s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  transform-origin: 300px 300px;
+}
+@keyframes m12-bloom {
+  from { opacity: 0; transform: scale(0.4) rotate(-20deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0); }
 }
 .petals-progress-line {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -54,7 +63,12 @@
 }
 .petal-back:hover { color: #fff7e0; border-color: rgba(255,255,255,0.35); }
 
-.petal-header { margin-bottom: 24px; }
+.petal-header {
+  margin-bottom: 24px;
+  padding: 20px 16px 12px;
+  border-radius: 18px;
+  animation: petal-cell-fade 0.6s ease;
+}
 .petal-roman {
   font-size: 38px; font-family: Georgia, 'Times New Roman', serif;
   font-weight: 700; line-height: 1; opacity: 0.9;

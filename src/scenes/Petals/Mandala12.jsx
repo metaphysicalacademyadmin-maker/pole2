@@ -54,26 +54,28 @@ export default function Mandala12() {
             const cells = petal.cells.length;
             const answered = prog.answeredIds.length;
             const ratio = cells ? answered / cells : 0;
-            // Базова opacity 0.75 — щоб пелюстка завжди була виразно видима.
-            // Прогрес додає до 0.95. Завершена — 1.
-            const opacity = prog.completed ? 1 : (0.75 + ratio * 0.2);
-
             const isHovered = hoveredId === petal.id;
+            // Завжди яскравий: 0.92 базово, 1 при hover/завершенні
+            const opacity = prog.completed ? 1 : (0.92 + ratio * 0.08);
+            const fillOpacity = prog.completed ? 0.95 : (0.7 + ratio * 0.15);
+            const glowR = isHovered ? 18 : (prog.completed ? 14 : 8);
+
             return (
               <g key={petal.id} style={{ cursor: 'pointer' }}
                 onClick={() => enterPetal(petal.id)}
                 onMouseEnter={() => setHoveredId(petal.id)}
                 onMouseLeave={() => setHoveredId(null)}
-                className={`m9-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}`}>
+                className={`m12-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}`}
+                style={{ animationDelay: `${i * 0.08}s` }}>
                 <path d={path}
                   fill={petal.color}
-                  fillOpacity={prog.completed ? 0.9 : 0.55}
+                  fillOpacity={fillOpacity}
                   stroke={petal.color}
-                  strokeWidth={prog.completed ? 1.8 : isHovered ? 1.6 : 1.2}
-                  opacity={isHovered ? 1 : opacity}
+                  strokeWidth={prog.completed ? 2 : isHovered ? 1.8 : 1.4}
+                  opacity={opacity}
                   style={{
                     transition: 'all 0.3s ease',
-                    filter: isHovered ? `drop-shadow(0 0 14px ${petal.color})` : 'none',
+                    filter: `drop-shadow(0 0 ${glowR}px ${petal.color})`,
                   }}>
                   <title>{petal.name}{cells > 0 ? ` · ${answered}/${cells}` : ''}</title>
                 </path>

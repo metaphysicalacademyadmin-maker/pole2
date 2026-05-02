@@ -38,9 +38,17 @@ export default function PetalView({ petal }) {
           ← до мандали
         </button>
 
-        <div className="petal-header">
-          <div className="petal-roman" style={{ color: petal.color }}>{petal.symbol}</div>
-          <h2 className="petal-name" style={{ color: petal.color }}>{petal.name}</h2>
+        <div className="petal-header" style={{
+          background: `radial-gradient(ellipse at 50% 30%, ${petal.color}22, transparent 70%)`,
+        }}>
+          <div className="petal-roman" style={{
+            color: petal.color,
+            textShadow: `0 0 24px ${petal.color}, 0 0 48px ${petal.color}88`,
+          }}>{petal.symbol}</div>
+          <h2 className="petal-name" style={{
+            color: petal.color,
+            textShadow: `0 0 18px ${petal.color}66`,
+          }}>{petal.name}</h2>
           <div className="petal-domain">{petal.domain}</div>
           <div className="petal-desc">{petal.description}</div>
         </div>
