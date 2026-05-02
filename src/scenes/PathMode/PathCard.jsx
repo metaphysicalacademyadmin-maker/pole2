@@ -24,7 +24,6 @@ export default function PathCard({ mode, onSelect }) {
       <span className="pm-quote">{mode.quote}</span>
       <span className="pm-stats">
         <span><span className="pm-num">~{mode.questionsApprox}</span> питань</span>
-        <span><span className="pm-num">{mode.durationApprox}</span></span>
       </span>
       {mode.details && (
         <span className="pm-details">
