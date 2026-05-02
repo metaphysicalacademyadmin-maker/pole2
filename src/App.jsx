@@ -12,6 +12,7 @@ import Petals from './scenes/Petals/index.jsx';
 import Cosmo from './scenes/Cosmo/index.jsx';
 import Admin from './scenes/Admin/index.jsx';
 import Partnership from './scenes/Partnership/index.jsx';
+import PersonalCabinet from './components/PersonalCabinet/index.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import GlobalToast from './components/GlobalToast.jsx';
 import KaiBubble from './components/Kai/KaiBubble.jsx';
@@ -21,6 +22,7 @@ import MirrorModal from './components/Mirror/MirrorModal.jsx';
 import KoanCard from './components/Koan/KoanCard.jsx';
 import OnboardingFlow from './components/Onboarding/OnboardingFlow.jsx';
 import ResonanceMirror from './components/ResonanceMirror/index.jsx';
+import InnerVoice from './components/InnerVoice/index.jsx';
 import { detectCharacter } from './utils/character-detector.js';
 import { pickMirrorReflection } from './data/mirror.js';
 import { pickKoan } from './data/koans.js';
@@ -46,6 +48,7 @@ export default function App() {
   const [soulFieldOpen, setSoulFieldOpen] = useState(false);
   const [cosmoOpen, setCosmoOpen] = useState(false);
   const [partnershipOpen, setPartnershipOpen] = useState(false);
+  const [cabinetOpen, setCabinetOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(() =>
     typeof window !== 'undefined' && window.location.search.includes('admin=true')
   );
@@ -135,7 +138,8 @@ export default function App() {
               openSoulField: () => setSoulFieldOpen(true),
               openCosmo: () => setCosmoOpen(true),
               openAdmin: () => setAdminOpen(true),
-              openPartnership: () => setPartnershipOpen(true) })}
+              openPartnership: () => setPartnershipOpen(true),
+              openCabinet: () => setCabinetOpen(true) })}
       </ErrorBoundary>
       <GlobalToast />
       {pathMode && intention && !soulFieldOpen && !activeCharacter && !mirror && <KaiBubble />}
@@ -154,7 +158,9 @@ export default function App() {
       {cosmoOpen && <Cosmo onClose={() => setCosmoOpen(false)} />}
       {adminOpen && <Admin onClose={() => setAdminOpen(false)} />}
       {partnershipOpen && <Partnership onClose={() => setPartnershipOpen(false)} />}
+      {cabinetOpen && <PersonalCabinet onClose={() => setCabinetOpen(false)} />}
       <ResonanceMirror />
+      {pathMode && intention && !soulFieldOpen && <InnerVoice />}
     </div>
   );
 }
@@ -166,12 +172,13 @@ export function useCosmoOpener() {
 }
 
 function pickScene({ pathMode, intention, currentLevel, awaitingKey, constellations, petalsActive,
-                    openSoulField, openCosmo, openAdmin, openPartnership }) {
+                    openSoulField, openCosmo, openAdmin, openPartnership, openCabinet }) {
   if (!pathMode) return <PathMode />;
   if (!intention) return <Entry />;
   if (currentLevel > 7) {
     if (petalsActive) return <Petals />;
-    return <Final openCosmo={openCosmo} openAdmin={openAdmin} openPartnership={openPartnership} />;
+    return <Final openCosmo={openCosmo} openAdmin={openAdmin}
+      openPartnership={openPartnership} openCabinet={openCabinet} />;
   }
   if (awaitingKey) {
     if (currentLevel === 3 && !(constellations[3]?.resolution)) {
@@ -179,5 +186,6 @@ function pickScene({ pathMode, intention, currentLevel, awaitingKey, constellati
     }
     return <Key />;
   }
-  return <Level openSoulField={openSoulField} openCosmo={openCosmo} openPartnership={openPartnership} />;
+  return <Level openSoulField={openSoulField} openCosmo={openCosmo}
+    openPartnership={openPartnership} openCabinet={openCabinet} />;
 }

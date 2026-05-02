@@ -116,8 +116,33 @@
   display: inline-block;
   text-shadow: 0 0 24px rgba(240, 197, 116, 0.5);
   transition: all 0.2s;
+  position: relative;
 }
 .part-mycode:hover { background: rgba(240, 197, 116, 0.1); }
+.part-mycode.flash {
+  background: rgba(168, 200, 152, 0.18);
+  animation: part-mycode-flash 0.8s ease;
+}
+@keyframes part-mycode-flash {
+  0% { background: rgba(168, 200, 152, 0.4); transform: scale(1.04); }
+  100% { background: rgba(168, 200, 152, 0); transform: scale(1); }
+}
+.part-mycode-check {
+  position: absolute;
+  top: -22px; left: 50%; transform: translateX(-50%);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  color: #a8c898;
+  white-space: nowrap;
+  background: rgba(20, 14, 30, 0.9);
+  padding: 3px 10px; border-radius: 999px;
+  border: 1px solid rgba(168, 200, 152, 0.4);
+  animation: copy-check-rise 0.3s ease;
+}
+@keyframes copy-check-rise {
+  from { opacity: 0; transform: translate(-50%, 4px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
 .part-mycode-hint { font-size: 11px; color: #968a7c; margin-top: 8px; font-style: italic; }
 .part-waiting {
   text-align: center; padding: 14px; color: #c0b6a8;
@@ -129,9 +154,23 @@
   background: rgba(159, 200, 232, 0.08);
   border: 1px solid rgba(159, 200, 232, 0.4);
   border-radius: 14px;
-  padding: 18px 20px;
+  padding: 24px 20px 18px;
   margin-bottom: 20px;
   text-align: center;
+  position: relative;
+}
+.part-pair-avatar {
+  --av-color: #9fc8e8;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  background: linear-gradient(135deg, var(--av-color), rgba(20, 14, 30, 0.6));
+  display: flex; align-items: center; justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28px; font-weight: 600; color: #fff7e0;
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.4),
+    0 0 24px var(--av-color);
 }
 .part-pair-label {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -141,6 +180,23 @@
 .part-pair-name { font-size: 18px; color: #fff7e0; margin-top: 6px; font-weight: 500; }
 .part-pair-archetype { font-size: 14px; margin-top: 4px; }
 .part-pair-intention { font-size: 12px; color: #c0b6a8; font-style: italic; margin-top: 6px; }
+
+.part-q-progress {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin: 0 0 12px;
+}
+.part-q-segment {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: all 0.4s ease;
+}
+.part-q-segment.done {
+  background: linear-gradient(90deg, #f0c574, #c89849);
+  box-shadow: 0 0 8px rgba(240, 197, 116, 0.4);
+}
 
 .part-q-counter {
   font-size: 12px; color: #968a7c; letter-spacing: 1px;

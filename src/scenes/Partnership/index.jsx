@@ -26,6 +26,7 @@ export default function Partnership({ onClose }) {
       : 'start',
   );
   const [partnerInput, setPartnerInput] = useState('');
+  const [copyFlash, setCopyFlash] = useState(false);
 
   function handleGenerate() {
     const code = generateCode(`${sessionId}-${Date.now()}`);
@@ -65,6 +66,8 @@ export default function Partnership({ onClose }) {
     if (!partnership?.myCode) return;
     navigator.clipboard?.writeText(partnership.myCode).catch(() => {});
     showToast('код скопійовано', 'success');
+    setCopyFlash(true);
+    setTimeout(() => setCopyFlash(false), 800);
   }
 
   return (
@@ -91,6 +94,7 @@ export default function Partnership({ onClose }) {
           <CreatedView
             myCode={partnership?.myCode}
             onCopy={copyMyCode}
+            copyFlash={copyFlash}
             partnerInput={partnerInput}
             setPartnerInput={setPartnerInput}
             onEnter={handleEnter}
@@ -142,13 +146,15 @@ function StartView({ onGenerate, partnerInput, setPartnerInput, onEnter }) {
   );
 }
 
-function CreatedView({ myCode, onCopy, partnerInput, setPartnerInput, onEnter }) {
+function CreatedView({ myCode, onCopy, copyFlash, partnerInput, setPartnerInput, onEnter }) {
   return (
     <div className="part-created">
       <div className="part-mycode-block">
         <div className="part-label">твій код</div>
-        <div className="part-mycode" onClick={onCopy} title="клікни щоб скопіювати">
+        <div className={`part-mycode${copyFlash ? ' flash' : ''}`}
+          onClick={onCopy} title="клікни щоб скопіювати">
           {myCode}
+          {copyFlash && <span className="part-mycode-check">✓ скопійовано</span>}
         </div>
         <div className="part-mycode-hint">клікни щоб скопіювати · надішли партнеру</div>
       </div>

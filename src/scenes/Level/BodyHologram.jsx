@@ -6,6 +6,7 @@ import Silhouette from './body/Silhouette.jsx';
 import Aura from './body/Aura.jsx';
 import IdaPingala from './body/IdaPingala.jsx';
 import ChakraSphere from './body/ChakraSphere.jsx';
+import { useChakraReactivity } from './body/useChakraReactivity.js';
 
 const VIEW_W = 240;
 const VIEW_H = 460;
@@ -24,11 +25,14 @@ function shouldGlowHands(state) {
 export default function BodyHologram() {
   const state = useGameStore();
   const { completedLevels, currentLevel, resources,
-          flashChakraId, flashCounter, dimChakraId, dimCounter } = state;
+          flashChakraId, flashCounter, dimChakraId, dimCounter,
+          practiceCompletions, channelsActive, dailyCheckIns } = state;
   const [openChakra, setOpenChakra] = useState(null);
   const [flashingId, setFlashingId] = useState(null);
   const [dimmingId, setDimmingId] = useState(null);
   const glowHands = shouldGlowHands(state);
+
+  useChakraReactivity({ practiceCompletions, channelsActive, dailyCheckIns, setFlashingId });
 
   // Слухаємо flashCounter — коли інкрементиться, тригернути спалах
   useEffect(() => {

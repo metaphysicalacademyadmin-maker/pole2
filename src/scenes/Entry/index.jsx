@@ -1,7 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { useProfileStore } from '../../store/profileStore.js';
 import './styles.css';
+
+const PLACEHOLDER_HINTS = [
+  'знайти своє коріння...',
+  'зцілити серце...',
+  'почути свій голос...',
+  'зрозуміти що несу від роду...',
+  'звільнити стару образу...',
+  'дозволити собі бути...',
+  'побачити правду без страху...',
+  'повернутись до тіла...',
+];
 
 // Другий екран: тиша + намір. Локальний useState для tempIntention — це UI-стан
 // поки гравець набирає текст. Зберігаємо у store тільки при натисканні «зайти».
@@ -9,6 +20,16 @@ export default function Entry() {
   const setIntention = useGameStore((s) => s.setIntention);
   const firstName = useProfileStore((s) => s.profile?.firstName);
   const [tempIntention, setTempIntention] = useState('');
+  const [hintIdx, setHintIdx] = useState(0);
+
+  // Циклічна зміна підказки-наміру — кожні 3.5с, поки гравець не почав вводити
+  useEffect(() => {
+    if (tempIntention) return;
+    const t = setInterval(() => {
+      setHintIdx((i) => (i + 1) % PLACEHOLDER_HINTS.length);
+    }, 3500);
+    return () => clearInterval(t);
+  }, [tempIntention]);
 
   const canEnter = tempIntention.trim().length >= 2;
 
@@ -36,18 +57,19 @@ export default function Entry() {
         </p>
         <textarea
           className="intention-input"
-          placeholder="мій намір на цю сесію..."
+          placeholder={PLACEHOLDER_HINTS[hintIdx]}
           maxLength={500}
           value={tempIntention}
           onChange={(e) => setTempIntention(e.target.value)}
         />
         <button
           type="button"
-          className="btn btn-primary"
+          className="entry-enter-btn"
           onClick={handleEnter}
           disabled={!canEnter}
         >
-          зайти у Поле →
+          <span>зайти у Поле</span>
+          <span className="entry-enter-arrow">→</span>
         </button>
       </div>
     </main>

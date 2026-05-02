@@ -42,6 +42,8 @@ export default function ChannelView({ channelId }) {
         <div className="channel-desc">{channel.description}</div>
       </div>
 
+      <StageProgress channel={channel} answered={answered} nextIdx={nextIdx} total={total} />
+
       <div className="channel-progress-bar">
         {channel.cells.map((c, i) => {
           const done = answered.includes(c.id);
@@ -53,21 +55,13 @@ export default function ChannelView({ channelId }) {
       </div>
 
       {allDone ? (
-        <div className="channel-certified">
-          <div className="channel-cert-symbol" style={{ color: channel.color }}>⚡</div>
-          <div className="channel-cert-title">провідник {channel.name}</div>
-          <div className="channel-cert-text">
-            Канал у тобі — ти у каналі. Це сертифікат твого Поля.
-          </div>
-          <button type="button" className="channel-btn-return" onClick={exitChannel}>
-            повернутись до каналів →
-          </button>
-        </div>
+        <CertificateView channel={channel} progress={progress} onClose={exitChannel} />
       ) : (
         <div className="channel-cell">
           {stage && (
             <div className="channel-stage" style={{ color: stage.color }}>
-              {stage.label} · клітинка {nextIdx + 1}
+              <span className="channel-stage-bar" style={{ background: stage.color }} />
+              {stage.label}
             </div>
           )}
           <h4 className="channel-cell-title">{cell.title}</h4>
@@ -85,6 +79,72 @@ export default function ChannelView({ channelId }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Справжній сертифікат — золотий border + дата + ім'я каналу
+function CertificateView({ channel, progress, onClose }) {
+  const certDate = progress.certifiedAt ? new Date(progress.certifiedAt) : new Date();
+  const dateStr = certDate.toLocaleDateString('uk-UA', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  return (
+    <div className="channel-certificate" style={{ '--ch-color': channel.color }}>
+      <div className="cert-corners">
+        <span className="cert-corner cert-corner-tl" />
+        <span className="cert-corner cert-corner-tr" />
+        <span className="cert-corner cert-corner-bl" />
+        <span className="cert-corner cert-corner-br" />
+      </div>
+      <div className="cert-eyebrow">сертифікат провідника</div>
+      <div className="cert-symbol" style={{ color: channel.color }}>{channel.symbol}</div>
+      <h3 className="cert-channel-name" style={{ color: channel.color }}>{channel.name}</h3>
+      <div className="cert-divider" />
+      <p className="cert-text">
+        Канал у тобі — ти у каналі.<br />
+        Це підпис Поля у твоєму полі.
+      </p>
+      <div className="cert-meta">
+        <div className="cert-date">{dateStr}</div>
+        <div className="cert-id">id · {String(progress.certifiedAt || '').slice(-6)}</div>
+      </div>
+      <button type="button" className="channel-btn-return" onClick={onClose}>
+        повернутись до каналів →
+      </button>
+    </div>
+  );
+}
+
+// 5-сегментний прогрес-bar за стадіями: теорія / практика / на собі / на інших / сертифікат
+function StageProgress({ channel, answered, nextIdx, total }) {
+  const STAGE_RANGES = [
+    { id: 'theory',        label: 'теорія',       from: 0, to: 3 },
+    { id: 'practice',      label: 'практика',     from: 3, to: 6 },
+    { id: 'self_work',     label: 'на собі',      from: 6, to: 9 },
+    { id: 'others',        label: 'на інших',     from: 9, to: 11 },
+    { id: 'certification', label: 'сертифікат',   from: 11, to: 12 },
+  ];
+
+  return (
+    <div className="channel-stages">
+      {STAGE_RANGES.map((s) => {
+        const stageCells = channel.cells.slice(s.from, s.to);
+        const stageAnswered = stageCells.filter((c) => answered.includes(c.id)).length;
+        const stageTotal = stageCells.length;
+        const isCurrent = nextIdx >= s.from && nextIdx < s.to;
+        const isDone = stageAnswered === stageTotal;
+        const cls = `channel-stage-segment${isDone ? ' done' : ''}${isCurrent ? ' current' : ''}`;
+        return (
+          <div key={s.id} className={cls}>
+            <div className="channel-stage-fill"
+              style={{
+                width: `${(stageAnswered / stageTotal) * 100}%`,
+                background: isDone ? channel.color : 'rgba(240, 197, 116, 0.5)',
+              }} />
+            <span className="channel-stage-name">{s.label}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }

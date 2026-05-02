@@ -32,6 +32,7 @@ import {
   cosmoActions,
   socialActions,
   modalActions,
+  achievementsActions,
   buildArchive,
 } from './actions.js';
 
@@ -87,6 +88,7 @@ export const useGameStore = create(
       ...cosmoActions(set, get, ensureLegacy),
       ...socialActions(set, get, ensureLegacy),
       ...modalActions(set, get, ensureLegacy),
+      ...achievementsActions(set, get, ensureLegacy),
     }),
     {
       name: SAVE_KEY,

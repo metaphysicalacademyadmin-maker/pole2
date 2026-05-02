@@ -70,29 +70,78 @@
 .const-toolbar-groups {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   margin: 16px 0 20px;
 }
 .const-toolbar-group {
+  background: rgba(20, 14, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.const-toolbar-group.open {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.const-toolbar-group-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: left;
+  transition: background 0.2s;
+}
+.const-toolbar-group-header:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.const-toolbar-group-arrow {
+  font-size: 11px;
+  width: 14px;
+  display: inline-block;
+  text-align: center;
+  opacity: 0.7;
 }
 .const-toolbar-group-label {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  min-width: 90px;
-  opacity: 0.85;
+  flex: 1;
+}
+.const-toolbar-group-count {
+  font-size: 10px;
+  color: #968a7c;
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+.const-toolbar-group-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #1a0f0a;
+  letter-spacing: 0;
 }
 .const-toolbar {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  flex: 1;
+  padding: 0 14px 12px;
+  animation: tg-expand 0.25s ease;
+}
+@keyframes tg-expand {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .const-fig-btn {
   display: inline-flex;
@@ -114,6 +163,60 @@
 .const-fig-btn.placed:hover { background: rgba(216, 144, 152, 0.15); }
 .const-fig-btn.required { cursor: default; }
 .const-fig-btn.required:hover { transform: none; }
+
+/* ─── Hint поверх поля коли мало фігур ─── */
+.const-field-wrap { position: relative; }
+.const-field-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+  padding: 20px;
+  animation: cf-hint-fade 0.6s ease;
+}
+@keyframes cf-hint-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.const-field-hint.compact {
+  inset: auto 20px 20px;
+  top: auto;
+  background: rgba(20, 14, 30, 0.85);
+  border: 1px solid rgba(232, 196, 118, 0.3);
+  border-radius: 10px;
+  padding: 10px 16px;
+}
+.const-field-hint-icon {
+  font-size: 56px;
+  color: rgba(232, 196, 118, 0.45);
+  margin-bottom: 16px;
+  animation: cf-icon-pulse 4s ease-in-out infinite;
+}
+@keyframes cf-icon-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.08); opacity: 0.65; }
+}
+.const-field-hint-title {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #f0c574;
+  margin-bottom: 14px;
+}
+.const-field-hint-text {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  color: #c0b6a8;
+  line-height: 1.65;
+  font-style: italic;
+  max-width: 380px;
+}
 
 .const-readings {
   margin: 24px auto;

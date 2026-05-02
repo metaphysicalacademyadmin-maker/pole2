@@ -1,0 +1,89 @@
+.iv-overlay {
+  position: fixed; inset: 0; z-index: 1080;
+  background: radial-gradient(ellipse at center, rgba(20, 14, 30, 0.95), rgba(8, 4, 14, 0.98));
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: iv-fade 1.2s ease;
+}
+@keyframes iv-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.iv-modal {
+  background: transparent;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  animation: iv-rise 1.5s ease;
+}
+@keyframes iv-rise {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.iv-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 5px; color: #c9b3e8;
+  text-transform: uppercase; font-weight: 700;
+  margin-bottom: 30px;
+  text-shadow: 0 0 14px rgba(201, 179, 232, 0.5);
+}
+
+.iv-orb {
+  position: relative;
+  width: 80px; height: 80px;
+  margin: 0 auto 30px;
+}
+.iv-orb-inner {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe7a8, #c89849);
+  box-shadow: 0 0 40px rgba(255, 231, 168, 0.6);
+  animation: iv-orb-pulse 4s ease-in-out infinite;
+}
+.iv-orb-pulse {
+  position: absolute; inset: -20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 231, 168, 0.3);
+  animation: iv-orb-ring 4s ease-in-out infinite;
+}
+@keyframes iv-orb-pulse {
+  0%, 100% { transform: scale(0.95); opacity: 0.85; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+@keyframes iv-orb-ring {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.iv-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  color: #fff7e0;
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0 auto 36px;
+  max-width: 420px;
+  text-shadow: 0 0 22px rgba(255, 231, 168, 0.15);
+}
+
+.iv-close {
+  background: transparent;
+  border: 1px solid rgba(255, 231, 168, 0.4);
+  color: #ffe7a8;
+  padding: 10px 28px;
+  border-radius: 999px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.iv-close:hover {
+  background: rgba(255, 231, 168, 0.1);
+  border-color: #ffe7a8;
+}

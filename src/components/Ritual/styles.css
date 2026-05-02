@@ -1,0 +1,12 @@
+.breath-circle{position:relative;display:inline-flex;align-items:center;justify-content:center;margin:0 auto}
+.breath-circle__core{position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--bc-bright),var(--bc-deep));box-shadow:0 0 32px var(--bc-glow);animation:bc-breath 8s ease-in-out infinite}
+.breath-circle__ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--bc-ring);animation:bc-ring 8s ease-in-out infinite}
+.breath-circle__label{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--bc-label);opacity:.7;white-space:nowrap}
+.breath-circle--gold{--bc-bright:#ffe7a8;--bc-deep:#c89849;--bc-glow:rgba(255,231,168,.45);--bc-ring:rgba(255,231,168,.3);--bc-label:#ffe7a8}
+.breath-circle--violet{--bc-bright:#d8c8ec;--bc-deep:#6a4a7a;--bc-glow:rgba(201,179,232,.4);--bc-ring:rgba(201,179,232,.3);--bc-label:#c9b3e8}
+@keyframes bc-breath{0%,100%{transform:scale(.88);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+@keyframes bc-ring{0%,100%{transform:scale(.95);opacity:.5}50%{transform:scale(1.18);opacity:.85}}
+.phase-dots{display:flex;gap:8px;justify-content:center;margin:0 0 18px}
+.phase-dots__dot{width:6px;height:6px;border-radius:50%;background:rgba(232,196,118,.25);transition:all .3s}
+.phase-dots__dot.is-active{background:#f0c574;width:22px;border-radius:4px;box-shadow:0 0 10px rgba(232,196,118,.6)}
+.phase-dots__dot.is-done{background:rgba(232,196,118,.55)}

@@ -36,9 +36,17 @@ export default function SoulBookSections({ data }) {
 function Cover({ data }) {
   return (
     <section className="sb-section sb-cover">
+      {/* Декоративні куточки */}
+      <span className="sb-cover-corner sb-cover-corner-tl" />
+      <span className="sb-cover-corner sb-cover-corner-tr" />
+      <span className="sb-cover-corner sb-cover-corner-bl" />
+      <span className="sb-cover-corner sb-cover-corner-br" />
+
+      <div className="sb-cover-symbol">✦</div>
       <div className="sb-cover-eyebrow">ПОЛЕ · Втілення</div>
       <h1 className="sb-cover-title">Книга Душі</h1>
       <div className="sb-cover-sub">— шлях, який ти пройшов через себе —</div>
+      <div className="sb-cover-divider">∙ ∙ ∙</div>
       {data.intention && (
         <div className="sb-cover-intention">
           <div className="sb-label">намір з якого почалось</div>

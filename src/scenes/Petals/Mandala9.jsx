@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { PETALS } from '../../data/petals.js';
+import SacredGeometry from '../Final/SacredGeometry.jsx';
 
 const VIEW = 600;
 const CENTER = 300;
@@ -13,6 +15,8 @@ export default function Mandala9() {
   const progress = useGameStore((s) => s.petalProgress);
   const total = PETALS.length;
   const allDone = PETALS.every((p) => progress[p.id]?.completed);
+  const completedCount = PETALS.filter((p) => progress[p.id]?.completed).length;
+  const [hoveredId, setHoveredId] = useState(null);
 
   return (
     <main className="scene petals-scene">
@@ -51,18 +55,27 @@ export default function Mandala9() {
             const ratio = cells ? answered / cells : 0;
             const opacity = prog.completed ? 1 : (0.35 + ratio * 0.5);
 
+            const isHovered = hoveredId === petal.id;
             return (
               <g key={petal.id} style={{ cursor: 'pointer' }}
-                onClick={() => enterPetal(petal.id)}>
+                onClick={() => enterPetal(petal.id)}
+                onMouseEnter={() => setHoveredId(petal.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                className={`m9-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}`}>
                 <path d={path}
                   fill={prog.completed ? petal.color : `${petal.color}40`}
-                  stroke={petal.color} strokeWidth={prog.completed ? 1.8 : 0.9}
-                  opacity={opacity}>
+                  stroke={petal.color}
+                  strokeWidth={prog.completed ? 1.8 : isHovered ? 1.5 : 0.9}
+                  opacity={isHovered ? Math.min(1, opacity + 0.25) : opacity}
+                  style={{
+                    transition: 'all 0.3s ease',
+                    filter: isHovered ? `drop-shadow(0 0 12px ${petal.color})` : 'none',
+                  }}>
                   <title>{petal.name} · {answered}/{cells}</title>
                 </path>
                 <text x={px} y={py - 4} textAnchor="middle"
-                  fontSize="13" fontWeight="700" fill={petal.color}
-                  style={{ userSelect: 'none', pointerEvents: 'none' }}>
+                  fontSize={isHovered ? "15" : "13"} fontWeight="700" fill={petal.color}
+                  style={{ userSelect: 'none', pointerEvents: 'none', transition: 'font-size 0.25s' }}>
                   {petal.symbol}
                 </text>
                 <text x={px} y={py + 12} textAnchor="middle"
@@ -78,6 +91,9 @@ export default function Mandala9() {
               </g>
             );
           })}
+
+          {/* Sacred Geometry — з'являється з 3+ ключами */}
+          <SacredGeometry keysCount={completedCount} cx={CENTER} cy={CENTER} />
 
           {/* Центральне коло */}
           <circle cx={CENTER} cy={CENTER} r={PETAL_INNER - 6}

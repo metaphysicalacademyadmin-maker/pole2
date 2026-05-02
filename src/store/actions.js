@@ -414,6 +414,28 @@ export const petalActions = (set, get, ensure) => ({
   },
 });
 
+// ───────────── ДОСЯГНЕННЯ ─────────────
+
+export const achievementsActions = (set, get, ensure) => ({
+  awardAchievements: (ids) => {
+    if (!ids || ids.length === 0) return;
+    const s = get();
+    const ts = Date.now();
+    const earnedIds = new Set((s.achievements || []).map((a) => a.id));
+    const fresh = ids.filter((id) => !earnedIds.has(id));
+    if (fresh.length === 0) return;
+    set({
+      ...ensure(s),
+      achievements: [...(s.achievements || []), ...fresh.map((id) => ({ id, ts }))],
+      journal: [...s.journal, ...fresh.map((id) => ({
+        text: `🏆 Досягнення: ${id}`,
+        tag: 'досягнення',
+        ts,
+      }))],
+    });
+  },
+});
+
 // ───────────── ЧЕРГА МОДАЛОК ─────────────
 
 export const modalActions = (set, get, ensure) => ({

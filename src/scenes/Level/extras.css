@@ -1,22 +1,60 @@
-/* ─── Custom answer ─── */
+/* ─── Custom answer (CTA — найцінніша дія) ─── */
 .cell-custom-trigger {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   width: 100%;
-  margin-top: 14px;
-  padding: 12px;
-  background: transparent;
-  border: 1.5px dashed #c89849;
-  border-radius: 10px;
-  color: #f0c574;
+  margin-top: 18px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(240, 197, 116, 0.12), rgba(200, 152, 73, 0.08));
+  border: 1.5px solid rgba(240, 197, 116, 0.45);
+  border-radius: 12px;
+  color: #fff7e0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-style: italic;
-  font-size: 15px;
+  text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.cell-custom-trigger::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg,
+    transparent 30%,
+    rgba(240, 197, 116, 0.18) 50%,
+    transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
 }
 .cell-custom-trigger:hover {
-  background: rgba(232,196,118,.1);
   border-color: #f0c574;
+  background: linear-gradient(135deg, rgba(240, 197, 116, 0.18), rgba(200, 152, 73, 0.14));
+  box-shadow: 0 0 24px rgba(240, 197, 116, 0.25);
+  transform: translateY(-1px);
+}
+.cell-custom-trigger:hover::before { transform: translateX(100%); }
+.cct-icon {
+  font-size: 24px;
+  color: #f0c574;
+  text-shadow: 0 0 12px rgba(240, 197, 116, 0.5);
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+.cct-content {
+  display: flex; flex-direction: column; gap: 2px;
+  position: relative; z-index: 1;
+}
+.cct-title {
+  font-size: 15px; font-weight: 600;
+  color: #f0c574;
+  letter-spacing: 0.3px;
+}
+.cct-hint {
+  font-size: 11px; color: #c0b6a8;
+  letter-spacing: 0.5px;
+  font-style: italic;
 }
 
 .cell-custom { margin-top: 16px; }
@@ -139,7 +177,10 @@
   border: 1px solid rgba(240, 197, 116, 0.35);
   border-radius: 14px;
   text-align: center;
+  animation: cp-fade-in 0.4s ease;
 }
+
+.cell-options { animation: cp-fade-in 0.35s ease; }
 .cpo-title { font-size: 15px; color: #fff7e0; margin-bottom: 6px; font-weight: 500; }
 .cpo-hint { font-size: 12px; color: #c0b6a8; opacity: 0.85; margin-bottom: 14px; line-height: 1.5; }
 .cpo-actions { display: flex; gap: 10px; justify-content: center; }
@@ -210,24 +251,73 @@
   transform: scale(1.05);
 }
 
-.cp-slider-wrap { padding: 14px 0; }
-.cp-slider {
-  width: 100%; height: 6px; -webkit-appearance: none; appearance: none;
-  background: linear-gradient(90deg, rgba(159,200,232,0.3), rgba(240,197,116,0.5), rgba(232,168,184,0.3));
-  border-radius: 3px; outline: none;
+.cp-slider-wrap {
+  padding: 14px 0 8px;
+  position: relative;
 }
+.cp-slider {
+  width: 100%; height: 8px; -webkit-appearance: none; appearance: none;
+  background:
+    linear-gradient(90deg,
+      rgba(122, 90, 120, 0.45) 0%,
+      rgba(159, 200, 232, 0.4) 30%,
+      rgba(240, 197, 116, 0.7) 60%,
+      rgba(255, 231, 168, 0.85) 100%);
+  border-radius: 4px;
+  outline: none;
+  cursor: grab;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+.cp-slider:active { cursor: grabbing; }
 .cp-slider::-webkit-slider-thumb {
-  -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
-  background: #f0c574; border-radius: 50%; cursor: pointer;
-  box-shadow: 0 0 12px rgba(240,197,116,0.5);
+  -webkit-appearance: none; appearance: none;
+  width: 26px; height: 26px;
+  background: radial-gradient(circle at 35% 35%, #ffe7a8, #c89849);
+  border-radius: 50%; cursor: grab;
+  box-shadow:
+    0 0 0 3px rgba(20, 12, 28, 0.85),
+    0 0 18px rgba(240, 197, 116, 0.7),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cp-slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+.cp-slider:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+  box-shadow:
+    0 0 0 3px rgba(20, 12, 28, 0.85),
+    0 0 28px rgba(240, 197, 116, 1),
+    0 2px 8px rgba(0, 0, 0, 0.5);
 }
 .cp-slider::-moz-range-thumb {
-  width: 22px; height: 22px; background: #f0c574; border-radius: 50%;
-  cursor: pointer; border: none; box-shadow: 0 0 12px rgba(240,197,116,0.5);
+  width: 26px; height: 26px;
+  background: radial-gradient(circle at 35% 35%, #ffe7a8, #c89849);
+  border-radius: 50%; cursor: grab; border: none;
+  box-shadow:
+    0 0 0 3px rgba(20, 12, 28, 0.85),
+    0 0 18px rgba(240, 197, 116, 0.7);
+  transition: transform 0.15s ease;
 }
-.cp-slider-value { text-align: center; margin-top: 12px; }
-.cp-cm { font-size: 32px; color: #fff7e0; font-weight: 300; }
-.cp-unit { font-size: 14px; color: #968a7c; margin-left: 4px; }
+.cp-slider::-moz-range-thumb:hover { transform: scale(1.1); }
+
+.cp-slider-value {
+  text-align: center;
+  margin-top: 18px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+}
+.cp-cm {
+  font-size: 38px; color: #fff7e0;
+  font-weight: 200; letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 18px rgba(240, 197, 116, 0.3);
+}
+.cp-unit {
+  font-size: 14px; color: #968a7c;
+  letter-spacing: 1px; text-transform: uppercase;
+  font-weight: 600;
+}
 
 .cp-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; }
 .cp-btn-skip, .cp-btn-primary {
@@ -309,18 +399,33 @@
 /* ─── Snake-клітинка (тіньова) ─── */
 .lvl-center.snake-cell {
   position: relative;
-  background: radial-gradient(ellipse at top, rgba(90, 64, 96, 0.18), transparent 70%);
-  border-radius: 18px;
-  padding-top: 8px;
+  background:
+    radial-gradient(ellipse at top, rgba(122, 60, 90, 0.22), transparent 70%),
+    rgba(20, 14, 30, 0.85);
+  border-color: rgba(216, 144, 152, 0.45);
+  animation: snake-bg-pulse 5s ease-in-out infinite;
 }
 .lvl-center.snake-cell::before {
   content: '';
   position: absolute;
   inset: -2px;
-  border-radius: 20px;
+  border-radius: 16px;
   pointer-events: none;
-  border: 1px solid rgba(216, 144, 152, 0.25);
-  box-shadow: inset 0 0 40px rgba(90, 64, 96, 0.15);
+  border: 1px solid rgba(216, 144, 152, 0.35);
+  box-shadow: inset 0 0 40px rgba(90, 30, 60, 0.25);
+  animation: snake-border-pulse 4s ease-in-out infinite;
+}
+@keyframes snake-bg-pulse {
+  0%, 100% { background:
+    radial-gradient(ellipse at top, rgba(122, 60, 90, 0.18), transparent 70%),
+    rgba(20, 14, 30, 0.85); }
+  50% { background:
+    radial-gradient(ellipse at top, rgba(150, 70, 110, 0.30), transparent 70%),
+    rgba(28, 16, 36, 0.9); }
+}
+@keyframes snake-border-pulse {
+  0%, 100% { box-shadow: inset 0 0 40px rgba(90, 30, 60, 0.25); }
+  50% { box-shadow: inset 0 0 60px rgba(140, 50, 90, 0.4); }
 }
 .lvl-center.snake-cell .cell-eyebrow {
   color: #d89098;

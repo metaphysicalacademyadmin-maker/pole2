@@ -166,6 +166,10 @@ export const defaultState = {
   activeModal: null,
   modalQueue: [],
 
+  // ─── Досягнення (Personal Cabinet) ───
+  // [{id, ts}] — ID + коли отримано
+  achievements: [],
+
   // ─── UI preferences ───
   uiMode: 'map',
   themeMode: 'dark',

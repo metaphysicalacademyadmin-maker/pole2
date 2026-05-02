@@ -86,6 +86,23 @@ export default function Constellation() {
 
         <div className="const-field-wrap">
           <Field figures={figures} onChange={handleChangeFigures} />
+          {figures.length === 0 && (
+            <div className="const-field-hint">
+              <div className="const-field-hint-icon">◯</div>
+              <div className="const-field-hint-title">почни з трьох</div>
+              <div className="const-field-hint-text">
+                Я · тато · мама — у панелі вгорі (група «рід»).<br />
+                Розстав їх там, де відчуваєш — не де «правильно».
+              </div>
+            </div>
+          )}
+          {figures.length > 0 && figures.length < 3 && (
+            <div className="const-field-hint compact">
+              <div className="const-field-hint-text">
+                додай ще {3 - figures.length} обов'язкових — щоб поле зачитати
+              </div>
+            </div>
+          )}
         </div>
 
         {phase === 'placing' && (

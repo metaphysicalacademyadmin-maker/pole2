@@ -1,13 +1,17 @@
+import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { useProfileStore } from '../../store/profileStore.js';
 import { PATH_MODES } from '../../data/pathmodes.js';
 import FieldNow from '../../components/panels/FieldNow.jsx';
 import ThemeToggle from '../../components/panels/ThemeToggle.jsx';
 import HelpButton from '../../components/panels/HelpButton.jsx';
+import PresenceButton from '../../components/FieldPresence/PresenceButton.jsx';
+import PresenceModal from '../../components/FieldPresence/PresenceModal.jsx';
 import '../../components/panels/panels.css';
 
-// Топбар — лого, режим, FieldNow (інтегральне поле), лічильники.
-export default function Topbar({ onOpenSoulField }) {
+// Топбар — лого, режим, FieldNow (інтегральне поле), лічильники, присутність.
+export default function Topbar({ onOpenSoulField, onOpenCabinet }) {
+  const [presenceOpen, setPresenceOpen] = useState(false);
   const pathMode = useGameStore((s) => s.pathMode);
   const completedLevels = useGameStore((s) => s.completedLevels);
   const keys = useGameStore((s) => s.keys);
@@ -30,6 +34,13 @@ export default function Topbar({ onOpenSoulField }) {
         </div>
       )}
       <FieldNow onOpen={onOpenSoulField} />
+      <PresenceButton onClick={() => setPresenceOpen(true)} />
+      {onOpenCabinet && (
+        <button type="button" className="lvl-tb-cab-btn" onClick={onOpenCabinet}
+          title="особистий кабінет">
+          👤
+        </button>
+      )}
       <ThemeToggle />
       <HelpButton />
       <div className="lvl-tb-stats">
@@ -40,6 +51,7 @@ export default function Topbar({ onOpenSoulField }) {
           <span className="lvl-tb-stat-num">{keys.length}</span> ключі
         </span>
       </div>
+      {presenceOpen && <PresenceModal onClose={() => setPresenceOpen(false)} />}
     </div>
   );
 }

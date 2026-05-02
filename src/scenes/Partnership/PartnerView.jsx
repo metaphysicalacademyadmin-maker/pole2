@@ -42,6 +42,10 @@ export default function PartnerView({ partnership, onExit }) {
   return (
     <div className="part-paired">
       <div className="part-pair-block">
+        <div className="part-pair-avatar"
+          style={{ '--av-color': partner?.archetype?.color || '#9fc8e8' }}>
+          {partner?.name?.[0] || '?'}
+        </div>
         <div className="part-pair-label">з тобою у партнерстві:</div>
         <div className="part-pair-name">
           {partner?.name} · {partner?.age} · {partner?.city}
@@ -54,6 +58,17 @@ export default function PartnerView({ partnership, onExit }) {
         {partner?.intention && (
           <div className="part-pair-intention">намір: «{partner.intention}»</div>
         )}
+      </div>
+
+      {/* 7-сегментний прогрес-bar */}
+      <div className="part-q-progress">
+        {PARTNERSHIP_QUESTIONS.map((q) => {
+          const done = !!sharedAnswers[q.id];
+          return (
+            <span key={q.id} className={`part-q-segment${done ? ' done' : ''}`}
+              title={q.title} />
+          );
+        })}
       </div>
 
       <div className="part-q-counter">

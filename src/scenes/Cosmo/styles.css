@@ -196,22 +196,58 @@
 .cl-theory { font-size: 13px; color: #c0b6a8; font-style: italic; padding: 12px 0; }
 .cl-channels-label { font-size: 12px; color: #f0c574; margin-bottom: 14px; font-weight: 600; }
 
+.cl-channels-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+}
+.cl-channels-overall {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; letter-spacing: 1px; color: #c0b6a8;
+}
+.cl-channels-overall strong {
+  color: #f0c574; font-weight: 700; font-size: 14px;
+}
+
 .cl-channels-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 10px;
 }
 .channel-tile {
+  position: relative;
   background: rgba(20, 14, 30, 0.7);
   border: 1.5px solid; border-radius: 12px;
-  padding: 14px 10px; text-align: center;
+  padding: 14px 10px 16px; text-align: center;
   cursor: pointer; font-family: inherit;
   transition: all 0.25s;
+  overflow: hidden;
+  --ch-color: #f0c574;
 }
-.channel-tile:hover { transform: translateY(-2px); filter: brightness(1.15); }
+.channel-tile-type-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--ch-color);
+  opacity: 0.7;
+}
+.channel-tile:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.15);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
+}
+.channel-tile:hover .channel-tile-type-bar { opacity: 1; }
 .channel-tile.certified {
   background: rgba(240, 197, 116, 0.1);
-  box-shadow: 0 0 18px rgba(240, 197, 116, 0.2);
+  box-shadow: 0 0 18px rgba(240, 197, 116, 0.25);
+}
+.channel-tile.certified::after {
+  content: '✓';
+  position: absolute; top: 8px; right: 10px;
+  font-size: 12px; font-weight: 700;
+  color: var(--ch-color);
+}
+.channel-tile.in-progress { border-style: dashed; }
+.channel-tile-bar {
+  position: absolute; bottom: 0; left: 0; height: 3px;
+  transition: width 0.4s ease;
 }
 .channel-tile-symbol { font-size: 28px; line-height: 1; margin-bottom: 4px; }
 .channel-tile-name { font-size: 14px; color: #fff7e0; font-weight: 600; }
@@ -257,8 +293,132 @@
 }
 .channel-stage {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  font-weight: 700; margin-bottom: 8px;
+  font-weight: 700; margin-bottom: 10px;
+  display: inline-flex; align-items: center; gap: 8px;
 }
+.channel-stage-bar {
+  display: inline-block; width: 16px; height: 2px;
+  border-radius: 1px;
+}
+
+/* ─── 5-сегментний прогрес стадій ─── */
+.channel-stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  margin: 14px 0 6px;
+}
+.channel-stage-segment {
+  position: relative;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.25s;
+}
+.channel-stage-segment.current {
+  border-color: rgba(240, 197, 116, 0.5);
+  box-shadow: 0 0 12px rgba(240, 197, 116, 0.2);
+}
+.channel-stage-segment.done {
+  border-color: rgba(240, 197, 116, 0.3);
+}
+.channel-stage-fill {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  transition: width 0.5s ease;
+  opacity: 0.4;
+}
+.channel-stage-segment.done .channel-stage-fill { opacity: 0.7; }
+.channel-stage-name {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 9px; letter-spacing: 0.5px;
+  color: #fff7e0;
+  text-transform: lowercase;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+@media (max-width: 480px) {
+  .channel-stage-name { font-size: 8px; letter-spacing: 0; }
+}
+
+/* ─── Сертифікат провідника ─── */
+.channel-certificate {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(240, 197, 116, 0.04), rgba(20, 14, 30, 0.8)),
+    rgba(20, 14, 30, 0.9);
+  border: 2px solid var(--ch-color, #f0c574);
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  text-align: center;
+  margin-top: 16px;
+  box-shadow:
+    0 0 40px rgba(240, 197, 116, 0.15),
+    inset 0 0 60px rgba(240, 197, 116, 0.04);
+  animation: cert-rise 0.8s ease;
+}
+@keyframes cert-rise {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.cert-corners { position: absolute; inset: 0; pointer-events: none; }
+.cert-corner {
+  position: absolute;
+  width: 18px; height: 18px;
+  border: 2px solid var(--ch-color, #f0c574);
+  opacity: 0.6;
+}
+.cert-corner-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.cert-corner-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.cert-corner-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.cert-corner-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+.cert-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 5px; color: #c0b6a8;
+  text-transform: uppercase; font-weight: 700;
+  margin-bottom: 18px;
+}
+.cert-symbol {
+  font-size: 56px; line-height: 1;
+  text-shadow: 0 0 30px currentColor;
+  animation: cert-glow 3s ease-in-out infinite;
+}
+@keyframes cert-glow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+.cert-channel-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 32px; font-weight: 400;
+  margin: 8px 0 14px;
+  letter-spacing: 1px;
+}
+.cert-divider {
+  width: 60px; height: 1px;
+  background: var(--ch-color, #f0c574);
+  margin: 0 auto 16px;
+  opacity: 0.6;
+}
+.cert-text {
+  font-size: 14px; color: #d8c8d8; font-style: italic;
+  line-height: 1.7; margin: 0 auto 24px;
+  max-width: 320px;
+}
+.cert-meta {
+  display: flex; justify-content: center; gap: 22px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; color: #968a7c;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+.cert-date { color: #c0b6a8; }
+.cert-id { font-family: monospace; opacity: 0.6; }
 .channel-cell-title { font-size: 16px; color: #fff7e0; margin: 0 0 8px; }
 .channel-cell-text {
   font-size: 13px; color: #c0b6a8; line-height: 1.6;

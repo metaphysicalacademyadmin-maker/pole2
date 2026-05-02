@@ -136,7 +136,11 @@ export default function CellView({ cell, levelN, totalCells, currentIdx, lockedC
             className="cell-custom-trigger"
             onClick={() => setCustomMode(true)}
           >
-            ✎ свій варіант відповіді
+            <span className="cct-icon">✎</span>
+            <span className="cct-content">
+              <span className="cct-title">написати своє</span>
+              <span className="cct-hint">найглибше йде сюди · +3 до барометра</span>
+            </span>
           </button>
         </>
       )}

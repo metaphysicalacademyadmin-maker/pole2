@@ -6,9 +6,8 @@ import BodyMapDisplay from '../../components/BodyMap/BodyMapDisplay.jsx';
 import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
 import SoulBook from '../../components/SoulBook/index.jsx';
 import Circles from '../../components/Circles/index.jsx';
+import FinalPresenceLine from '../../components/FieldPresence/FinalPresenceLine.jsx';
 import './styles.css';
-
-const SYS = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
 // Фінальний екран: «Карта Втілення». Показує намір, ключі, статистику.
 // Гравець може почати новий шлях (archiveAndReset) або зберегти карту.
@@ -54,34 +53,27 @@ export default function Final({ openCosmo, openAdmin, openPartnership }) {
           </div>
         )}
 
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0', gap: '24px', flexWrap: 'wrap', alignItems: 'center' }}>
+        <div className="final-mandala-row">
           <Mandala completedLevels={completedLevels} levelKeys={levelKeys} />
           {Object.keys(bodyMap).length > 0 && (
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: SYS, fontSize: '11px', fontWeight: 700, letterSpacing: '4px', color: '#f0c574', textTransform: 'uppercase', marginBottom: '8px' }}>
-                карта тіла
-              </div>
+            <div className="final-body-map">
+              <div className="final-body-map-label">карта тіла</div>
               <BodyMapDisplay size={150} />
             </div>
           )}
         </div>
 
         {evolutionEcho && (
-          <div style={{
-            background: 'rgba(192,174,220,0.08)', border: '1px solid #c9b3e8',
-            borderRadius: '12px', padding: '16px 20px', marginBottom: '24px',
-          }}>
-            <div style={{ fontFamily: SYS, fontSize: '11px', fontWeight: 700, letterSpacing: '4px', color: '#c9b3e8', textTransform: 'uppercase', marginBottom: '8px' }}>
-              ехо попередньої сесії
-            </div>
-            <div style={{ fontFamily: SYS, fontStyle: 'italic', fontSize: '14px', color: '#fff7e0', opacity: 0.9 }}>
+          <div className="final-echo">
+            <div className="final-echo-label">ехо попередньої сесії</div>
+            <div className="final-echo-text">
               Раніше ти приходив з наміром: «{evolutionEcho.previousIntention}». Пройшов {evolutionEcho.previousLevelsCompleted} рівнів.
             </div>
           </div>
         )}
 
         {(practiceCompletions.length > 0 || channelsUnlocked.length > 0 || Object.keys(constellations).length > 0) && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '24px' }}>
+          <div className="final-substats">
             {practiceCompletions.length > 0 && <SubStat n={practiceCompletions.length} label="практик" />}
             {channelsUnlocked.length > 0 && <SubStat n={channelsUnlocked.length} label="каналів" />}
             {Object.keys(constellations).length > 0 && <SubStat n={Object.keys(constellations).length} label="розстановок" />}
@@ -129,25 +121,43 @@ export default function Final({ openCosmo, openAdmin, openPartnership }) {
           <div className="final-quote-attr">арбітр-свідок</div>
         </div>
 
-        <div className="final-actions" style={{ gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-          <button type="button" className="btn btn-primary" onClick={() => setBookOpen(true)}>
-            📜 Книга Душі
+        <FinalPresenceLine />
+
+        {/* Hero CTA — Книга Душі (головний артефакт) */}
+        <div className="final-hero-action">
+          <button type="button" className="final-btn-hero" onClick={() => setBookOpen(true)}>
+            <span className="final-hero-icon">📜</span>
+            <span className="final-hero-content">
+              <span className="final-hero-title">Книга Душі</span>
+              <span className="final-hero-hint">забери з собою те, що проявилось</span>
+            </span>
           </button>
-          <button type="button" className="btn btn-primary" onClick={activatePetals}>
-            ✺ продовжити у 9 пелюсток
-          </button>
-          {openCosmo && (
-            <button type="button" className="btn btn-primary" onClick={openCosmo}>
-              🔮 космоенергетика
+        </div>
+
+        {/* Secondary — наступні шляхи */}
+        <div className="final-paths">
+          <div className="final-paths-label">або продовжити шлях:</div>
+          <div className="final-paths-row">
+            <button type="button" className="final-btn-path" onClick={activatePetals}>
+              <span>✺</span> 9 пелюсток
             </button>
-          )}
-          {openPartnership && (
-            <button type="button" className="btn btn-primary" onClick={openPartnership}>
-              👯 партнерство
-            </button>
-          )}
-          <button type="button" className="btn btn-ghost" onClick={handleNew}>
-            почати новий шлях
+            {openCosmo && (
+              <button type="button" className="final-btn-path" onClick={openCosmo}>
+                <span>🔮</span> космоенергетика
+              </button>
+            )}
+            {openPartnership && (
+              <button type="button" className="final-btn-path" onClick={openPartnership}>
+                <span>👯</span> партнерство
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Reset — destructive */}
+        <div className="final-reset">
+          <button type="button" className="final-btn-reset" onClick={handleNew}>
+            ↻ почати новий шлях
           </button>
         </div>
 
@@ -165,15 +175,9 @@ export default function Final({ openCosmo, openAdmin, openPartnership }) {
 
 function SubStat({ n, label }) {
   return (
-    <div style={{
-      padding: '12px',
-      background: 'rgba(20, 14, 30, 0.7)',
-      borderRadius: '10px',
-      border: '1px solid rgba(232,196,118,0.2)',
-      textAlign: 'center',
-    }}>
-      <div style={{ fontFamily: SYS, fontSize: '24px', color: '#f0c574', fontWeight: 700 }}>{n}</div>
-      <div style={{ fontFamily: SYS, fontSize: '10px', fontWeight: 600, letterSpacing: '3px', textTransform: 'uppercase', color: '#c8bca8', marginTop: '4px' }}>{label}</div>
+    <div className="final-substat">
+      <div className="final-substat-num">{n}</div>
+      <div className="final-substat-label">{label}</div>
     </div>
   );
 }

@@ -1,0 +1,406 @@
+/* Особистий кабінет — overlay із 5 вкладок */
+
+.cab-overlay {
+  position: fixed; inset: 0; z-index: 1100;
+  background: rgba(8, 4, 14, 0.97);
+  overflow-y: auto;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.cab-frame {
+  max-width: 760px; margin: 0 auto; padding: 24px 20px 60px;
+}
+
+/* ─── Header ─── */
+.cab-header {
+  display: flex; align-items: center;
+  margin-bottom: 18px; gap: 16px;
+}
+.cab-close {
+  background: transparent; border: 1px solid rgba(255,255,255,0.18);
+  color: #c0b6a8; padding: 8px 16px; border-radius: 8px;
+  font-family: inherit; font-size: 12px; cursor: pointer;
+  transition: all 0.2s;
+}
+.cab-close:hover { color: #fff7e0; border-color: rgba(255,255,255,0.35); }
+.cab-title {
+  font-size: 12px; letter-spacing: 5px; color: #f0c574;
+  text-transform: uppercase; font-weight: 700;
+  flex: 1; text-align: center;
+}
+
+/* ─── Tabs ─── */
+.cab-tabs {
+  display: flex; gap: 4px;
+  background: rgba(20, 14, 30, 0.8);
+  border: 1px solid rgba(232, 196, 118, 0.2);
+  border-radius: 14px; padding: 4px;
+  margin-bottom: 22px;
+  overflow-x: auto;
+  position: sticky; top: 0; z-index: 1;
+  backdrop-filter: blur(8px);
+}
+.cab-tab {
+  flex: 1; min-width: 80px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 10px 8px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: #968a7c;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.cab-tab:hover { color: #c0b6a8; }
+.cab-tab.active {
+  background: rgba(232, 196, 118, 0.12);
+  color: #fff7e0;
+}
+.cab-tab-icon { font-size: 18px; }
+.cab-tab-label {
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ─── Common ─── */
+.cab-block-label {
+  font-size: 10px; letter-spacing: 4px; color: #f0c574;
+  text-transform: uppercase; font-weight: 700;
+  margin: 22px 0 12px;
+}
+.cab-empty {
+  text-align: center; padding: 40px 20px;
+  color: #968a7c; font-style: italic; font-size: 14px;
+  background: rgba(20, 14, 30, 0.5);
+  border-radius: 12px;
+}
+
+/* ─── Profile tab ─── */
+.cab-avatar-block {
+  text-align: center;
+  padding: 18px 0;
+}
+.cab-avatar {
+  --av-color: #f0c574;
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  background: linear-gradient(135deg, var(--av-color), rgba(20, 14, 30, 0.6));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 38px; font-weight: 600; color: #fff7e0;
+  box-shadow: 0 0 32px var(--av-color), 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+.cab-avatar-name {
+  font-size: 22px; color: #fff7e0; font-weight: 600;
+  margin-bottom: 6px;
+}
+.cab-avatar-arc {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.cab-bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 22px 0;
+}
+.cab-bento-card {
+  padding: 14px 12px;
+  background: rgba(20, 14, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.2s;
+}
+.cab-bento-icon { font-size: 26px; line-height: 1; margin-bottom: 6px; }
+.cab-bento-label {
+  font-size: 9px; letter-spacing: 2px; color: #968a7c;
+  text-transform: uppercase; font-weight: 700;
+}
+.cab-bento-value {
+  font-size: 14px; color: #fff7e0; font-weight: 600;
+  margin-top: 4px;
+}
+.cab-bento-hint {
+  font-size: 11px; color: #c0b6a8; margin-top: 2px;
+  font-style: italic;
+}
+
+.cab-intention {
+  background: rgba(240, 197, 116, 0.06);
+  border: 1px solid rgba(240, 197, 116, 0.3);
+  border-radius: 12px;
+  padding: 18px 22px; margin: 16px 0;
+  text-align: center;
+}
+.cab-intention-text {
+  font-size: 17px; color: #fff7e0; font-style: italic;
+  font-family: Georgia, 'Times New Roman', serif;
+  margin-top: 8px; line-height: 1.5;
+}
+
+.cab-stats-line {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 18px 0;
+}
+.cab-stat {
+  font-size: 12px; color: #c0b6a8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 12px; border-radius: 999px;
+}
+.cab-stat strong { color: #f0c574; font-weight: 700; }
+
+.cab-blessing {
+  margin: 22px 0 0;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid;
+  border-radius: 8px;
+}
+.cab-blessing-text {
+  font-size: 15px; color: #fff7e0; font-style: italic;
+  margin-top: 6px; line-height: 1.55;
+}
+
+/* ─── Achievements ─── */
+.cab-ach-summary {
+  text-align: center;
+  padding: 22px;
+  background: rgba(240, 197, 116, 0.06);
+  border: 1px solid rgba(240, 197, 116, 0.3);
+  border-radius: 14px;
+  margin-bottom: 24px;
+}
+.cab-ach-summary-num {
+  font-size: 28px; color: #fff7e0;
+}
+.cab-ach-summary-num strong {
+  color: #f0c574; font-weight: 700; font-size: 36px;
+}
+.cab-ach-summary-label {
+  font-size: 11px; letter-spacing: 3px; color: #968a7c;
+  text-transform: uppercase; margin: 4px 0 14px;
+}
+.cab-ach-progress {
+  width: 100%; height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px; overflow: hidden;
+}
+.cab-ach-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c89849, #f0c574, #ffe7a8);
+  transition: width 0.6s ease;
+}
+
+.cab-ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.cab-ach-card {
+  --ach-color: #c0b6a8;
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px;
+  background: rgba(20, 14, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  position: relative;
+  opacity: 0.55;
+  transition: all 0.25s;
+}
+.cab-ach-card.earned {
+  opacity: 1;
+  border-color: var(--ach-color);
+  background: rgba(20, 14, 30, 0.75);
+}
+.cab-ach-icon {
+  font-size: 26px; line-height: 1; flex-shrink: 0;
+}
+.cab-ach-content { flex: 1; min-width: 0; }
+.cab-ach-title {
+  font-size: 13px; color: #fff7e0; font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.cab-ach-card.earned .cab-ach-title { color: var(--ach-color); }
+.cab-ach-desc {
+  font-size: 11px; color: #968a7c; margin-top: 4px;
+  line-height: 1.5; font-style: italic;
+}
+.cab-ach-date {
+  font-size: 10px; color: #c0b6a8; margin-top: 6px;
+  letter-spacing: 1px;
+}
+.cab-ach-tier-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  border-radius: 10px 10px 0 0;
+}
+
+/* ─── Practices ─── */
+.cab-pract-summary {
+  text-align: center;
+  padding: 18px;
+  background: rgba(168, 200, 152, 0.05);
+  border: 1px solid rgba(168, 200, 152, 0.25);
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+.cab-pract-summary-num {
+  font-size: 18px; color: #fff7e0;
+}
+.cab-pract-summary-num strong { color: #a8c898; font-size: 28px; font-weight: 700; }
+.cab-pract-summary-label {
+  font-size: 10px; letter-spacing: 3px; color: #968a7c;
+  text-transform: uppercase; margin: 3px 0 6px;
+}
+.cab-pract-summary-extra {
+  font-size: 12px; color: #c0b6a8;
+}
+
+.cab-pract-recommended {
+  margin-bottom: 18px;
+}
+.cab-pract-list {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.cab-pract-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  background: rgba(20, 14, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+.cab-pract-row.rec {
+  border-color: rgba(240, 197, 116, 0.4);
+  background: rgba(240, 197, 116, 0.06);
+}
+.cab-pract-row.status-locked { opacity: 0.45; }
+.cab-pract-row.status-mastered {
+  background: rgba(240, 197, 116, 0.08);
+  border-color: rgba(240, 197, 116, 0.3);
+}
+.cab-pract-icon { font-size: 22px; flex-shrink: 0; }
+.cab-pract-info { flex: 1; min-width: 0; }
+.cab-pract-name {
+  font-size: 14px; color: #fff7e0; font-weight: 500;
+}
+.cab-pract-meta {
+  font-size: 11px; color: #968a7c; margin-top: 2px;
+}
+.cab-pract-badge {
+  font-size: 10px; padding: 4px 10px; border-radius: 999px;
+  letter-spacing: 1px; font-weight: 600;
+  text-transform: uppercase;
+}
+.cab-pract-badge.mastered { background: rgba(240, 197, 116, 0.15); color: #f0c574; }
+.cab-pract-badge.practiced { background: rgba(168, 200, 152, 0.15); color: #a8c898; }
+.cab-pract-badge.available { background: rgba(159, 200, 232, 0.1); color: #9fc8e8; }
+.cab-pract-badge.locked { background: rgba(255, 255, 255, 0.05); color: #968a7c; }
+
+/* ─── Aura ─── */
+.cab-aura-sparkline {
+  background: rgba(20, 14, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  height: 110px;
+}
+.cab-sparkline-svg { width: 100%; height: 100%; }
+
+.cab-aura-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+.cab-aura-stat {
+  text-align: center;
+  padding: 12px;
+  background: rgba(20, 14, 30, 0.5);
+  border-radius: 10px;
+}
+.cab-aura-stat-num {
+  font-size: 22px; color: #fff7e0; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.cab-aura-stat-num span { font-size: 11px; color: #968a7c; margin-left: 2px; }
+.cab-aura-stat-num.trend-up { color: #a8c898; }
+.cab-aura-stat-num.trend-down { color: #d89098; }
+.cab-aura-stat-label {
+  font-size: 10px; letter-spacing: 2px;
+  color: #968a7c; text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.cab-bars {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.cab-bar-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px;
+}
+.cab-bar-name { width: 80px; flex-shrink: 0; font-weight: 500; }
+.cab-bar-track {
+  flex: 1; height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px; position: relative;
+}
+.cab-bar-axis {
+  position: absolute; top: -2px; bottom: -2px; left: 50%; width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.cab-bar-fill {
+  position: absolute; top: 0; bottom: 0;
+  border-radius: 3px;
+  transition: all 0.4s;
+}
+.cab-bar-val {
+  width: 36px; text-align: right; font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* ─── Sessions ─── */
+.cab-sessions-list {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.cab-session-row {
+  padding: 14px 16px;
+  background: rgba(20, 14, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+.cab-session-row.reason-completed { border-color: rgba(168, 200, 152, 0.3); }
+.cab-session-row.reason-abandoned { border-color: rgba(216, 144, 152, 0.3); }
+.cab-session-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.cab-session-date {
+  font-size: 13px; color: #c0b6a8; font-weight: 500;
+}
+.cab-session-tag {
+  font-size: 10px; padding: 3px 10px; border-radius: 999px;
+  letter-spacing: 1px; font-weight: 600;
+}
+.cab-session-tag.tag-completed { background: rgba(168, 200, 152, 0.15); color: #a8c898; }
+.cab-session-tag.tag-abandoned { background: rgba(216, 144, 152, 0.15); color: #d89098; }
+.cab-session-intention {
+  font-size: 14px; color: #fff7e0; font-style: italic;
+  margin-bottom: 8px; line-height: 1.5;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.cab-session-meta {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  font-size: 11px; color: #968a7c;
+}
+.cab-session-meta strong { color: #f0c574; font-weight: 700; }
+
+/* ─── Mobile ─── */
+@media (max-width: 540px) {
+  .cab-bento { grid-template-columns: 1fr 1fr; }
+  .cab-tab-label { font-size: 9px; }
+  .cab-stats-line .cab-stat { font-size: 11px; padding: 5px 10px; }
+}

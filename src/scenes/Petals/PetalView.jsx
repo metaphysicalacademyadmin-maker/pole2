@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
+import { BAROMETERS } from '../../data/barometers.js';
 import { showToast } from '../../components/GlobalToast.jsx';
+
+const BAR_COLOR = Object.fromEntries(BAROMETERS.map((b) => [b.key, b.color]));
 
 // Перегляд однієї пелюстки — клітинки розкриваються по черзі.
 // Після останньої — святковий стан "пелюстка завершена" + кнопка повернутись.
@@ -73,14 +76,20 @@ export default function PetalView({ petal }) {
             <h3 className="petal-cell-title">{cell.title}</h3>
             <p className="petal-cell-question">{cell.question}</p>
             <div className="petal-options">
-              {cell.options.map((opt, i) => (
-                <button key={i} type="button"
-                  className={`petal-option${pickedKey === opt.text ? ' picked' : ''}`}
-                  onClick={() => handlePick(opt)}
-                  disabled={pickedKey != null}>
-                  {opt.text}
-                </button>
-              ))}
+              {cell.options.map((opt, i) => {
+                const isShadow = opt.depth === 'shadow' || (typeof opt.delta === 'number' && opt.delta < 0);
+                const accent = isShadow ? '#7a5a78' : (BAR_COLOR[opt.barometer] || '#f0c574');
+                return (
+                  <button key={i} type="button"
+                    className={`petal-option${pickedKey === opt.text ? ' picked' : ''}`}
+                    onClick={() => handlePick(opt)}
+                    disabled={pickedKey != null}
+                    style={{ '--accent': accent }}>
+                    <span className="petal-option-accent" />
+                    <span className="petal-option-body">{opt.text}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}

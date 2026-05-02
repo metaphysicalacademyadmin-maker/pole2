@@ -33,7 +33,7 @@ import './extras.css';
 
 // Композиція робочого рівня: топбар, 3-колонкова сітка
 // (піраміда + клітинка + барометри + 8 панелей), панель дій.
-export default function Level({ openSoulField }) {
+export default function Level({ openSoulField, openCabinet }) {
   const currentLevel = useGameStore((s) => s.currentLevel);
   const currentCellIdx = useGameStore((s) => s.currentCellIdx);
   const pathMode = useGameStore((s) => s.pathMode);
@@ -81,7 +81,7 @@ export default function Level({ openSoulField }) {
 
   return (
     <main className="scene">
-      <Topbar onOpenSoulField={openSoulField} />
+      <Topbar onOpenSoulField={openSoulField} onOpenCabinet={openCabinet} />
 
       <div className="lvl-mode-toggle">
         <button type="button" className={`mode-btn${!isFocus ? ' active' : ''}`}

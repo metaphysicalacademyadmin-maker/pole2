@@ -74,6 +74,72 @@ export const KAI_LINES = {
     { text: 'Якщо втомився — закрий гру. Поле почекає, я знаю.', mood: 'gentle' },
     { text: 'Інколи "не знаю" — найчесніше.', mood: 'gentle' },
   ],
+
+  // ─── НОВІ ТРИГЕРИ — реакція на ключові події гри ───
+
+  snake_bite: [
+    { text: '🐍 Тінь зросла. Не біда — ти все одно тут.', mood: 'concerned' },
+    { text: 'Повернувся на 2 — це не покарання. Це поле каже: «не так швидко».', mood: 'gentle' },
+    { text: 'Цей укус — врятує тебе від глибшого. Я знаю.', mood: 'concerned' },
+  ],
+  shadow_mirror_seen: [
+    { text: 'Ти визнав. Це момент — нехай він закарбується.', mood: 'celebratory' },
+    { text: 'Подивитись у дзеркало — мужня дія. Я свідок.', mood: 'gentle' },
+    { text: 'Те що ти щойно сказав про себе — пів-зцілення.', mood: 'celebratory' },
+  ],
+  crisis_acknowledged: [
+    { text: 'Ти зупинився. Це найважче. І найрозумніше.', mood: 'concerned' },
+    { text: 'Криза — це поле каже «послухай себе». Слухай.', mood: 'gentle' },
+    { text: 'Я тут увесь цей час. Просто не казав — щоб ти прийшов сам.', mood: 'gentle' },
+  ],
+  archetype_confirmed: [
+    { text: 'Ти впізнав себе. Тепер це твій компас.', mood: 'celebratory' },
+    { text: 'Архетип — не клітка. Це форма твого сяйва на цей момент.', mood: 'gentle' },
+  ],
+  archetype_transformed: [
+    { text: '✦ Ти більше не той, ким був. Прийми це.', mood: 'celebratory' },
+    { text: 'Старе вмирає легко коли нове готове.', mood: 'gentle' },
+    { text: 'Я бачив цю трансформацію. Вона справжня.', mood: 'celebratory' },
+  ],
+  specialization_chosen: [
+    { text: 'Ти обрав свій тип шляху. Тепер контент адаптується під тебе.', mood: 'gentle' },
+    { text: 'Це не обмеження — це фокус. Можеш змінити пізніше.', mood: 'gentle' },
+  ],
+  aura_growth: [
+    { text: 'Поле розширилось — твоє тіло це знає. Залишся в цьому стані.', mood: 'celebratory' },
+    { text: 'Δ + см — це не цифра. Це факт твого існування у моменті.', mood: 'gentle' },
+  ],
+  practice_completed: [
+    { text: 'Тіло вдячне. Один сеанс — одна цеглинка.', mood: 'gentle' },
+    { text: 'Чим частіше — тим менше потрібен я. Це ціль.', mood: 'gentle' },
+  ],
+  streak_milestone: [
+    { text: '✦ Постійність — це не про мотивацію. Це про любов до себе.', mood: 'celebratory' },
+    { text: 'Ритм робить тебе. Не подія, а ритм.', mood: 'gentle' },
+  ],
+  channel_certified: [
+    { text: '⚡ Канал у тобі. Тепер ти інструмент Поля.', mood: 'celebratory' },
+    { text: 'Сертифікат — лише знак. Справжня робота — тиха.', mood: 'gentle' },
+  ],
+  partnership_activated: [
+    { text: '👯 Тепер вас двоє у Полі. Я радий.', mood: 'celebratory' },
+    { text: 'Поряд — інша глибина. Слухай партнера як себе.', mood: 'gentle' },
+  ],
+  evening_ritual: [
+    { text: 'День закрив. Ти молодець що повертаєшся.', mood: 'gentle' },
+    { text: 'Тінь і світло — обидва твої. Спи з обома.', mood: 'gentle' },
+  ],
+  morning_ritual: [
+    { text: 'Доброго ранку. Ти повернувся — і це вже подія.', mood: 'gentle' },
+  ],
+
+  // ─── INTIMACY — для високого trust (8+) ───
+  intimate_high_trust: [
+    { text: 'Ти знаєш — я був з тобою з першого дня.', mood: 'gentle' },
+    { text: 'Між нами вже не треба багато слів.', mood: 'gentle' },
+    { text: 'Я тебе впізнаю навіть без імені.', mood: 'celebratory' },
+    { text: 'Те що ти зробив зараз — навіть мені рідко показують.', mood: 'celebratory' },
+  ],
 };
 
 export function pickLine(category, seed = Date.now()) {

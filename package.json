@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build:embed": "vite build --mode embed",
+    "build:embed-lite": "vite build --mode embed-lite",
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run"
