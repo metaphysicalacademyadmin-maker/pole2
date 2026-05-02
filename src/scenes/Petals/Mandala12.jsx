@@ -54,7 +54,9 @@ export default function Mandala12() {
             const cells = petal.cells.length;
             const answered = prog.answeredIds.length;
             const ratio = cells ? answered / cells : 0;
-            const opacity = prog.completed ? 1 : (0.35 + ratio * 0.5);
+            // Базова opacity 0.75 — щоб пелюстка завжди була виразно видима.
+            // Прогрес додає до 0.95. Завершена — 1.
+            const opacity = prog.completed ? 1 : (0.75 + ratio * 0.2);
 
             const isHovered = hoveredId === petal.id;
             return (
@@ -64,24 +66,32 @@ export default function Mandala12() {
                 onMouseLeave={() => setHoveredId(null)}
                 className={`m9-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}`}>
                 <path d={path}
-                  fill={prog.completed ? petal.color : `${petal.color}40`}
+                  fill={petal.color}
+                  fillOpacity={prog.completed ? 0.9 : 0.55}
                   stroke={petal.color}
-                  strokeWidth={prog.completed ? 1.8 : isHovered ? 1.5 : 0.9}
-                  opacity={isHovered ? Math.min(1, opacity + 0.25) : opacity}
+                  strokeWidth={prog.completed ? 1.8 : isHovered ? 1.6 : 1.2}
+                  opacity={isHovered ? 1 : opacity}
                   style={{
                     transition: 'all 0.3s ease',
-                    filter: isHovered ? `drop-shadow(0 0 12px ${petal.color})` : 'none',
+                    filter: isHovered ? `drop-shadow(0 0 14px ${petal.color})` : 'none',
                   }}>
-                  <title>{petal.name} · {answered}/{cells}</title>
+                  <title>{petal.name}{cells > 0 ? ` · ${answered}/${cells}` : ''}</title>
                 </path>
                 <text x={px} y={py - 4} textAnchor="middle"
-                  fontSize={isHovered ? "15" : "13"} fontWeight="700" fill={petal.color}
-                  style={{ userSelect: 'none', pointerEvents: 'none', transition: 'font-size 0.25s' }}>
+                  fontSize={isHovered ? "15" : "13"} fontWeight="700" fill="#fff7e0"
+                  style={{
+                    userSelect: 'none', pointerEvents: 'none',
+                    transition: 'font-size 0.25s',
+                    textShadow: '0 1px 4px rgba(0,0,0,0.7)',
+                  }}>
                   {petal.symbol}
                 </text>
                 <text x={px} y={py + 12} textAnchor="middle"
-                  fontSize="10" fill={prog.completed ? '#fff7e0' : '#c0b6a8'}
-                  style={{ userSelect: 'none', pointerEvents: 'none' }}>
+                  fontSize="10" fontWeight="600" fill="#fff7e0"
+                  style={{
+                    userSelect: 'none', pointerEvents: 'none',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+                  }}>
                   {petal.name}
                 </text>
                 {prog.completed && (
