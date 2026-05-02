@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import GameModal from '../GameModal.jsx';
 import { useGameStore } from '../../store/gameStore.js';
 import { cardForDate } from '../../data/daily-cards.js';
@@ -60,29 +62,54 @@ function CardPhase({ card, onNext }) {
 }
 
 function ScalesPhase({ scales, onSet, onNext }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  // Mobile: 3 кнопки в ряд (5 рівнів → 3 + 2). Desktop: усі 5 в один ряд.
+  // На мобільному робимо більший padding + fontSize щоб тапати зручніше.
+  const buttonStyle = isMobile
+    ? {
+        flex: '1 1 calc(33.333% - 6px)',
+        minWidth: 0,
+        padding: '12px 8px',
+        fontSize: '13px',
+      }
+    : {
+        flex: 1,
+        padding: '6px 4px',
+        fontSize: '11px',
+      };
+
+  const rowStyle = isMobile
+    ? { display: 'flex', flexWrap: 'wrap', gap: '6px' }
+    : { display: 'flex', gap: '4px' };
+
   return (
     <div>
       <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#fff7e0', marginBottom: '16px' }}>
         Постав себе по 5 шкалах. Швидко, без думання.
       </p>
       {STATE_SCALES.map((sc) => (
-        <div key={sc.key} style={{ marginBottom: '12px' }}>
-          <div style={{ fontFamily: SYS, fontSize: '13px', color: '#f0c574', marginBottom: '4px', fontWeight: 600 }}>
+        <div key={sc.key} style={{ marginBottom: isMobile ? '16px' : '12px' }}>
+          <div style={{ fontFamily: SYS, fontSize: isMobile ? '14px' : '13px', color: '#f0c574', marginBottom: '6px', fontWeight: 600 }}>
             {sc.icon} {sc.name}
           </div>
-          <div style={{ display: 'flex', gap: '4px' }}>
+          <div style={rowStyle}>
             {sc.levels.map((l) => (
-              <button key={l.v}
+              <button
+                key={l.v}
                 onClick={() => onSet(sc.key, l.v)}
                 style={{
-                  flex: 1, padding: '6px 4px',
+                  ...buttonStyle,
                   background: scales[sc.key] === l.v ? 'rgba(232,196,118,0.25)' : 'rgba(20,14,30,0.5)',
                   border: `1px solid ${scales[sc.key] === l.v ? '#f0c574' : 'rgba(232,196,118,0.2)'}`,
-                  borderRadius: '6px',
+                  borderRadius: '8px',
                   color: '#fff7e0',
-                  fontFamily: SYS, fontSize: '11px',
+                  fontFamily: SYS,
+                  fontWeight: 500,
                   cursor: 'pointer',
-                }}>
+                }}
+              >
                 {l.label}
               </button>
             ))}
