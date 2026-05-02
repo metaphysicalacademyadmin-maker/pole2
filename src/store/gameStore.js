@@ -40,14 +40,17 @@ import {
 // gameStore — єдине джерело правди для стану гри ПОЛЕ · Втілення.
 //
 // Контракт із бекендом metaphysical-way.academy:
-//   • localStorage ключ — `pole_game_state_v1`
+//   • localStorage ключ — `pole2_game_state_v1` (унікальний namespace pole2,
+//     щоб не зіткнутись із legacy HTML-грою, яка використовує `pole_game_state_v1`)
 //   • Парент-сторінка кожні 5с читає цей ключ і шле POST /api/pole-sessions/sync
-//   • Архівні сесії — у `pole_game_history_v1` (масив snapshot-ів)
+//   • Архівні сесії — у `pole2_game_history_v1` (масив snapshot-ів)
 //
 // 🚫 НЕ можна змінювати:
-//   - назви ключів localStorage
 //   - назви ключових полів state (sessionId, startedAt, savedAt)
 //   - формат архівного snapshot у archiveAndReset()
+// Назви localStorage-ключів МОЖНА змінювати, але ОБОВ'ЯЗКОВО синхронно з
+// `metaphysical-way2/src/app/[slug]/StaticPageView.js` (POLE2_STATE_KEY/
+// POLE2_HISTORY_KEY) інакше парент не побачить writes гри.
 //
 // Структура файлу:
 //   defaultState.js — defaultState + ensureSession + clamp + genSessionId

@@ -1,13 +1,14 @@
 import GameModal from '../GameModal.jsx';
+import { HISTORY_KEY } from '../../store/defaultState.js';
 
 const SYS = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
-// Історія всіх минулих сесій з localStorage[pole_game_history_v1].
+// Історія всіх минулих сесій з localStorage[HISTORY_KEY].
 // Timeline: коли почав, скільки рівнів, які ключі, які архетипи.
 export default function HistoryModal({ onClose }) {
   let history = [];
   try {
-    const raw = localStorage.getItem('pole_game_history_v1');
+    const raw = localStorage.getItem(HISTORY_KEY);
     history = raw ? JSON.parse(raw) : [];
   } catch (_) {}
 

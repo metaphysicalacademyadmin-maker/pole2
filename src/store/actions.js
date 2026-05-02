@@ -1,6 +1,8 @@
 // Розширені actions для нових модулів. Імпортуються у gameStore.js.
 // Кожен повертає функцію (set, get) → (...args) щоб уникнути циркулярних посилань.
 
+import { HISTORY_KEY } from './defaultState.js';
+
 const todayKey = () => new Date().toISOString().slice(0, 10);
 
 export const ensureSession = (s, genSessionId) => ({
@@ -766,7 +768,6 @@ export const fieldActions = (set, get, ensure) => ({
 
 // ───────────── АРХІВ + ЕВОЛЮЦІЯ ─────────────
 
-const HISTORY_KEY = 'pole_game_history_v1';
 const HISTORY_MAX = 50;
 
 export function buildArchive(set, get, defaultState, genSessionId) {

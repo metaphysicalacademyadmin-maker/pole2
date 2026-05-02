@@ -1,8 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import HistoryModal from './HistoryModal.jsx';
-
-const KEY = 'pole_game_history_v1';
+import { HISTORY_KEY as KEY } from '../../store/defaultState.js';
 
 beforeEach(() => {
   localStorage.clear();

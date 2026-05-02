@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { SAVE_KEY } from '../store/defaultState.js';
 
 // Захист від crash-у в одній сцені — гра не вмирає, користувачу пропонується
 // або скинути сесію (видалити localStorage), або перезавантажити сторінку.
@@ -19,7 +20,7 @@ export default class ErrorBoundary extends Component {
 
   handleReset = () => {
     try {
-      localStorage.removeItem('pole_game_state_v1');
+      localStorage.removeItem(SAVE_KEY);
     } catch (_) {}
     location.reload();
   };

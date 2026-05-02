@@ -3,8 +3,12 @@
 // КРИТИЧНО: Identity-поля (sessionId, startedAt, savedAt) — частина контракту з
 // бекендом metaphysical-way.academy, не перейменовувати.
 
-export const SAVE_KEY = 'pole_game_state_v1';
-export const HISTORY_KEY = 'pole_game_history_v1';
+// Унікальні ключі pole2 — не діляться з legacy HTML-грою (pole_game_state_v1).
+// На metaphysical-way.academy різні гри (pole2 і Exelentpole_game.html-подібні)
+// крутяться у одному origin → діляться localStorage. Якщо обидві мають однакові
+// ключі — вони перезатирають дані одна одної. Тому pole2 пише у власний namespace.
+export const SAVE_KEY = 'pole2_game_state_v1';
+export const HISTORY_KEY = 'pole2_game_history_v1';
 export const HISTORY_MAX = 50;
 
 export const genSessionId = () =>

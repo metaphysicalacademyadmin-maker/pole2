@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-
-const HISTORY_KEY = 'pole_game_history_v1';
+import { HISTORY_KEY } from '../../store/defaultState.js';
 
 // Сесії · історія — всі завершені/перервані сесії з localStorage history.
 
