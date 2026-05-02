@@ -7,11 +7,12 @@ import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
 import SoulBook from '../../components/SoulBook/index.jsx';
 import Circles from '../../components/Circles/index.jsx';
 import FinalPresenceLine from '../../components/FieldPresence/FinalPresenceLine.jsx';
+import { PETALS } from '../../data/petals.js';
 import './styles.css';
 
 // Фінальний екран: «Карта Втілення». Показує намір, ключі, статистику.
 // Гравець може почати новий шлях (archiveAndReset) або зберегти карту.
-export default function Final({ openCosmo, openAdmin, openPartnership }) {
+export default function Final({ openCosmo, openAdmin, openPartnership, openCabinet, openGift }) {
   const intention = useGameStore((s) => s.intention);
   const completedLevels = useGameStore((s) => s.completedLevels);
   const levelKeys = useGameStore((s) => s.levelKeys);
@@ -23,12 +24,20 @@ export default function Final({ openCosmo, openAdmin, openPartnership }) {
   const practiceCompletions = useGameStore((s) => s.practiceCompletions);
   const bodyMap = useGameStore((s) => s.bodyMap);
   const channelsUnlocked = useGameStore((s) => s.channelsUnlocked);
+  const petalProgress = useGameStore((s) => s.petalProgress) || {};
   const firstName = useProfileStore((s) => s.profile?.firstName);
   const activatePetals = useGameStore((s) => s.activatePetals);
   const [bookOpen, setBookOpen] = useState(false);
 
   const cellsAnswered = Object.keys(cellAnswers).length;
   const orderedKeys = completedLevels.map((n) => ({ n, text: levelKeys[n] }));
+
+  // 4-та спіраль розкривається коли пройдено: 7 рівнів + 12 пелюсток + хоч 1 канал
+  const allPetalsDone = PETALS.every((p) => petalProgress[p.id]?.completed);
+  const fourthSpiralUnlocked =
+    completedLevels.length >= 7 &&
+    allPetalsDone &&
+    (channelsUnlocked || []).length >= 1;
 
   function handleNew() {
     if (window.confirm('Почати новий шлях? Поточну сесію буде збережено в історії.')) {
@@ -150,6 +159,10 @@ export default function Final({ openCosmo, openAdmin, openPartnership }) {
               <button type="button" className="final-btn-path" onClick={openPartnership}>
                 <span>👯</span> партнерство
               </button>
+            )}
+            {fourthSpiralUnlocked && openGift && (
+              <button type="button" className="final-btn-path final-btn-gift" onClick={openGift}>
+                <span>✨</span> дар у світ</button>
             )}
           </div>
         </div>

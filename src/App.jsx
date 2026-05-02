@@ -12,6 +12,7 @@ import Petals from './scenes/Petals/index.jsx';
 import Cosmo from './scenes/Cosmo/index.jsx';
 import Admin from './scenes/Admin/index.jsx';
 import Partnership from './scenes/Partnership/index.jsx';
+import GiftToWorld from './scenes/GiftToWorld/index.jsx';
 import PersonalCabinet from './components/PersonalCabinet/index.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import GlobalToast from './components/GlobalToast.jsx';
@@ -49,6 +50,7 @@ export default function App() {
   const [cosmoOpen, setCosmoOpen] = useState(false);
   const [partnershipOpen, setPartnershipOpen] = useState(false);
   const [cabinetOpen, setCabinetOpen] = useState(false);
+  const [giftOpen, setGiftOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(() =>
     typeof window !== 'undefined' && window.location.search.includes('admin=true')
   );
@@ -139,7 +141,8 @@ export default function App() {
               openCosmo: () => setCosmoOpen(true),
               openAdmin: () => setAdminOpen(true),
               openPartnership: () => setPartnershipOpen(true),
-              openCabinet: () => setCabinetOpen(true) })}
+              openCabinet: () => setCabinetOpen(true),
+              openGift: () => setGiftOpen(true) })}
       </ErrorBoundary>
       <GlobalToast />
       {pathMode && intention && !soulFieldOpen && !activeCharacter && !mirror && <KaiBubble />}
@@ -159,6 +162,7 @@ export default function App() {
       {adminOpen && <Admin onClose={() => setAdminOpen(false)} />}
       {partnershipOpen && <Partnership onClose={() => setPartnershipOpen(false)} />}
       {cabinetOpen && <PersonalCabinet onClose={() => setCabinetOpen(false)} />}
+      {giftOpen && <GiftToWorld onClose={() => setGiftOpen(false)} />}
       <ResonanceMirror />
       {pathMode && intention && !soulFieldOpen && <InnerVoice />}
     </div>
@@ -172,13 +176,13 @@ export function useCosmoOpener() {
 }
 
 function pickScene({ pathMode, intention, currentLevel, awaitingKey, constellations, petalsActive,
-                    openSoulField, openCosmo, openAdmin, openPartnership, openCabinet }) {
+                    openSoulField, openCosmo, openAdmin, openPartnership, openCabinet, openGift }) {
   if (!pathMode) return <PathMode />;
   if (!intention) return <Entry />;
   if (currentLevel > 7) {
-    if (petalsActive) return <Petals />;
+    if (petalsActive) return <Petals openCosmo={openCosmo} />;
     return <Final openCosmo={openCosmo} openAdmin={openAdmin}
-      openPartnership={openPartnership} openCabinet={openCabinet} />;
+      openPartnership={openPartnership} openCabinet={openCabinet} openGift={openGift} />;
   }
   if (awaitingKey) {
     if (currentLevel === 3 && !(constellations[3]?.resolution)) {

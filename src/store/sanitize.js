@@ -42,7 +42,7 @@ export function sanitizeState(s, defaults) {
                     'archetypesMet', 'unlockedAbilities', 'completedInitiations',
                     'auraReadings', 'snakePenalties', 'shadowMirrorHistory',
                     'archetypeTransformations', 'cosmoIntroSeen', 'resonanceHistory',
-                    'modalQueue', 'achievements']) {
+                    'modalQueue', 'achievements', 'gifts']) {
     if (!Array.isArray(s[k])) s[k] = [...(defaults[k] || [])];
   }
 

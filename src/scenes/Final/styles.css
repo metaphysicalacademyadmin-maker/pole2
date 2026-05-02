@@ -320,6 +320,16 @@
   box-shadow: 0 4px 14px rgba(232, 196, 118, 0.2);
 }
 .final-btn-path span:first-child { font-size: 16px; }
+.final-btn-gift {
+  background: linear-gradient(180deg, rgba(232,196,118,0.18), rgba(120,76,30,0.22));
+  border-color: #f0c574;
+  box-shadow: 0 0 18px rgba(232, 196, 118, 0.25);
+  animation: final-gift-pulse 3s ease-in-out infinite;
+}
+@keyframes final-gift-pulse {
+  0%, 100% { box-shadow: 0 0 14px rgba(232, 196, 118, 0.2); }
+  50%      { box-shadow: 0 0 28px rgba(232, 196, 118, 0.5); }
+}
 
 /* ─── Reset (destructive) ─── */
 .final-reset {

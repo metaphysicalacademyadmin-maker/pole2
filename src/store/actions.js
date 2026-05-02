@@ -388,6 +388,46 @@ export const petalActions = (set, get, ensure) => ({
   exitPetal: () => {
     set({ currentPetalId: null });
   },
+  acknowledgeMandalaFinal: () => {
+    const s = get();
+    set({
+      ...ensure(s),
+      mandalaFinalShown: true,
+      journal: [...s.journal, {
+        text: '✺ Квітка Життя · 12 пелюсток розкриті',
+        tag: 'шлях', ts: Date.now(),
+      }],
+    });
+  },
+  submitGift: (payload) => {
+    // payload: { text, kind, forLevelN? }
+    const s = get();
+    const gift = {
+      id: `gift_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      text: (payload.text || '').trim(),
+      kind: payload.kind,
+      forLevelN: payload.forLevelN || null,
+      ts: Date.now(),
+    };
+    if (!gift.text) return null;
+    set({
+      ...ensure(s),
+      gifts: [...(s.gifts || []), gift],
+      journal: [...s.journal, {
+        text: `✨ Дар у Поле: ${gift.kind} · «${gift.text.slice(0, 60)}${gift.text.length > 60 ? '…' : ''}»`,
+        tag: 'дар', ts: Date.now(),
+      }],
+    });
+    return gift;
+  },
+  removeGift: (giftId) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      gifts: (s.gifts || []).filter((g) => g.id !== giftId),
+    });
+  },
+  acknowledgeFourthSpiral: () => set({ fourthSpiralAcknowledged: true }),
   recordPetalAnswer: (petalId, cellId, totalCellsInPetal, payload) => {
     const s = get();
     const key = `${petalId}-${cellId}`;

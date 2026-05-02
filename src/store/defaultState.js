@@ -138,6 +138,11 @@ export const defaultState = {
   currentPetalId: null,
   petalAnswers: {},
   petalProgress: {},
+  mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
+
+  // ─── 4-та спіраль — Дар у Світ ───
+  gifts: [],                       // [{ id, text, kind, forLevelN, ts }]
+  fourthSpiralAcknowledged: false, // true коли гравець вперше побачив що 4-та спіраль розкрита
 
   // ─── Гілка космоенергетики (5 рівнів) ───
   cosmoApplication: null,
