@@ -1,7 +1,4 @@
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
+import GameModal from '../GameModal.jsx';
 import { useGameStore } from '../../store/gameStore.js';
 import { useProfileStore } from '../../store/profileStore.js';
 import { showToast } from '../GlobalToast.jsx';
@@ -19,24 +16,25 @@ export default function ResetConfirmDialog({ onClose }) {
   }
 
   return (
-    <Dialog open onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle sx={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: 'primary.main' }}>
-        {firstName ? `${firstName}, почати новий шлях?` : 'Почати новий шлях?'}
-      </DialogTitle>
-      <DialogContent dividers>
-        <p
-          style={{
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-            fontStyle: 'italic',
-            color: 'var(--ink-secondary)',
-            lineHeight: 1.55,
-          }}
-        >
-          Поточну сесію буде збережено в історії — але закінчити її більше
-          не зможеш. Обери це лише якщо відчуваєш що цей шлях не твій.
-        </p>
-      </DialogContent>
-      <DialogActions sx={{ padding: '0.75rem 1.25rem', gap: '0.5rem' }}>
+    <GameModal
+      open
+      onClose={onClose}
+      maxWidth="xs"
+      titleColor="primary.main"
+      title={firstName ? `${firstName}, почати новий шлях?` : 'Почати новий шлях?'}
+    >
+      <p
+        style={{
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+          fontStyle: 'italic',
+          color: 'var(--ink-secondary)',
+          lineHeight: 1.55,
+        }}
+      >
+        Поточну сесію буде збережено в історії — але закінчити її більше
+        не зможеш. Обери це лише якщо відчуваєш що цей шлях не твій.
+      </p>
+      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end', marginTop: '1rem' }}>
         <button type="button" className="btn btn-ghost" onClick={onClose}>
           ні, продовжити
         </button>
@@ -48,7 +46,7 @@ export default function ResetConfirmDialog({ onClose }) {
         >
           так, новий шлях
         </button>
-      </DialogActions>
-    </Dialog>
+      </div>
+    </GameModal>
   );
 }

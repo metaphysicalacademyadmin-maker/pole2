@@ -1,6 +1,4 @@
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
+import GameModal from '../GameModal.jsx';
 
 const SYS = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
 
@@ -16,27 +14,22 @@ export default function HistoryModal({ onClose }) {
   const sortedHistory = [...history].sort((a, b) => (b.startedAt || 0) - (a.startedAt || 0));
 
   return (
-    <Dialog open onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle sx={{ fontFamily: SYS, fontWeight: 700, color: '#f0c574' }}>
-        Твої сесії — пам'ять Поля
-      </DialogTitle>
-      <DialogContent dividers>
-        {sortedHistory.length === 0 && (
-          <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#c8bca8', textAlign: 'center', padding: 32 }}>
-            Це твоя перша сесія. Поле тебе тільки впізнає.
-          </p>
-        )}
-        {sortedHistory.length > 0 && (
-          <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#fff7e0', opacity: 0.85, marginBottom: 20 }}>
-            Ти {ordinal(sortedHistory.length + 1)} прийшов сюди.
-            {sortedHistory[0]?.intention && ` Раніше ти приходив з наміром: «${sortedHistory[0].intention}».`}
-          </p>
-        )}
-        {sortedHistory.map((s, i) => (
-          <SessionRow key={s.sessionId || i} session={s} index={sortedHistory.length - i} />
-        ))}
-      </DialogContent>
-    </Dialog>
+    <GameModal open onClose={onClose} maxWidth="md" title="Твої сесії — пам'ять Поля">
+      {sortedHistory.length === 0 && (
+        <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#c8bca8', textAlign: 'center', padding: 32 }}>
+          Це твоя перша сесія. Поле тебе тільки впізнає.
+        </p>
+      )}
+      {sortedHistory.length > 0 && (
+        <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#fff7e0', opacity: 0.85, marginBottom: 20 }}>
+          Ти {ordinal(sortedHistory.length + 1)} прийшов сюди.
+          {sortedHistory[0]?.intention && ` Раніше ти приходив з наміром: «${sortedHistory[0].intention}».`}
+        </p>
+      )}
+      {sortedHistory.map((s, i) => (
+        <SessionRow key={s.sessionId || i} session={s} index={sortedHistory.length - i} />
+      ))}
+    </GameModal>
   );
 }
 

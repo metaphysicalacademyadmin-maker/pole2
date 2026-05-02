@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
+import GameModal from '../GameModal.jsx';
 import { useGameStore } from '../../store/gameStore.js';
 import { practicesForLevel } from '../../data/practices.js';
 import { showToast } from '../GlobalToast.jsx';
@@ -16,25 +14,20 @@ export default function PracticesModal({ onClose, autoLaunch }) {
   const list = practicesForLevel(Math.max(1, currentLevel));
 
   return (
-    <Dialog open onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ fontFamily: SYS, fontWeight: 700, color: '#f0c574' }}>
-        {running ? running.name : `Практики · доступні (${list.length} з 25)`}
-      </DialogTitle>
-      <DialogContent dividers>
-        {running ? (
-          <PracticeRunner practice={running}
-            onDone={(reflection) => {
-              completePractice(running.id, currentLevel, running.duration * 60, reflection);
-              showToast(`практика ${running.name} · ${running.barometer} +1`, 'success');
-              setRunning(null);
-            }}
-            onCancel={() => setRunning(null)}
-          />
-        ) : (
-          <PracticesList list={list} onPick={setRunning} />
-        )}
-      </DialogContent>
-    </Dialog>
+    <GameModal open onClose={onClose} title={running ? running.name : `Практики · доступні (${list.length} з 25)`}>
+      {running ? (
+        <PracticeRunner practice={running}
+          onDone={(reflection) => {
+            completePractice(running.id, currentLevel, running.duration * 60, reflection);
+            showToast(`практика ${running.name} · ${running.barometer} +1`, 'success');
+            setRunning(null);
+          }}
+          onCancel={() => setRunning(null)}
+        />
+      ) : (
+        <PracticesList list={list} onPick={setRunning} />
+      )}
+    </GameModal>
   );
 }
 

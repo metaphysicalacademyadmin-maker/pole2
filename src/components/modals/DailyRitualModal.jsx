@@ -1,9 +1,5 @@
 import { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import GameModal from '../GameModal.jsx';
 import { useGameStore } from '../../store/gameStore.js';
 import { cardForDate } from '../../data/daily-cards.js';
 import { STATE_SCALES } from '../../data/scales.js';
@@ -32,30 +28,19 @@ export default function DailyRitualModal({ onClose }) {
   }
 
   return (
-    <Dialog open onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{
-        fontFamily: SYS, fontWeight: 700, color: '#f0c574',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: 1,
-      }}>
-        <span>Ранковий ритуал · картка дня</span>
-        <IconButton onClick={onClose} size="small" aria-label="закрити" sx={{ color: '#f0c574' }}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent dividers>
-        {phase === 'card' && (
-          <CardPhase card={card} onNext={() => setPhase('scales')} />
-        )}
-        {phase === 'scales' && (
-          <ScalesPhase scales={scales} onSet={handleScale} onNext={() => setPhase('reflection')} />
-        )}
-        {phase === 'reflection' && (
-          <ReflectionPhase morning={morning} setMorning={setMorning}
-            dream={dream} setDream={setDream}
-            onSubmit={handleSubmit} />
-        )}
-      </DialogContent>
-    </Dialog>
+    <GameModal open onClose={onClose} title="Ранковий ритуал · картка дня">
+      {phase === 'card' && (
+        <CardPhase card={card} onNext={() => setPhase('scales')} />
+      )}
+      {phase === 'scales' && (
+        <ScalesPhase scales={scales} onSet={handleScale} onNext={() => setPhase('reflection')} />
+      )}
+      {phase === 'reflection' && (
+        <ReflectionPhase morning={morning} setMorning={setMorning}
+          dream={dream} setDream={setDream}
+          onSubmit={handleSubmit} />
+      )}
+    </GameModal>
   );
 }
 

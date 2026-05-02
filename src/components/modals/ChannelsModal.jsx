@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
+import GameModal from '../GameModal.jsx';
 import { useGameStore } from '../../store/gameStore.js';
 import { CHANNELS, CHANNEL_BLOCKS } from '../../data/channels.js';
 import { showToast } from '../GlobalToast.jsx';
@@ -16,49 +14,44 @@ export default function ChannelsModal({ onClose }) {
   const deactivate = useGameStore((s) => s.deactivateChannel);
 
   return (
-    <Dialog open onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ fontFamily: SYS, fontWeight: 700, color: '#f0c574' }}>
-        Космоенергетичні канали
-      </DialogTitle>
-      <DialogContent dividers>
-        <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#fff7e0', opacity: 0.85, fontSize: '14px', marginBottom: '16px' }}>
-          Канали Космоенергетики (Петров) — частотні підключення з 5 блоків:
-          буддистський · вищий · магічний · магістровський · зороастризм.
-          Розблоковуються коли барометри набирають достатньо.
-        </p>
-        {CHANNEL_BLOCKS.map((block) => {
-          const inBlock = CHANNELS.filter((c) => c.block === block);
-          if (inBlock.length === 0) return null;
-          return (
-            <div key={block} style={{ marginBottom: 18 }}>
-              <div style={{
-                fontFamily: SYS, fontSize: 11, fontWeight: 700,
-                letterSpacing: '4px', textTransform: 'uppercase',
-                color: '#f0c574', marginBottom: 8,
-              }}>
-                ◇ {block} блок
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {inBlock.map((c) => {
-                  const unlocked = channelsUnlocked.includes(c.id);
-                  const active = channelsActive.includes(c.id);
-                  const canUnlock = (resources[c.unlock.resource] || 0) >= c.unlock.threshold;
-                  return (
-                    <ChannelRow key={c.id} channel={c}
-                unlocked={unlocked || canUnlock}
-                active={active}
-                onActivate={() => { activate(c.id); showToast(`канал ${c.name} увімкнено`, 'success'); }}
-                onDeactivate={() => deactivate(c.id)}
-                resourceLevel={resources[c.unlock.resource] || 0}
-              />
-                  );
-                })}
-              </div>
+    <GameModal open onClose={onClose} title="Космоенергетичні канали">
+      <p style={{ fontFamily: SYS, fontStyle: 'italic', color: '#fff7e0', opacity: 0.85, fontSize: '14px', marginBottom: '16px' }}>
+        Канали Космоенергетики (Петров) — частотні підключення з 5 блоків:
+        буддистський · вищий · магічний · магістровський · зороастризм.
+        Розблоковуються коли барометри набирають достатньо.
+      </p>
+      {CHANNEL_BLOCKS.map((block) => {
+        const inBlock = CHANNELS.filter((c) => c.block === block);
+        if (inBlock.length === 0) return null;
+        return (
+          <div key={block} style={{ marginBottom: 18 }}>
+            <div style={{
+              fontFamily: SYS, fontSize: 11, fontWeight: 700,
+              letterSpacing: '4px', textTransform: 'uppercase',
+              color: '#f0c574', marginBottom: 8,
+            }}>
+              ◇ {block} блок
             </div>
-          );
-        })}
-      </DialogContent>
-    </Dialog>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {inBlock.map((c) => {
+                const unlocked = channelsUnlocked.includes(c.id);
+                const active = channelsActive.includes(c.id);
+                const canUnlock = (resources[c.unlock.resource] || 0) >= c.unlock.threshold;
+                return (
+                  <ChannelRow key={c.id} channel={c}
+              unlocked={unlocked || canUnlock}
+              active={active}
+              onActivate={() => { activate(c.id); showToast(`канал ${c.name} увімкнено`, 'success'); }}
+              onDeactivate={() => deactivate(c.id)}
+              resourceLevel={resources[c.unlock.resource] || 0}
+            />
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </GameModal>
   );
 }
 

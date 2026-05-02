@@ -140,6 +140,83 @@ wc -l src/**/*.{js,jsx} | sort -rn | head -10
   `kai.js`, `daily.js`, `dilemma.js`, `voice.js`, `field.js`, `character.js`, `ui.js`, `mirror.js`. У `actions/index.js` — barrel.
 - `src/data/teacher.js` (369) → винеси діалоги в `src/data/teacher/dialogs.js`, методички в `src/data/teacher/lessons.js`. У `teacher.js` — лише експорт.
 
+### 🔄 Перевикористання компонентів — ЗАВЖДИ перш ніж писати новий
+
+**Залізне правило:** перш ніж писати нову UI-обгортку (модалка, кнопка,
+картка, форма), глянь чи нема готового компонента у `src/components/`.
+Якщо є — використай. Якщо нема, але та сама конструкція повторюється у
+2+ місцях — створи **спільний компонент** і реюзай.
+
+#### Перевірка перед написанням нового UI
+
+1. `ls src/components/` — глянь що вже існує
+2. `grep -rn "<Dialog\|<Modal\|<Card>\|<Button" src/` — як вже зроблено
+3. Якщо знайшов готове — імпортуй. Якщо нема, але буде ≥ 2 використань —
+   створи в `src/components/` **спочатку**, потім використай у потрібних
+   місцях.
+
+#### Як це виглядає на ділі — модалки гри
+
+❌ **НЕ роби** — копія-патерн без спільного компонента:
+```jsx
+// у кожній модалці окремо:
+<Dialog open onClose={onClose} maxWidth="sm" fullWidth>
+  <DialogTitle sx={{...}}>Заголовок</DialogTitle>
+  <DialogContent>...</DialogContent>
+</Dialog>
+// → close-icon забуто, стилі різняться, фікс однієї помилки треба робити N разів
+```
+
+✅ **Роби** — спільний компонент `<GameModal>`:
+```jsx
+// src/components/GameModal.jsx — створюємо раз
+export default function GameModal({ open, onClose, title, children }) {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitle sx={{ ... cosmic palette ... display:flex,
+                         justifyContent:space-between }}>
+        <span>{title}</span>
+        <IconButton onClick={onClose} size="small" sx={{ color: '#f0c574' }}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent dividers>{children}</DialogContent>
+    </Dialog>
+  );
+}
+
+// у всіх модалках — реюз:
+<GameModal open={open} onClose={onClose} title="Ранковий ритуал">
+  {content}
+</GameModal>
+```
+
+Тоді close-icon, accessibility (aria-label), стиль, поведінка на mobile —
+все буде **гарантовано** у кожній модалці. Виправлення в одному місці →
+всі екземпляри отримують його одразу.
+
+#### Тригери для виокремлення спільного компонента
+
+Створюй / використовуй спільний компонент якщо:
+- ⚠️ **2+ модалок з однаковим `<Dialog>` хедером** → спільна `<GameModal>`
+- ⚠️ **2+ кнопок з однаковим стилем** → спільна `<Button>` обгортка
+- ⚠️ **2+ карток з однаковим border/padding** → спільна `<Card>`
+- ⚠️ **2+ компонентів використовують однаковий хедер «label · 0/12»** → винеси у `<PanelHeader>`
+- ⚠️ **2+ списків зі схожою сіткою (grid)** → винеси у `<Grid>`-обгортку
+- ⚠️ **Стилі inline у >1 місці** → винеси у CSS-клас або компонент
+
+#### Існуючі shared-обгортки (використовуй замість MUI напряму)
+
+| Замість | Використовуй | Файл |
+|---|---|---|
+| `<Button>` (MUI) | `<Button variant="primary\|ghost">` (cosmic) | `src/components/Button.jsx` |
+| Toast / Snackbar | `showToast(text, level)` | `src/components/GlobalToast.jsx` |
+| StatRow / StatsPanel | reusable у різних панелях | `src/components/StatRow.jsx`, `StatsPanel.jsx` |
+
+⚠ **На сьогодні `<GameModal>` ще не існує** — кожна з 9 модалок у
+`src/components/modals/` копіює `<Dialog>` локально. Це борг. Перш ніж
+додавати нову модалку — створи `<GameModal>` і реюзай.
+
 ### Анти-патерни, які вже ловили в pole2
 
 - ❌ **Дубль поля у `defaultState`.** В `gameStore.js` `archetypesMet` оголошено двічі (рядки 77 і 130) — другий перетирає перший, тип неузгоджений (масив vs об'єкт у коментарі). Перш ніж додавати поле — `grep` його по файлу.

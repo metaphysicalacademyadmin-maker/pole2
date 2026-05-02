@@ -23,4 +23,12 @@ export default defineConfig(({ mode }) => ({
     port: 5173,
     open: true,
   },
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: ['./src/test-setup.js'],
+    css: false,
+    // Збираємо тільки наші тести, не торкаємось node_modules і dist.
+    include: ['src/**/*.test.{js,jsx}'],
+  },
 }));
