@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { TEACHER_CATEGORIES, topicsByCategory, findTopic } from '../../data/teacher.js';
+import { useGameStore } from '../../store/gameStore.js';
 import './teacher.css';
 
 // Учитель Поля — модалка з гідом по грі. Структура:
@@ -14,8 +15,14 @@ export default function TeacherModal({ onClose, defaultTopicId }) {
   const initial = defaultTopicId ? findTopic(defaultTopicId) : null;
   const [activeCategory, setActiveCategory] = useState(initial?.category || 'базове');
   const [activeTopic, setActiveTopic] = useState(initial);
+  const resetOnboarding = useGameStore((s) => s.resetOnboarding);
 
   const topics = topicsByCategory(activeCategory);
+
+  function handleReplayGuide() {
+    resetOnboarding();
+    onClose();
+  }
 
   return createPortal(
     <div className="tch-overlay" onClick={onClose}>
@@ -66,6 +73,9 @@ export default function TeacherModal({ onClose, defaultTopicId }) {
         )}
 
         <div className="tch-footer">
+          <button type="button" className="tch-replay" onClick={handleReplayGuide}>
+            ↻ переглянути вступний гайд
+          </button>
           Не бачиш відповіді? Контакт у Telegram: <strong>@dr_Zayats</strong>
         </div>
       </div>
