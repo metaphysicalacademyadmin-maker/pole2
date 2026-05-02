@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useGameStore } from './store/gameStore.js';
+import { useProfileStore } from './store/profileStore.js';
 import PathMode from './scenes/PathMode/index.jsx';
 import Entry from './scenes/Entry/index.jsx';
 import Level from './scenes/Level/index.jsx';
@@ -46,6 +47,12 @@ export default function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', themeMode || 'dark');
   }, [themeMode]);
+
+  // Завантажуємо профіль зареєстрованого юзера (з metaphysical-way.academy).
+  // Тиха помилка якщо щось не так — гра працює і без імені.
+  useEffect(() => {
+    useProfileStore.getState().load();
+  }, []);
 
   // Detect Антип/Арбітр
   useEffect(() => {

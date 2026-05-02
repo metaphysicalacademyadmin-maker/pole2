@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
-import { pickLine } from './lines.js';
+import { useProfileStore } from '../../store/profileStore.js';
+import { pickLine, personalizeLine } from './lines.js';
 import './kai.css';
 
 // Floating-bubble Кая в нижньому правому куті.
@@ -13,6 +14,7 @@ export default function KaiBubble() {
   const kaiState = useGameStore((s) => s.kaiState);
   const bumpKaiTrust = useGameStore((s) => s.bumpKaiTrust);
   const setKaiMood = useGameStore((s) => s.setKaiMood);
+  const firstName = useProfileStore((s) => s.profile?.firstName);
 
   const [line, setLine] = useState(null);
   const [open, setOpen] = useState(false);
@@ -31,7 +33,7 @@ export default function KaiBubble() {
     else if (last.depth === 'deep') { category = 'deep_caught'; bumpKaiTrust(0.3); }
 
     if (category) {
-      const picked = pickLine(category, last.ts);
+      const picked = personalizeLine(pickLine(category, last.ts), firstName, last.ts);
       if (picked) {
         setLine(picked);
         setKaiMood(picked.mood);
@@ -40,14 +42,14 @@ export default function KaiBubble() {
         return () => clearTimeout(t);
       }
     }
-  }, [cellAnswers, bumpKaiTrust, setKaiMood]);
+  }, [cellAnswers, bumpKaiTrust, setKaiMood, firstName]);
 
   // Реакція на завершення рівня (ключ).
   useEffect(() => {
     const lastJournal = journal[journal.length - 1];
     if (!lastJournal) return;
     if (lastJournal.tag === 'ключ' && Date.now() - lastJournal.ts < 3000) {
-      const picked = pickLine('after_key', lastJournal.ts);
+      const picked = personalizeLine(pickLine('after_key', lastJournal.ts), firstName, lastJournal.ts);
       if (picked) {
         setLine(picked);
         setKaiMood(picked.mood);
@@ -57,13 +59,13 @@ export default function KaiBubble() {
       }
     }
     if (lastJournal.tag === 'розстановка' && Date.now() - lastJournal.ts < 3000) {
-      const picked = pickLine('after_constellation', lastJournal.ts);
+      const picked = personalizeLine(pickLine('after_constellation', lastJournal.ts), firstName, lastJournal.ts);
       if (picked) { setLine(picked); setKaiMood(picked.mood); setOpen(true);
         const t = setTimeout(() => setOpen(false), 8000);
         return () => clearTimeout(t);
       }
     }
-  }, [journal, setKaiMood]);
+  }, [journal, setKaiMood, firstName]);
 
   return (
     <div className={`kai-bubble${open ? ' open' : ''}${line ? ` mood-${line.mood}` : ''}`}>

@@ -3,12 +3,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { useGameStore } from '../../store/gameStore.js';
+import { useProfileStore } from '../../store/profileStore.js';
 import { showToast } from '../GlobalToast.jsx';
 
 // Confirm-діалог для archiveAndReset. Текст пояснює: твій прогрес НЕ зникне —
 // він збережеться в історії як abandoned-сесія.
 export default function ResetConfirmDialog({ onClose }) {
   const archiveAndReset = useGameStore((s) => s.archiveAndReset);
+  const firstName = useProfileStore((s) => s.profile?.firstName);
 
   function handleReset() {
     archiveAndReset('abandoned');
@@ -19,7 +21,7 @@ export default function ResetConfirmDialog({ onClose }) {
   return (
     <Dialog open onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle sx={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', color: 'primary.main' }}>
-        Почати новий шлях?
+        {firstName ? `${firstName}, почати новий шлях?` : 'Почати новий шлях?'}
       </DialogTitle>
       <DialogContent dividers>
         <p

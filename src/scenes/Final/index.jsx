@@ -1,4 +1,5 @@
 import { useGameStore } from '../../store/gameStore.js';
+import { useProfileStore } from '../../store/profileStore.js';
 import Mandala from './Mandala.jsx';
 import BodyMapDisplay from '../../components/BodyMap/BodyMapDisplay.jsx';
 import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
@@ -20,6 +21,7 @@ export default function Final() {
   const practiceCompletions = useGameStore((s) => s.practiceCompletions);
   const bodyMap = useGameStore((s) => s.bodyMap);
   const channelsUnlocked = useGameStore((s) => s.channelsUnlocked);
+  const firstName = useProfileStore((s) => s.profile?.firstName);
 
   const cellsAnswered = Object.keys(cellAnswers).length;
   const orderedKeys = completedLevels.map((n) => ({ n, text: levelKeys[n] }));
@@ -102,7 +104,9 @@ export default function Final() {
 
         {orderedKeys.length > 0 && (
           <>
-            <div className="final-section-tag">сім слів — твоїх</div>
+            <div className="final-section-tag">
+              {firstName ? `сім слів — твоїх, ${firstName}` : 'сім слів — твоїх'}
+            </div>
             <div className="final-keys">
               {orderedKeys.map(({ n, text }) => (
                 <div key={n} className="final-key">«{text}»</div>
@@ -113,7 +117,7 @@ export default function Final() {
 
         <div className="final-quote-stage">
           <p className="final-quote-text">
-            Ти прийшов, щоб бачити поле.
+            {firstName ? `${firstName}, ти прийшов, щоб бачити поле.` : 'Ти прийшов, щоб бачити поле.'}
             <br />
             Тепер <em>ти і є поле</em>.
           </p>

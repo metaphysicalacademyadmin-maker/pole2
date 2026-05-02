@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react';
 import { FIGURE_TYPES } from '../../data/constellation/figures.js';
+import { useProfileStore } from '../../store/profileStore.js';
 
 const VIEWBOX = { w: 600, h: 600 };
 
 // SVG-поле — кругле «поле роду». Drag-and-drop фігур + поворот.
 // onChange(figures) — викликається після кожної зміни.
 export default function Field({ figures, onChange, onSelect }) {
+  const firstName = useProfileStore((s) => s.profile?.firstName);
   const svgRef = useRef(null);
   const [draggingId, setDraggingId] = useState(null);
 
@@ -95,7 +97,9 @@ export default function Field({ figures, onChange, onSelect }) {
             <text textAnchor="middle" y="14"
               fontSize="9" fill={def.color} opacity="0.85" fontWeight="600"
               style={{ userSelect: 'none', pointerEvents: 'none', letterSpacing: '1px' }}>
-              {def.name.toUpperCase()}
+              {f.type === 'self' && firstName
+                ? firstName.toUpperCase()
+                : def.name.toUpperCase()}
             </text>
           </g>
         );

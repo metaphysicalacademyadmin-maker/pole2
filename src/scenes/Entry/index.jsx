@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
+import { useProfileStore } from '../../store/profileStore.js';
 import './styles.css';
 
 // Другий екран: тиша + намір. Локальний useState для tempIntention — це UI-стан
 // поки гравець набирає текст. Зберігаємо у store тільки при натисканні «зайти».
 export default function Entry() {
   const setIntention = useGameStore((s) => s.setIntention);
+  const firstName = useProfileStore((s) => s.profile?.firstName);
   const [tempIntention, setTempIntention] = useState('');
 
   const canEnter = tempIntention.trim().length >= 2;
@@ -21,7 +23,7 @@ export default function Entry() {
         <div className="entry-eyebrow">рівень 0 · вхід</div>
         <h1 className="entry-title">Тиша перед полем</h1>
         <p className="entry-instruction">
-          Перш ніж увійти — зроби три вдихи. Не шукай слів. Чекай, поки вони
+          {firstName ? `${firstName}, перш ніж увійти` : 'Перш ніж увійти'} — зроби три вдихи. Не шукай слів. Чекай, поки вони
           самі прийдуть.
         </p>
         <div className="breath-row">

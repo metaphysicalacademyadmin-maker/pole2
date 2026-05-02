@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useProfileStore } from '../../store/profileStore.js';
 import './onboarding.css';
 
 const STEPS = [
   {
     icon: '✦',
-    title: 'Вітаю у Полі',
+    title: '__GREETING__',  // підставляється у компоненті з ім'ям юзера
     text: `Це не "просто гра". Це **інструмент для роботи зі собою**.
 
 Тут не виграють і не програють. Тут — **бачать**.
@@ -76,8 +77,15 @@ const STEPS = [
 
 export default function OnboardingFlow({ onComplete }) {
   const [step, setStep] = useState(0);
-  const cur = STEPS[step];
-  const isLast = step === STEPS.length - 1;
+  const firstName = useProfileStore((s) => s.profile?.firstName);
+  // Перший заголовок персоналізуємо: «Вітаю, Назар, у Полі» — або «Вітаю у Полі» без імені.
+  const stepsLocalized = STEPS.map((s, i) =>
+    i === 0
+      ? { ...s, title: firstName ? `Вітаю, ${firstName}, у Полі` : 'Вітаю у Полі' }
+      : s
+  );
+  const cur = stepsLocalized[step];
+  const isLast = step === stepsLocalized.length - 1;
 
   function next() {
     if (isLast) onComplete();
@@ -91,7 +99,7 @@ export default function OnboardingFlow({ onComplete }) {
     <div className="onb-overlay">
       <div className="onb-modal">
         <div className="onb-progress">
-          {STEPS.map((_, i) => (
+          {stepsLocalized.map((_, i) => (
             <span key={i} className={`onb-dot${i === step ? ' active' : ''}${i < step ? ' done' : ''}`} />
           ))}
         </div>

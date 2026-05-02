@@ -82,6 +82,27 @@ export function pickLine(category, seed = Date.now()) {
   return list[Math.abs(seed) % list.length];
 }
 
+/**
+ * Підстановка імені у репліку Кая.
+ * Якщо ім'я доступне і в репліці є плейсхолдер `{name}` — заміняємо.
+ * Інколи (~30%) додаємо ім'я на початок для тих реплік де placeholder'а нема —
+ * щоб Кай звучав живо.
+ */
+export function personalizeLine(line, firstName, seed = Date.now()) {
+  if (!line || !firstName) return line;
+  if (line.text.includes('{name}')) {
+    return { ...line, text: line.text.replace(/\{name\}/g, firstName) };
+  }
+  // М'яке додавання імені на початок ~30% реплік (детермінований seed).
+  if ((Math.abs(seed) % 10) < 3) {
+    const prefix = `${firstName}, `;
+    // Якщо репліка вже починається з великої літери — нижній регістр зробить плавніше.
+    const t = line.text.charAt(0).toLowerCase() + line.text.slice(1);
+    return { ...line, text: prefix + t };
+  }
+  return line;
+}
+
 export function categorizeAnswer(payload) {
   if (payload.customText) return 'custom_answer';
   if (payload.depth === 'shadow') return 'shadow_caught';
