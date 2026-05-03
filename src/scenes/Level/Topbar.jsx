@@ -8,8 +8,8 @@ import PresenceButton from '../../components/FieldPresence/PresenceButton.jsx';
 import PresenceModal from '../../components/FieldPresence/PresenceModal.jsx';
 import '../../components/panels/panels.css';
 
-// Топбар — лого, режим, FieldNow (інтегральне поле), лічильники, присутність.
-export default function Topbar({ onOpenSoulField, onOpenCabinet }) {
+// Топбар — лого, режим, FieldNow (інтегральне поле), лічильники, присутність, медитації.
+export default function Topbar({ onOpenSoulField, onOpenCabinet, onOpenMeditations }) {
   const [presenceOpen, setPresenceOpen] = useState(false);
   const pathMode = useGameStore((s) => s.pathMode);
   const completedLevels = useGameStore((s) => s.completedLevels);
@@ -34,6 +34,12 @@ export default function Topbar({ onOpenSoulField, onOpenCabinet }) {
       )}
       <FieldNow onOpen={onOpenSoulField} />
       <PresenceButton onClick={() => setPresenceOpen(true)} />
+      {onOpenMeditations && (
+        <button type="button" className="lvl-tb-cab-btn" onClick={onOpenMeditations}
+          title="медитації з академії">
+          🎧
+        </button>
+      )}
       {onOpenCabinet && (
         <button type="button" className="lvl-tb-cab-btn" onClick={onOpenCabinet}
           title="особистий кабінет">
