@@ -3,7 +3,9 @@ import { useGameStore } from '../../store/gameStore.js';
 import { isLlmWitnessAvailable } from '../../utils/llm-witness.js';
 import LlmWitness from '../../components/LlmWitness/index.jsx';
 import QuestOfferModal from '../../components/QuestOfferModal.jsx';
+import PetalAcademyHint from '../../components/PetalAcademyHint.jsx';
 import '../../components/QuestOfferModal.css';
+import '../../components/PetalAcademyHint.css';
 
 // Екран завершення пелюстки + опційне свідчення Арбітра.
 // Активується якщо парент-сторінка інжектила window.__POLE_LLM__.
@@ -39,6 +41,8 @@ export default function PetalComplete({ petal, lastAnswer, onExit }) {
         <button type="button" className="petal-btn-return" onClick={onExit}>
           повернутись на мандалу →
         </button>
+
+        <PetalAcademyHint petalId={petal.id} petalColor={petal.color} />
       </div>
       {witnessOpen && witnessText && (
         <LlmWitness payload={witnessText}
