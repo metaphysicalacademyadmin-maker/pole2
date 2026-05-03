@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { PETALS } from '../../data/petals.js';
 import { shouldShowCooldown } from '../../utils/petal-cooldown.js';
+import { focusForToday } from '../../utils/daily-card-focus.js';
 import PetalCooldownModal from '../../components/PetalCooldownModal.jsx';
 import SacredGeometry from '../Final/SacredGeometry.jsx';
 import '../../components/PetalCooldownModal.css';
@@ -30,6 +31,7 @@ export default function Mandala12() {
   const completedCount = PETALS.filter((p) => progress[p.id]?.completed).length;
   const [hoveredId, setHoveredId] = useState(null);
   const [pendingCooldown, setPendingCooldown] = useState(null);  // { petalId, name, cooldown }
+  const { card: dailyCard, focusPetalId } = useMemo(() => focusForToday(), []);
 
   function handleEnter(petalId) {
     const cooldown = shouldShowCooldown(petalId, progress, overrides);
@@ -54,6 +56,12 @@ export default function Mandala12() {
           Ти пройшов вертикаль чакр. Тепер — 12 горизонтальних сфер. Обери свою — будь-яку.
           Мандала не лінійна.
         </p>
+
+        {focusPetalId && (
+          <DailyFocusBanner card={dailyCard}
+            petalName={PETALS.find((p) => p.id === focusPetalId)?.name}
+            color={PETALS.find((p) => p.id === focusPetalId)?.color} />
+        )}
 
         <svg viewBox={`0 0 ${VIEW} ${VIEW}`} className="petals-mandala-svg">
           <defs>
@@ -138,15 +146,16 @@ export default function Mandala12() {
             const cells = petal.cells.length;
             const answered = prog.answeredIds.length;
             const isHovered = hoveredId === petal.id;
+            const isFocus = focusPetalId === petal.id;
             const opacity = prog.completed ? 1 : (0.95 + (answered / Math.max(1, cells)) * 0.05);
-            const glowR = isHovered ? 22 : (prog.completed ? 18 : 10);
+            const glowR = isHovered ? 22 : (isFocus ? 26 : prog.completed ? 18 : 10);
 
             return (
               <g key={petal.id}
                 onClick={() => handleEnter(petal.id)}
                 onMouseEnter={() => setHoveredId(petal.id)}
                 onMouseLeave={() => setHoveredId(null)}
-                className={`m12-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}`}
+                className={`m12-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}${isFocus ? ' focus' : ''}`}
                 style={{ cursor: 'pointer', animationDelay: `${i * 0.08}s` }}>
                 <path d={path}
                   fill={`url(#petal-grad-${petal.id})`}
@@ -229,17 +238,39 @@ export default function Mandala12() {
       </div>
 
       {pendingCooldown && (
-        <PetalCooldownModal
-          petalId={pendingCooldown.petalId}
-          petalName={pendingCooldown.name}
-          cooldown={pendingCooldown.cooldown}
-          onClose={() => setPendingCooldown(null)}
-          onProceed={() => {
-            const id = pendingCooldown.petalId;
-            setPendingCooldown(null);
-            enterPetal(id);
-          }} />
+        <PetalCooldownModalWrap pending={pendingCooldown}
+          setPending={setPendingCooldown}
+          enterPetal={enterPetal} />
       )}
     </main>
   );
 }
+
+function DailyFocusBanner({ card, petalName, color }) {
+  if (!card || !petalName) return null;
+  return (
+    <div className="m12-focus-banner" style={{ borderColor: `${color}55` }}>
+      <span className="m12-focus-icon">{card.symbol}</span>
+      <span className="m12-focus-text">
+        сьогодні поле підказує — <strong style={{ color }}>{petalName}</strong>
+        <span className="m12-focus-hint">{card.hint}</span>
+      </span>
+    </div>
+  );
+}
+
+function PetalCooldownModalWrap({ pending, setPending, enterPetal }) {
+  return (
+    <PetalCooldownModal
+      petalId={pending.petalId}
+      petalName={pending.name}
+      cooldown={pending.cooldown}
+      onClose={() => setPending(null)}
+      onProceed={() => {
+        const id = pending.petalId;
+        setPending(null);
+        enterPetal(id);
+      }} />
+  );
+}
+
