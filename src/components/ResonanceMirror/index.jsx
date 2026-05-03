@@ -1,4 +1,5 @@
 import { useGameStore } from '../../store/gameStore.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import './styles.css';
 
 // Резонансне дзеркало — модалка що з'являється після ключа.
@@ -10,12 +11,14 @@ export default function ResonanceMirror() {
   const activeModal = useGameStore((s) => s.activeModal);
   const resolve = useGameStore((s) => s.resolveResonance);
 
-  if (!r) return null;
-  if (activeModal?.id !== 'resonance') return null;
+  const open = !!r && activeModal?.id === 'resonance';
+  useOverlayA11y(open ? () => resolve('skipped') : null);
+
+  if (!open) return null;
   const { pseudoPlayer, message, levelN } = r;
 
   return (
-    <div className="reson-overlay">
+    <div className="reson-overlay" role="dialog" aria-modal="true" aria-label="Резонансне дзеркало">
       <div className="reson-modal">
         <div className="reson-eyebrow">💫 резонанс поля</div>
         <div className="reson-subtitle">

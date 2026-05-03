@@ -18,8 +18,9 @@ export default function KoanCard({ koan, onClose }) {
   if (!koan) return null;
 
   return (
-    <div className={`koan-card${visible ? ' visible' : ''}`} onClick={onClose}>
-      <div className="koan-symbol">✦</div>
+    <div className={`koan-card${visible ? ' visible' : ''}`} onClick={onClose}
+      role="status" aria-live="polite" aria-label="Коан від Поля — клікни щоб закрити">
+      <div className="koan-symbol" aria-hidden="true">✦</div>
       <div className="koan-text">{koan.text}</div>
       <div className="koan-source">— {koan.source}</div>
     </div>

@@ -3,6 +3,7 @@ import { useGameStore } from '../../store/gameStore.js';
 import { detectNewAchievements } from '../../utils/achievement-detector.js';
 import { showToast } from '../GlobalToast.jsx';
 import { ACHIEVEMENTS } from '../../data/achievements.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import ProfileTab from './ProfileTab.jsx';
 import AchievementsTab from './AchievementsTab.jsx';
 import PracticesTab from './PracticesTab.jsx';
@@ -22,6 +23,8 @@ export default function PersonalCabinet({ onClose }) {
   const [activeTab, setActiveTab] = useState('profile');
   const award = useGameStore((s) => s.awardAchievements);
 
+  useOverlayA11y(onClose);
+
   // Перевіряємо нові досягнення при відкритті
   useEffect(() => {
     const fresh = detectNewAchievements(useGameStore.getState());
@@ -37,10 +40,11 @@ export default function PersonalCabinet({ onClose }) {
   }, [award]);
 
   return (
-    <div className="cab-overlay">
+    <div className="cab-overlay" role="dialog" aria-modal="true" aria-label="Особистий кабінет">
       <div className="cab-frame">
         <div className="cab-header">
-          <button type="button" className="cab-close" onClick={onClose}>← повернутись</button>
+          <button type="button" className="cab-close" onClick={onClose}
+            aria-label="Закрити особистий кабінет">← повернутись</button>
           <div className="cab-title">особистий кабінет</div>
         </div>
 

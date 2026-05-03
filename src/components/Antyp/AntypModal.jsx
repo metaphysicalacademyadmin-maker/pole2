@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import './antyp.css';
 
 // Антип — провокативна модалка з 2-3 варіантами відповіді.
 // onChoice(option) → батько (Level/store) застосовує ефекти.
 export default function AntypModal({ provocation, onChoice, onClose }) {
   const [chosen, setChosen] = useState(null);
+  useOverlayA11y(chosen ? null : onClose);
   if (!provocation) return null;
 
   function handleSelect(opt) {
@@ -15,9 +17,10 @@ export default function AntypModal({ provocation, onChoice, onClose }) {
   }
 
   return (
-    <div className="ant-overlay" onClick={chosen ? null : onClose}>
+    <div className="ant-overlay" onClick={chosen ? null : onClose}
+      role="dialog" aria-modal="true" aria-label="Виклик від Антипа">
       <div className="ant-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="ant-symbol">☾</div>
+        <div className="ant-symbol" aria-hidden="true">☾</div>
         <div className="ant-name">антип · провокатор</div>
 
         {!chosen ? (

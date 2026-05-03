@@ -25,7 +25,7 @@ export default function MandalaFinal({ openCosmo }) {
   }
 
   return (
-    <main className="scene mf-scene">
+    <main className="scene mf-scene" role="region" aria-label="Квітка Життя — друга спіраль завершено">
       <div className="mf-frame">
         <div className="mf-eyebrow">друга спіраль · завершено</div>
         <h1 className="mf-title">Квітка <em>Життя</em></h1>

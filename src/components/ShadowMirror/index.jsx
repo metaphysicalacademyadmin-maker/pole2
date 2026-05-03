@@ -1,4 +1,5 @@
 import { useGameStore } from '../../store/gameStore.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import './styles.css';
 
 // Дзеркало Тіні — м'яка модалка яка з'являється через 0.8с після custom-відповіді
@@ -11,13 +12,16 @@ export default function ShadowMirror() {
   const activeModal = useGameStore((s) => s.activeModal);
   const resolve = useGameStore((s) => s.resolveShadowMirror);
 
-  if (!mirror) return null;
-  if (activeModal?.id !== 'shadow-mirror') return null;
+  const open = !!mirror && activeModal?.id === 'shadow-mirror';
+  useOverlayA11y(open ? () => resolve('skipped') : null);
+
+  if (!open) return null;
 
   const isHelpline = mirror.helpline;
 
   return (
-    <div className="shadow-mirror-overlay">
+    <div className="shadow-mirror-overlay" role="dialog" aria-modal="true"
+      aria-label={isHelpline ? 'Дзеркало тіні з helpline' : 'Дзеркало тіні'}>
       <div className={`shadow-mirror-modal${isHelpline ? ' helpline' : ''}`}>
         <div className="sm-eyebrow">🪞 дзеркало тіні</div>
         <div className="sm-category">{mirror.label}</div>

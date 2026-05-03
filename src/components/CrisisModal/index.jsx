@@ -47,7 +47,8 @@ export default function CrisisModal() {
 function Crisis({ crisis, onAck }) {
   const labelFor = (key) => BAROMETERS.find((b) => b.key === key)?.name || key;
   return (
-    <div className="crisis-overlay">
+    <div className="crisis-overlay" role="alertdialog" aria-modal="true"
+      aria-label={crisis.helpline ? 'Криза системи з лінією допомоги' : 'Криза системи'}>
       <div className={`crisis-modal${crisis.helpline ? ' helpline' : ''}`}>
         <div className="cs-eyebrow">⚡ криза системи</div>
         <h2 className="cs-title">Зупинись.<br />Ти йдеш у глухий кут.</h2>
@@ -89,7 +90,7 @@ function Crisis({ crisis, onAck }) {
 function TurningPoint({ pickedIdx, setPickedIdx, onResolve }) {
   const cell = TURNING_POINT_CELL;
   return (
-    <div className="crisis-overlay">
+    <div className="crisis-overlay" role="dialog" aria-modal="true" aria-label="Точка Перевороту">
       <div className="crisis-modal turning">
         <div className="cs-eyebrow turning-eyebrow">⚡ точка перевороту</div>
         <h2 className="cs-title">{cell.title.replace('⚡ ', '')}</h2>

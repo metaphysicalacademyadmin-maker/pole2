@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { TEACHER_CATEGORIES, topicsByCategory, findTopic } from '../../data/teacher.js';
 import { useGameStore } from '../../store/gameStore.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import './teacher.css';
 
 // Учитель Поля — модалка з гідом по грі. Структура:
@@ -17,6 +18,8 @@ export default function TeacherModal({ onClose, defaultTopicId }) {
   const [activeTopic, setActiveTopic] = useState(initial);
   const resetOnboarding = useGameStore((s) => s.resetOnboarding);
 
+  useOverlayA11y(onClose);
+
   const topics = topicsByCategory(activeCategory);
 
   function handleReplayGuide() {
@@ -25,7 +28,8 @@ export default function TeacherModal({ onClose, defaultTopicId }) {
   }
 
   return createPortal(
-    <div className="tch-overlay" onClick={onClose}>
+    <div className="tch-overlay" onClick={onClose}
+      role="dialog" aria-modal="true" aria-label="Учитель Поля — допомога з грою">
       <div className="tch-modal" onClick={(e) => e.stopPropagation()}>
         <div className="tch-header">
           <div className="tch-symbol">?</div>
