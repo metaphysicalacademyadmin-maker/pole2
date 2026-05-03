@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { PATH_MODES, PATH_MODE_ORDER } from '../../data/pathmodes.js';
 import PathCard from './PathCard.jsx';
+import TrackWizard from './TrackWizard.jsx';
 import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
 import './styles.css';
 
-// Перший екран: гравець обирає режим шляху.
-// Після вибору — store перемикає state.pathMode і App.jsx перерисовує Entry.
+// Перший екран: гравець обирає трек шляху (5 варіантів).
+// Або через wizard — 5 питань → рекомендований трек.
 export default function PathMode() {
   const setPathMode = useGameStore((s) => s.setPathMode);
+  const [wizardOpen, setWizardOpen] = useState(false);
 
   return (
     <main className="scene">
@@ -21,17 +24,22 @@ export default function PathMode() {
           обери чесно · це перший духовний акт у грі
         </div>
 
-        <div className="pm-cards">
+        <button type="button" className="pm-wizard-cta" onClick={() => setWizardOpen(true)}>
+          ✺ не знаєш що обрати? — 5 питань допоможуть
+        </button>
+
+        <div className="pm-cards pm-cards-5">
           {PATH_MODE_ORDER.map((id) => (
             <PathCard key={id} mode={PATH_MODES[id]} onSelect={setPathMode} />
           ))}
         </div>
 
         <div className="pm-foot">
-          <div>режим можна підвищити в середині гри · знизити — ні</div>
+          <div>трек можна підвищити в середині гри · знизити — ні</div>
           <div className="pm-foot-tier">
-            ✦ <strong>Дотик</strong> — безкоштовно. <strong>Шлях</strong> і <strong>Глибина</strong> —
-            через підписку на metaphysical-way.academy
+            ✦ <strong>Корінь</strong> — безкоштовно. <strong>Серце</strong> і <strong>Голос</strong> —
+            підписка. <strong>Тінь</strong> і <strong>Ініціат</strong> — розширений доступ
+            на metaphysical-way.academy
           </div>
         </div>
 
@@ -39,6 +47,16 @@ export default function PathMode() {
           <ContactsBlock variant="compact" title="Метафізична Академія" />
         </div>
       </div>
+
+      {wizardOpen && (
+        <TrackWizard
+          onSelect={(trackId) => {
+            setPathMode(trackId);
+            setWizardOpen(false);
+          }}
+          onClose={() => setWizardOpen(false)}
+        />
+      )}
     </main>
   );
 }

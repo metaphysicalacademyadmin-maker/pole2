@@ -1,7 +1,8 @@
 // Захист від пошкодженого / старого state (наприклад з оригінального HTML-ПОЛЯ).
 // Якщо state інконсистентний — нормалізуємо до safe-defaults.
 
-const KNOWN_PATH_MODES = new Set(['touch', 'path', 'depth']);
+const KNOWN_PATH_MODES = new Set(['root', 'heart', 'voice', 'shadow', 'initiate']);
+const LEGACY_PATH_MAP = { touch: 'root', path: 'heart', depth: 'initiate' };
 const VALID_BAROMETERS = ['root', 'flow', 'will', 'love', 'voice', 'clarity', 'light', 'gratitude'];
 const VALID_SCALES = ['energy', 'wound', 'bondage', 'clarity', 'protection'];
 
@@ -15,13 +16,18 @@ const VALID_SCALES = ['energy', 'wound', 'bondage', 'clarity', 'protection'];
 export function sanitizeState(s, defaults) {
   if (!s || typeof s !== 'object') return null;
 
-  // 1. Якщо немає валідного pathMode — зкидаємо intention/progress.
-  //    Це обробляє «успадкований state» з HTML-ПОЛЯ де pathMode не було.
+  // 1. Якщо немає валідного pathMode — або мігруємо legacy (touch/path/depth)
+  //    у нову схему 5 треків, або зкидаємо.
   if (!KNOWN_PATH_MODES.has(s.pathMode)) {
-    s.pathMode = null;
-    s.intention = '';
-    s.currentLevel = 0;
-    s.currentCellIdx = 0;
+    const migrated = LEGACY_PATH_MAP[s.pathMode];
+    if (migrated) {
+      s.pathMode = migrated;
+    } else {
+      s.pathMode = null;
+      s.intention = '';
+      s.currentLevel = 0;
+      s.currentCellIdx = 0;
+    }
   }
 
   // 2. Якщо pathMode є але intention нема — гравець на Entry, currentLevel<=0.
