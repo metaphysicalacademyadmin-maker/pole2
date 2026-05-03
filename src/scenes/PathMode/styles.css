@@ -272,6 +272,89 @@
 }
 .pm-foot-tier strong { color: #f0c574; font-weight: 700; }
 
+/* ─── TrackProgression — спіраль гнучкості ────────────────── */
+.tp-frame {
+  margin: 32px auto 0;
+  max-width: 1080px;
+  padding: 24px 20px;
+  background: rgba(20, 14, 30, 0.45);
+  border: 1px dashed rgba(232, 196, 118, 0.25);
+  border-radius: 16px;
+  text-align: center;
+}
+.tp-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px; letter-spacing: 4px;
+  color: #c9b3e8;
+  text-transform: uppercase; font-weight: 700;
+  margin-bottom: 18px;
+  opacity: 0.9;
+}
+
+.tp-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.tp-step-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tp-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 70px;
+}
+.tp-dot {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform .25s;
+}
+.tp-step:hover .tp-dot {
+  transform: scale(1.1);
+}
+.tp-dot-symbol { line-height: 1; }
+.tp-step-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.tp-arrow {
+  color: rgba(232, 196, 118, 0.55);
+  font-size: 20px;
+  font-weight: 700;
+  user-select: none;
+}
+
+.tp-foot {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-style: italic;
+  font-size: 12px;
+  color: #968a7c;
+  letter-spacing: 0.3px;
+  margin: 0;
+  opacity: 0.85;
+}
+
+@media (max-width: 720px) {
+  .tp-row { flex-direction: column; gap: 6px; }
+  .tp-step-wrap { flex-direction: column; }
+  .tp-arrow { transform: rotate(90deg); }
+}
+
 /* ─── TrackWizard ────────────────────────────────────────── */
 .tw-overlay {
   position: fixed; inset: 0; z-index: 6000;

@@ -3,6 +3,7 @@ import { useGameStore } from '../../store/gameStore.js';
 import { PATH_MODES, PATH_MODE_ORDER } from '../../data/pathmodes.js';
 import PathCard from './PathCard.jsx';
 import TrackWizard from './TrackWizard.jsx';
+import TrackProgression from './TrackProgression.jsx';
 import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
 import './styles.css';
 
@@ -34,8 +35,9 @@ export default function PathMode() {
           ))}
         </div>
 
+        <TrackProgression />
+
         <div className="pm-foot">
-          <div>трек можна підвищити в середині гри · знизити — ні</div>
           <div className="pm-foot-tier">
             ✦ <strong>Корінь</strong> — безкоштовно. <strong>Серце</strong> і <strong>Голос</strong> —
             підписка. <strong>Тінь</strong> і <strong>Ініціат</strong> — розширений доступ
