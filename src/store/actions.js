@@ -401,6 +401,13 @@ export const petalActions = (set, get, ensure) => ({
   acknowledgeShadowPetal: () => {
     set({ shadowPetalAcknowledged: true });
   },
+  markTeacherWhisper: (triggerId) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      teacherWhisperHistory: { ...(s.teacherWhisperHistory || {}), [triggerId]: Date.now() },
+    });
+  },
   exitPetal: () => {
     set({ currentPetalId: null });
   },

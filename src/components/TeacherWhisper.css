@@ -1,0 +1,58 @@
+.tw-whisper {
+  position: fixed;
+  bottom: 90px; right: 16px;
+  z-index: 9000;
+  max-width: 320px;
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px 14px 14px;
+  background: linear-gradient(140deg, rgba(255, 247, 224, 0.96), rgba(248, 232, 200, 0.92));
+  border: 1px solid rgba(232, 196, 118, 0.6);
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(8, 4, 16, 0.5);
+  animation: tw-slide-in 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes tw-slide-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.tw-whisper-close {
+  position: absolute; top: 4px; right: 8px;
+  width: 22px; height: 22px;
+  background: transparent; border: none;
+  color: #6a5a48; font-size: 18px; cursor: pointer;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.tw-whisper-close:hover { background: rgba(0, 0, 0, 0.06); color: #1a0f0a; }
+.tw-whisper-icon {
+  font-size: 26px; color: #c9941a;
+  flex-shrink: 0;
+  text-shadow: 0 0 8px rgba(232, 196, 118, 0.4);
+}
+.tw-whisper-body { flex: 1; }
+.tw-whisper-name {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 3px;
+  color: #8a6a48; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 4px;
+}
+.tw-whisper-text {
+  color: #1a0f0a; font-size: 13px; line-height: 1.5;
+  margin-bottom: 8px;
+}
+.tw-whisper-cta {
+  background: transparent; border: none;
+  color: #8a6a18; font-size: 12px; font-weight: 600;
+  cursor: pointer; padding: 0;
+  border-bottom: 1px dashed currentColor;
+}
+.tw-whisper-cta:hover { color: #c9941a; }
+
+/* Mobile */
+@media (max-width: 540px) {
+  .tw-whisper {
+    bottom: 76px; right: 12px; left: 12px;
+    max-width: none;
+  }
+}

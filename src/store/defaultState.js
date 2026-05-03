@@ -140,6 +140,7 @@ export const defaultState = {
   petalProgress: {},
   petalCooldownOverrides: {},      // { [petalId]: true } — гравець свідомо пропустив cooldown
   shadowPetalAcknowledged: false,  // true після того як гравець прочитав попередження перед xi_shadow
+  teacherWhisperHistory: {},       // { [triggerId]: ts } — щоб не показувати один тригер двічі за 24год
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
   // ─── Тижневі обіцянки (квести) ───

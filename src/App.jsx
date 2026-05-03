@@ -18,6 +18,8 @@ import PersonalCabinet from './components/PersonalCabinet/index.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import GlobalToast from './components/GlobalToast.jsx';
 import KaiBubble from './components/Kai/KaiBubble.jsx';
+import TeacherWhisper from './components/TeacherWhisper.jsx';
+import './components/TeacherWhisper.css';
 import ArbiterModal from './components/Arbiter/ArbiterModal.jsx';
 import AntypModal from './components/Antyp/AntypModal.jsx';
 import MirrorModal from './components/Mirror/MirrorModal.jsx';
@@ -163,6 +165,7 @@ export default function App() {
       </ErrorBoundary>
       <GlobalToast />
       {pathMode && intention && !soulFieldOpen && !activeCharacter && !mirror && <KaiBubble />}
+      {pathMode && intention && !activeCharacter && !mirror && <TeacherWhisper />}
 
       {koan && <KoanCard koan={koan} onClose={() => setKoan(null)} />}
       {activeCharacter?.character === 'arbiter' && (
