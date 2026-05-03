@@ -20,10 +20,16 @@ export default function PetalComplete({ petal, lastAnswer, onExit }) {
   return (
     <>
       <div className="petal-completed">
-        <div className="petal-completed-symbol" style={{ color: petal.color }}>✦</div>
-        <div className="petal-completed-title">пелюстка завершена</div>
+        <div className="petal-completed-symbol" style={{ color: petal.color }}>
+          {petal.id === 'xi_shadow' ? '☾' : '✦'}
+        </div>
+        <div className="petal-completed-title">
+          {petal.id === 'xi_shadow' ? 'ти зустрів свою тінь' : 'пелюстка завершена'}
+        </div>
         <div className="petal-completed-text">
-          Сфера «{petal.name}» — пройдена. Поле прийняло інстинкт, поглиблення, тіло.
+          {petal.id === 'xi_shadow'
+            ? 'Те що ти побачив — твоє. Не випихай назад. Назви, обніми, відпусти. Тінь, побачена з любов\'ю — стає силою.'
+            : `Сфера «${petal.name}» — пройдена. Поле прийняло інстинкт, поглиблення, тіло.`}
         </div>
         {llmAvailable && witnessText && (
           <button type="button" className="petal-witness-btn"

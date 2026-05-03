@@ -398,6 +398,9 @@ export const petalActions = (set, get, ensure) => ({
       petalCooldownOverrides: { ...(s.petalCooldownOverrides || {}), [petalId]: true },
     });
   },
+  acknowledgeShadowPetal: () => {
+    set({ shadowPetalAcknowledged: true });
+  },
   exitPetal: () => {
     set({ currentPetalId: null });
   },

@@ -1,0 +1,66 @@
+.spg-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(8, 4, 16, 0.95);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+.spg-modal {
+  background: linear-gradient(140deg, #1a0f24, #0a0612);
+  border: 1px solid rgba(122, 90, 138, 0.5);
+  border-radius: 18px; padding: 36px 28px;
+  max-width: 480px; width: 100%;
+  box-shadow: 0 0 60px rgba(122, 90, 138, 0.25);
+  margin: auto 0;
+  text-align: center;
+}
+.spg-symbol {
+  font-size: 64px; color: #b89bd0;
+  text-shadow: 0 0 40px rgba(184, 155, 208, 0.6);
+  margin-bottom: 20px;
+  animation: spg-breathe 5s ease-in-out infinite;
+}
+@keyframes spg-breathe {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+.spg-title {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px; letter-spacing: 4px; color: #b89bd0;
+  text-transform: uppercase; font-weight: 700;
+  margin: 0 0 18px;
+}
+.spg-text {
+  color: #d8c0d0; line-height: 1.6;
+  margin: 0 0 14px; font-size: 14px;
+}
+.spg-warning {
+  background: rgba(232, 196, 118, 0.06);
+  border-left: 2px solid rgba(232, 196, 118, 0.5);
+  padding: 12px 14px;
+  text-align: left;
+  color: #c8b9a0; font-size: 12px; line-height: 1.55;
+  margin: 18px 0;
+  border-radius: 0 8px 8px 0;
+}
+.spg-warning strong { color: #f0c574; }
+.spg-actions {
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+  margin-top: 14px;
+}
+.spg-btn {
+  padding: 12px 18px; border-radius: 10px;
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+}
+.spg-btn-no {
+  background: transparent;
+  border: 1px solid rgba(232, 196, 118, 0.3);
+  color: #c8b9a0;
+}
+.spg-btn-no:hover { background: rgba(232, 196, 118, 0.06); }
+.spg-btn-yes {
+  background: linear-gradient(135deg, #7a5a8a, #604070);
+  border: none; color: #fff7e0; font-weight: 600;
+}
+.spg-btn-yes:hover { filter: brightness(1.15); transform: translateY(-1px); }

@@ -4,8 +4,10 @@ import { PETALS } from '../../data/petals.js';
 import { shouldShowCooldown } from '../../utils/petal-cooldown.js';
 import { focusForToday } from '../../utils/daily-card-focus.js';
 import PetalCooldownModal from '../../components/PetalCooldownModal.jsx';
+import ShadowPetalGate from '../../components/ShadowPetalGate.jsx';
 import SacredGeometry from '../Final/SacredGeometry.jsx';
 import '../../components/PetalCooldownModal.css';
+import '../../components/ShadowPetalGate.css';
 
 const VIEW = 600;
 const CENTER = 300;
@@ -26,14 +28,21 @@ export default function Mandala12() {
   const exitPetals = useGameStore((s) => s.exitPetals);
   const progress = useGameStore((s) => s.petalProgress);
   const overrides = useGameStore((s) => s.petalCooldownOverrides);
+  const shadowAck = useGameStore((s) => s.shadowPetalAcknowledged);
   const total = PETALS.length;
   const allDone = PETALS.every((p) => progress[p.id]?.completed);
   const completedCount = PETALS.filter((p) => progress[p.id]?.completed).length;
   const [hoveredId, setHoveredId] = useState(null);
   const [pendingCooldown, setPendingCooldown] = useState(null);  // { petalId, name, cooldown }
+  const [pendingShadow, setPendingShadow] = useState(false);
   const { card: dailyCard, focusPetalId } = useMemo(() => focusForToday(), []);
 
   function handleEnter(petalId) {
+    // Тінь — окремий gate (показується раз)
+    if (petalId === 'xi_shadow' && !shadowAck) {
+      setPendingShadow(true);
+      return;
+    }
     const cooldown = shouldShowCooldown(petalId, progress, overrides);
     if (cooldown) {
       const petal = PETALS.find((p) => p.id === petalId);
@@ -241,6 +250,20 @@ export default function Mandala12() {
         <PetalCooldownModalWrap pending={pendingCooldown}
           setPending={setPendingCooldown}
           enterPetal={enterPetal} />
+      )}
+      {pendingShadow && (
+        <ShadowPetalGate
+          onDecline={() => setPendingShadow(false)}
+          onAccept={() => {
+            setPendingShadow(false);
+            // Після ack повторюємо handleEnter — буде чекати cooldown якщо є
+            const cooldown = shouldShowCooldown('xi_shadow', progress, overrides);
+            if (cooldown) {
+              setPendingCooldown({ petalId: 'xi_shadow', name: 'Тінь', cooldown });
+            } else {
+              enterPetal('xi_shadow');
+            }
+          }} />
       )}
     </main>
   );
