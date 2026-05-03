@@ -1,6 +1,19 @@
 /* 12 пелюсток — post-game expansion. */
 
-.petals-scene { padding: 24px 16px; }
+.petals-scene { padding: 24px 16px; position: relative; }
+
+/* Кінематографічний фон — vignette + subtle nebula */
+.petals-cinematic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(60, 40, 90, 0.25), transparent 50%),
+    radial-gradient(ellipse at 50% 70%, rgba(232, 196, 118, 0.08), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.petals-cinematic .petals-frame { position: relative; z-index: 1; }
 .petals-frame {
   max-width: 720px; margin: 0 auto; text-align: center;
 }
@@ -31,6 +44,34 @@
 @keyframes m12-bloom {
   from { opacity: 0; transform: scale(0.4) rotate(-20deg); }
   to   { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+/* Sun rays — ledve видимі, повільне дихання */
+.m12-rays {
+  transform-origin: 300px 300px;
+  animation: m12-rays-pulse 8s ease-in-out infinite;
+}
+@keyframes m12-rays-pulse {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 0.75; }
+}
+
+/* Ядро мандали — пульс і повільне обертання */
+.m12-core {
+  transform-origin: 300px 300px;
+  animation: m12-core-rotate 120s linear infinite;
+}
+@keyframes m12-core-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.m12-core circle:first-child {
+  animation: m12-core-breath 6s ease-in-out infinite;
+  transform-origin: 300px 300px;
+}
+@keyframes m12-core-breath {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.04); }
 }
 .petals-progress-line {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
