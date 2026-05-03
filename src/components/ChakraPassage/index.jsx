@@ -1,6 +1,7 @@
 import { passageForLevel } from '../../data/methodichka-chakras.js';
 import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import { CHAKRAS } from '../../data/chakras.js';
+import GlossaryTerm from '../GlossaryTerm.jsx';
 import './styles.css';
 
 // «📖 З методички академії» — інлайн-вставка на сторінці рівня.
@@ -32,7 +33,7 @@ export default function ChakraPassage({ levelN, onClose }) {
 
         <div className="cp-eyebrow">📖 з методички академії</div>
         <h2 className="cp-title" style={{ color: chakra?.color }}>
-          {passage.name}
+          <GlossaryTerm>{passage.name}</GlossaryTerm>
         </h2>
         {chakra && (
           <div className="cp-sub">{chakra.sub} · рівень {levelN}</div>

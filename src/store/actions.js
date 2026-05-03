@@ -535,6 +535,19 @@ export const petalActions = (set, get, ensure) => ({
       },
     });
   },
+  saveMentalCode: (scores) => {
+    // scores = { behavior: 4, health: 3, ... }
+    const s = get();
+    const prev = s.mentalCode;
+    set({
+      ...ensure(s),
+      mentalCode: {
+        ...scores,
+        ts: Date.now(),
+        attempt: (prev?.attempt || 0) + 1,
+      },
+    });
+  },
   exitPetal: () => {
     set({ currentPetalId: null });
   },

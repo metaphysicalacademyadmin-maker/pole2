@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import App from './App.jsx';
 import theme from './theme.js';
 import './styles.css';
+import './components/GlossaryTerm.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

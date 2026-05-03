@@ -90,6 +90,16 @@ export const TOOLS = [
     color: '#9fc8e8',
   },
   {
+    id: 'mental-code',
+    icon: '◯',
+    name: 'Ментальний Код',
+    short: 'діагностика 7 кодів свідомості',
+    description: 'Радар-діаграма твоїх внутрішніх кодів: поведінки, здоров\'я, реалізації, космос, природа, буття.',
+    unlockedBy: (s) => (s.completedLevels || []).length >= 1,
+    unlockHint: 'після першого рівня',
+    color: '#c9b3e8',
+  },
+  {
     id: 'protective',
     icon: '🛡',
     name: 'Захисні практики',

@@ -181,6 +181,10 @@ export const defaultState = {
   // Сесії використання інструментів — для статистики «активний користувач»
   // { [toolId]: { firstUsed, lastUsed, count } }
   toolUsage: {},
+
+  // Ментальний код — діагностика 7 категорій (1-5 шкала)
+  // { [categoryId]: avgScore, ts: timestamp, attempt: N }
+  mentalCode: null,
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
   // ─── Тижневі обіцянки (квести) ───
