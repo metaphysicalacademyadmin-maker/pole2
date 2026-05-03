@@ -59,17 +59,17 @@ export default function Admin({ onClose }) {
 
   function jumpTo(n) {
     devJump(n);
-    showToast(`🚀 телепорт на рівень ${n}`, 'success');
+    showToast(`✦ телепорт на рівень ${n}`, 'success');
     onClose();
   }
   function jumpPetals() {
     devActivatePetals();
-    showToast('🚀 пелюстки відкриті', 'success');
+    showToast('✺ пелюстки відкриті', 'success');
     onClose();
   }
   function fillPetals() {
     devCompletePetals();
-    showToast('✺ всі 12 пелюсток завершено · MandalaFinal попереду', 'success');
+    showToast('✺ всі 12 пелюсток завершено · Квітка Життя попереду', 'success');
     onClose();
   }
   function unlockChannels() {
