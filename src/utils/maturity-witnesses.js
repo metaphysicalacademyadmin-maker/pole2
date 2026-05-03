@@ -72,17 +72,13 @@ export function buildMaturityMatrix(state) {
   const petalProgress = state?.petalProgress || {};
   const practiceCompletions = state?.practiceCompletions || [];
   const cellAnswers = state?.cellAnswers || {};
-
-  // Лічимо практики/відповіді per чакра
-  const chakraDepth = {};        // chakraN → загальна глибина (0..N)
-  for (const c of Object.values(cellAnswers)) {
-    if (!c.cellId) continue;
-  }
+  const levelProgress = state?.levelProgress || {};
 
   return CHAKRA_LEVELS.map((chakra) => {
     return FACETS.map((facet) => {
       return witnessFor(chakra, facet, {
-        levelKeys, completedLevels, petalProgress, practiceCompletions, cellAnswers,
+        levelKeys, completedLevels, petalProgress,
+        practiceCompletions, cellAnswers, levelProgress,
       });
     });
   });
@@ -125,10 +121,12 @@ function witnessFor(chakra, facet, ctx) {
   }
 
   // 5. Будь-які custom-answers на цьому рівні
-  const customsOnLevel = Object.values(ctx.cellAnswers).filter(
-    (a) => a.customText && a.cellId?.startsWith(`r${chakra.n}`),
-  );
-  if (isPrimary && customsOnLevel.length >= 2) {
+  // cellId — це ключ у cellAnswers, не поле. Беремо answeredCells з levelProgress.
+  const lvlAnsweredCells = ctx.levelProgress[chakra.n]?.answeredCells || [];
+  const customsOnLevel = lvlAnsweredCells.filter(
+    (cid) => ctx.cellAnswers[cid]?.customText,
+  ).length;
+  if (isPrimary && customsOnLevel >= 2) {
     return { text: 'своїми словами — починається', depth: 1, hint: 'customs' };
   }
 
