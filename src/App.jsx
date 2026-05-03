@@ -12,7 +12,7 @@ import Petals from './scenes/Petals/index.jsx';
 import Cosmo from './scenes/Cosmo/index.jsx';
 import Admin from './scenes/Admin/index.jsx';
 import Partnership from './scenes/Partnership/index.jsx';
-import GiftToWorld from './scenes/GiftToWorld/index.jsx';
+import LivingAcademy from './scenes/LivingAcademy/index.jsx';
 import Meditations from './components/Meditations/index.jsx';
 import PersonalCabinet from './components/PersonalCabinet/index.jsx';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
@@ -179,7 +179,7 @@ export default function App() {
       {adminOpen && <Admin onClose={() => setAdminOpen(false)} />}
       {partnershipOpen && <Partnership onClose={() => setPartnershipOpen(false)} />}
       {cabinetOpen && <PersonalCabinet onClose={() => setCabinetOpen(false)} />}
-      {giftOpen && <GiftToWorld onClose={() => setGiftOpen(false)} />}
+      {giftOpen && <LivingAcademy onClose={() => setGiftOpen(false)} />}
       {meditationsOpen && <Meditations onClose={() => setMeditationsOpen(false)} />}
       <ResonanceMirror />
       {pathMode && intention && !soulFieldOpen && <InnerVoice />}

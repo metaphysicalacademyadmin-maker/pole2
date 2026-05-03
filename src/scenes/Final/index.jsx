@@ -162,7 +162,7 @@ export default function Final({ openCosmo, openAdmin, openPartnership, openCabin
             )}
             {fourthSpiralUnlocked && openGift && (
               <button type="button" className="final-btn-path final-btn-gift" onClick={openGift}>
-                <span>✨</span> дар у світ</button>
+                <span>✨</span> поле кличе</button>
             )}
           </div>
         </div>
