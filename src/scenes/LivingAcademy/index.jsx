@@ -6,7 +6,7 @@ import {
   typeMeta, themeMeta, formatDate, daysUntil,
 } from '../../utils/academy.js';
 import { showToast } from '../../components/GlobalToast.jsx';
-import GiftToWorldGiftForm from './GiftFormPanel.jsx';
+import GiftFormPanel from './GiftFormPanel.jsx';
 import './styles.css';
 
 // Четверта спіраль — «Поле кличе».
@@ -93,7 +93,7 @@ export default function LivingAcademy({ onClose }) {
           <span className="la-gift-toggle-arrow" aria-hidden="true">{giftPanelOpen ? '▾' : '▸'}</span>
         </button>
 
-        {giftPanelOpen && <GiftToWorldGiftForm />}
+        {giftPanelOpen && <GiftFormPanel />}
       </div>
     </div>
   );

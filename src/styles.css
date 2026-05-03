@@ -119,7 +119,14 @@ input, textarea {
   min-height: 100vh;
 }
 
-.scene { display: block; }
+.scene {
+  display: block;
+  animation: scene-enter 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes scene-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ═══ Buttons ═══ */
 .btn {
