@@ -33,6 +33,7 @@ import {
   socialActions,
   modalActions,
   achievementsActions,
+  questActions,
   devActions,
   buildArchive,
 } from './actions.js';
@@ -93,6 +94,7 @@ export const useGameStore = create(
       ...socialActions(set, get, ensureLegacy),
       ...modalActions(set, get, ensureLegacy),
       ...achievementsActions(set, get, ensureLegacy),
+      ...questActions(set, get, ensureLegacy),
       ...devActions(set, get, ensureLegacy),
     }),
     {

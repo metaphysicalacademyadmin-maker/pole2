@@ -1,11 +1,16 @@
 import { useState } from 'react';
+import { useGameStore } from '../../store/gameStore.js';
 import { isLlmWitnessAvailable } from '../../utils/llm-witness.js';
 import LlmWitness from '../../components/LlmWitness/index.jsx';
+import QuestOfferModal from '../../components/QuestOfferModal.jsx';
+import '../../components/QuestOfferModal.css';
 
 // Екран завершення пелюстки + опційне свідчення Арбітра.
 // Активується якщо парент-сторінка інжектила window.__POLE_LLM__.
 export default function PetalComplete({ petal, lastAnswer, onExit }) {
   const [witnessOpen, setWitnessOpen] = useState(false);
+  const [questOpen, setQuestOpen] = useState(false);
+  const currentQuest = useGameStore((s) => s.currentQuest);
 
   const llmAvailable = isLlmWitnessAvailable();
   const witnessText = lastAnswer ? composeWitnessPayload(lastAnswer, petal) : null;
@@ -24,6 +29,13 @@ export default function PetalComplete({ petal, lastAnswer, onExit }) {
             ▲ почути арбітра
           </button>
         )}
+        {!currentQuest && (
+          <button type="button" className="petal-witness-btn"
+            onClick={() => setQuestOpen(true)}
+            style={{ borderColor: 'rgba(232, 196, 118, 0.4)', color: '#f0c574' }}>
+            ✦ взяти обіцянку на 7 днів
+          </button>
+        )}
         <button type="button" className="petal-btn-return" onClick={onExit}>
           повернутись на мандалу →
         </button>
@@ -31,6 +43,10 @@ export default function PetalComplete({ petal, lastAnswer, onExit }) {
       {witnessOpen && witnessText && (
         <LlmWitness payload={witnessText}
           onClose={() => setWitnessOpen(false)} />
+      )}
+      {questOpen && (
+        <QuestOfferModal chakra={petal.id}
+          onClose={() => setQuestOpen(false)} />
       )}
     </>
   );

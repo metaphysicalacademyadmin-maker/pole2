@@ -140,6 +140,10 @@ export const defaultState = {
   petalProgress: {},
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
+  // ─── Тижневі обіцянки (квести) ───
+  currentQuest: null,              // { id, title, text, icon, chakra, customText, startedAt, dueAt, markedDays }
+  questHistory: [],                // [{ ...quest, finishedAt, status, reflection, daysCompleted }]
+
   // ─── 4-та спіраль — Дар у Світ ───
   gifts: [],                       // [{ id, text, kind, forLevelN, ts }]
   fourthSpiralAcknowledged: false, // true коли гравець вперше побачив що 4-та спіраль розкрита

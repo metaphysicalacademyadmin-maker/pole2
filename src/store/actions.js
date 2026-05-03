@@ -462,6 +462,86 @@ export const petalActions = (set, get, ensure) => ({
   },
 });
 
+// ───────────── ТИЖНЕВІ КВЕСТИ ─────────────
+
+const QUEST_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
+
+function isoDate(ts = Date.now()) {
+  return new Date(ts).toISOString().slice(0, 10);
+}
+
+export const questActions = (set, get, ensure) => ({
+  commitQuest: (quest) => {
+    // quest = { id?, title, text, icon, chakra?, customText? }
+    const s = get();
+    const startedAt = Date.now();
+    set({
+      ...ensure(s),
+      currentQuest: {
+        id: quest.id || `custom-${startedAt}`,
+        title: quest.title,
+        text: quest.text,
+        icon: quest.icon || '✦',
+        chakra: quest.chakra || null,
+        customText: quest.customText || null,
+        startedAt,
+        dueAt: startedAt + QUEST_DURATION_MS,
+        markedDays: [],   // ['2026-05-03', ...]
+      },
+      journal: [...s.journal, {
+        text: `✦ Обіцянка: ${quest.title}`,
+        tag: 'обіцянка',
+        ts: startedAt,
+      }],
+    });
+  },
+
+  markQuestDay: (dateStr = isoDate()) => {
+    const s = get();
+    if (!s.currentQuest) return;
+    const days = s.currentQuest.markedDays || [];
+    if (days.includes(dateStr)) return;
+    set({
+      ...ensure(s),
+      currentQuest: { ...s.currentQuest, markedDays: [...days, dateStr] },
+    });
+  },
+
+  unmarkQuestDay: (dateStr) => {
+    const s = get();
+    if (!s.currentQuest) return;
+    const days = (s.currentQuest.markedDays || []).filter((d) => d !== dateStr);
+    set({
+      ...ensure(s),
+      currentQuest: { ...s.currentQuest, markedDays: days },
+    });
+  },
+
+  completeQuest: (status, reflection) => {
+    // status: 'completed' | 'partial' | 'abandoned'
+    const s = get();
+    if (!s.currentQuest) return;
+    const finishedAt = Date.now();
+    const closed = {
+      ...s.currentQuest,
+      finishedAt,
+      status,
+      reflection: reflection || null,
+      daysCompleted: (s.currentQuest.markedDays || []).length,
+    };
+    set({
+      ...ensure(s),
+      currentQuest: null,
+      questHistory: [...(s.questHistory || []), closed],
+      journal: [...s.journal, {
+        text: `${status === 'completed' ? '✓' : status === 'partial' ? '◐' : '○'} Обіцянка завершена: ${closed.title}`,
+        tag: 'обіцянка',
+        ts: finishedAt,
+      }],
+    });
+  },
+});
+
 // ───────────── ДОСЯГНЕННЯ ─────────────
 
 export const achievementsActions = (set, get, ensure) => ({
