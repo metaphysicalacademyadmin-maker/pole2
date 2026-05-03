@@ -5,6 +5,7 @@ import { showToast } from '../GlobalToast.jsx';
 import { ACHIEVEMENTS } from '../../data/achievements.js';
 import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import PracticesModal from '../modals/PracticesModal.jsx';
+import MaturityTree from '../MaturityTree/index.jsx';
 import ProfileTab from './ProfileTab.jsx';
 import AchievementsTab from './AchievementsTab.jsx';
 import PracticesTab from './PracticesTab.jsx';
@@ -14,9 +15,10 @@ import './styles.css';
 
 const TABS = [
   { id: 'profile',      label: 'профіль',     icon: '👤' },
+  { id: 'maturity',     label: 'зростання',   icon: '🌳' },
   { id: 'achievements', label: 'досягнення',  icon: '🏆' },
   { id: 'practices',    label: 'практики',    icon: '🌿' },
-  { id: 'aura',         label: 'зростання',   icon: '📈' },
+  { id: 'aura',         label: 'аура',        icon: '📈' },
   { id: 'sessions',     label: 'історія',     icon: '📜' },
 ];
 
@@ -63,6 +65,7 @@ export default function PersonalCabinet({ onClose }) {
 
         <div className="cab-content">
           {activeTab === 'profile' && <ProfileTab />}
+          {activeTab === 'maturity' && <MaturityTree />}
           {activeTab === 'achievements' && <AchievementsTab />}
           {activeTab === 'practices' && <PracticesTab onLaunch={setRunningPractice} />}
           {activeTab === 'aura' && <AuraTab />}
