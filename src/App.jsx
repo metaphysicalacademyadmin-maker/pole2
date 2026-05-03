@@ -19,7 +19,10 @@ import ErrorBoundary from './components/ErrorBoundary.jsx';
 import GlobalToast from './components/GlobalToast.jsx';
 import KaiBubble from './components/Kai/KaiBubble.jsx';
 import TeacherWhisper from './components/TeacherWhisper.jsx';
+import EventQuote from './components/EventQuote.jsx';
+import { useEventQuotes } from './hooks/useEventQuotes.js';
 import './components/TeacherWhisper.css';
+import './components/EventQuote.css';
 import ArbiterModal from './components/Arbiter/ArbiterModal.jsx';
 import AntypModal from './components/Antyp/AntypModal.jsx';
 import MirrorModal from './components/Mirror/MirrorModal.jsx';
@@ -62,6 +65,7 @@ export default function App() {
   const [mirror, setMirror] = useState(null);
   const [koan, setKoan] = useState(null);
   const lastAnswerCount = useRef(0);
+  const { eventKey, dismiss: dismissQuote } = useEventQuotes();
 
   // Apply theme to root
   useEffect(() => {
@@ -166,6 +170,9 @@ export default function App() {
       <GlobalToast />
       {pathMode && intention && !soulFieldOpen && !activeCharacter && !mirror && <KaiBubble />}
       {pathMode && intention && !activeCharacter && !mirror && <TeacherWhisper />}
+      {eventKey && (
+        <EventQuote key={eventKey} eventKey={eventKey} onDismiss={dismissQuote} />
+      )}
 
       {koan && <KoanCard koan={koan} onClose={() => setKoan(null)} />}
       {activeCharacter?.character === 'arbiter' && (

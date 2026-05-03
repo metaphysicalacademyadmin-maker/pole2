@@ -6,16 +6,21 @@ import FieldNow from '../../components/panels/FieldNow.jsx';
 import HelpButton from '../../components/panels/HelpButton.jsx';
 import PresenceButton from '../../components/FieldPresence/PresenceButton.jsx';
 import PresenceModal from '../../components/FieldPresence/PresenceModal.jsx';
+import ChakraPassage from '../../components/ChakraPassage/index.jsx';
+import { passageForLevel } from '../../data/methodichka-chakras.js';
 import '../../components/panels/panels.css';
 
 // Топбар — лого, режим, FieldNow (інтегральне поле), лічильники, присутність, медитації.
 export default function Topbar({ onOpenSoulField, onOpenCabinet, onOpenMeditations }) {
   const [presenceOpen, setPresenceOpen] = useState(false);
+  const [passageOpen, setPassageOpen] = useState(false);
   const pathMode = useGameStore((s) => s.pathMode);
+  const currentLevel = useGameStore((s) => s.currentLevel);
   const completedLevels = useGameStore((s) => s.completedLevels);
   const keys = useGameStore((s) => s.keys);
   const firstName = useProfileStore((s) => s.profile?.firstName);
   const mode = pathMode ? PATH_MODES[pathMode] : null;
+  const hasPassage = !!passageForLevel(currentLevel);
 
   return (
     <div className="lvl-tb">
@@ -34,6 +39,14 @@ export default function Topbar({ onOpenSoulField, onOpenCabinet, onOpenMeditatio
       )}
       <FieldNow onOpen={onOpenSoulField} />
       <PresenceButton onClick={() => setPresenceOpen(true)} />
+      {hasPassage && (
+        <button type="button" className="lvl-tb-cab-btn"
+          onClick={() => setPassageOpen(true)}
+          title="з методички академії — про цю чакру"
+          aria-label="З методички академії">
+          📖
+        </button>
+      )}
       {onOpenMeditations && (
         <button type="button" className="lvl-tb-cab-btn" onClick={onOpenMeditations}
           title="медитації з академії" aria-label="Відкрити медитації з академії">
@@ -56,6 +69,10 @@ export default function Topbar({ onOpenSoulField, onOpenCabinet, onOpenMeditatio
         </span>
       </div>
       {presenceOpen && <PresenceModal onClose={() => setPresenceOpen(false)} />}
+      {passageOpen && (
+        <ChakraPassage levelN={currentLevel}
+          onClose={() => setPassageOpen(false)} />
+      )}
     </div>
   );
 }
