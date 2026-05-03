@@ -73,3 +73,13 @@ export function peersAtLevel(presence, currentLevel) {
 export function msUntilNextRefresh() {
   return HOUR_MS - (Date.now() % HOUR_MS);
 }
+
+// Скільки людей зараз у пелюстках (12 спіраль).
+// Якщо парент дав petalsActive — використовуємо. Інакше — ~25-35% від total.
+export function peersInPetals(presence) {
+  if (!presence) return 0;
+  if (typeof presence.petalsActive === 'number') return presence.petalsActive;
+  const seed = hashStr(`petals-${Math.floor((presence.updatedAt || Date.now()) / HOUR_MS)}`);
+  const pct = 0.25 + ((seed % 100) / 1000);   // 0.25..0.35
+  return Math.round(presence.total * pct);
+}

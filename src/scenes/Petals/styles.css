@@ -94,6 +94,15 @@
 .m12-focus-text strong { font-weight: 700; }
 .m12-focus-hint { color: #a8a09b; font-size: 12px; font-style: italic; }
 
+.m12-presence {
+  margin: 12px auto 0;
+  text-align: center;
+  font-size: 12px;
+  color: #a8a09b;
+  letter-spacing: 0.3px;
+}
+.m12-presence em { color: #c8b9a0; font-style: normal; }
+
 /* Sun rays — ledve видимі, повільне дихання */
 .m12-rays {
   transform-origin: 300px 300px;

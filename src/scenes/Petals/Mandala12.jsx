@@ -3,9 +3,10 @@ import { useGameStore } from '../../store/gameStore.js';
 import { PETALS } from '../../data/petals.js';
 import { shouldShowCooldown } from '../../utils/petal-cooldown.js';
 import { focusForToday } from '../../utils/daily-card-focus.js';
-import PetalCooldownModal from '../../components/PetalCooldownModal.jsx';
+import { getFieldPresence, peersInPetals } from '../../utils/presence.js';
 import ShadowPetalGate from '../../components/ShadowPetalGate.jsx';
 import SacredGeometry from '../Final/SacredGeometry.jsx';
+import { DailyFocusBanner, PetalCooldownModalWrap } from './Mandala12Helpers.jsx';
 import '../../components/PetalCooldownModal.css';
 import '../../components/ShadowPetalGate.css';
 
@@ -36,6 +37,7 @@ export default function Mandala12() {
   const [pendingCooldown, setPendingCooldown] = useState(null);  // { petalId, name, cooldown }
   const [pendingShadow, setPendingShadow] = useState(false);
   const { card: dailyCard, focusPetalId } = useMemo(() => focusForToday(), []);
+  const peers = useMemo(() => peersInPetals(getFieldPresence()), []);
 
   function handleEnter(petalId) {
     // Тінь — окремий gate (показується раз)
@@ -244,6 +246,12 @@ export default function Mandala12() {
             ✺ <em>Усі 12 пелюсток розкриті. Квітка Життя у тобі.</em> ✺
           </div>
         )}
+
+        {peers > 0 && (
+          <div className="m12-presence">
+            ◯ <em>зараз у мандалі ще {peers} {peers === 1 ? 'людина' : peers < 5 ? 'людини' : 'людей'}</em>
+          </div>
+        )}
       </div>
 
       {pendingCooldown && (
@@ -266,34 +274,6 @@ export default function Mandala12() {
           }} />
       )}
     </main>
-  );
-}
-
-function DailyFocusBanner({ card, petalName, color }) {
-  if (!card || !petalName) return null;
-  return (
-    <div className="m12-focus-banner" style={{ borderColor: `${color}55` }}>
-      <span className="m12-focus-icon">{card.symbol}</span>
-      <span className="m12-focus-text">
-        сьогодні поле підказує — <strong style={{ color }}>{petalName}</strong>
-        <span className="m12-focus-hint">{card.hint}</span>
-      </span>
-    </div>
-  );
-}
-
-function PetalCooldownModalWrap({ pending, setPending, enterPetal }) {
-  return (
-    <PetalCooldownModal
-      petalId={pending.petalId}
-      petalName={pending.name}
-      cooldown={pending.cooldown}
-      onClose={() => setPending(null)}
-      onProceed={() => {
-        const id = pending.petalId;
-        setPending(null);
-        enterPetal(id);
-      }} />
   );
 }
 

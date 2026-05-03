@@ -5,6 +5,8 @@ import { showToast } from '../../components/GlobalToast.jsx';
 import DeepeningPhase from './DeepeningPhase.jsx';
 import PetalComplete from './PetalComplete.jsx';
 import BodyPhase from './BodyPhase.jsx';
+import MantraToggle from '../../components/MantraToggle.jsx';
+import '../../components/MantraToggle.css';
 
 const BAR_COLOR = Object.fromEntries(BAROMETERS.map((b) => [b.key, b.color]));
 
@@ -139,6 +141,9 @@ export default function PetalView({ petal }) {
           }}>{petal.name}</h2>
           <div className="petal-domain">{petal.domain}</div>
           <div className="petal-desc">{petal.description}</div>
+          <div style={{ marginTop: 12, display: 'flex', justifyContent: 'center' }}>
+            <MantraToggle petalId={petal.id} />
+          </div>
         </div>
 
         <div className="petal-progress">
