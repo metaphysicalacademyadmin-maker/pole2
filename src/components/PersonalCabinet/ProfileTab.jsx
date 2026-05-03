@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { useProfileStore } from '../../store/profileStore.js';
 import { findArchetype } from '../../data/archetypes.js';
@@ -6,6 +7,7 @@ import { COSMO_LEVELS, currentCosmoLevel } from '../../data/cosmo-levels.js';
 import { computeStreak, streakBadge } from '../../utils/streak-calc.js';
 import JoinGroupButton from '../JoinGroupButton.jsx';
 import MaturityBarometer from '../MaturityBarometer.jsx';
+import ArchetypeDialog from '../ArchetypeDialog/index.jsx';
 import '../MaturityBarometer.css';
 
 // Профіль — все що знає Поле про гравця в одному місці.
@@ -13,6 +15,7 @@ import '../MaturityBarometer.css';
 export default function ProfileTab() {
   const state = useGameStore();
   const firstName = useProfileStore((s) => s.profile?.firstName);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const archetype = state.archetypeCalibration?.confirmed
     ? findArchetype(state.archetypeCalibration.confirmed) : null;
@@ -41,11 +44,20 @@ export default function ProfileTab() {
           {firstName || 'Гравець'}
         </div>
         {archetype && (
-          <div className="cab-avatar-arc" style={{ color: archetype.color }}>
-            {archetype.symbol} {archetype.name}
-          </div>
+          <>
+            <div className="cab-avatar-arc" style={{ color: archetype.color }}>
+              {archetype.symbol} {archetype.name}
+            </div>
+            <button type="button" className="cab-archetype-talk"
+              onClick={() => setDialogOpen(true)}
+              style={{ borderColor: `${archetype.color}66`, color: archetype.color }}>
+              ▸ поговорити з {archetype.name.toLowerCase()}
+            </button>
+          </>
         )}
       </div>
+
+      {dialogOpen && <ArchetypeDialog onClose={() => setDialogOpen(false)} />}
 
       {/* 4 ключові факти — bento-grid */}
       <div className="cab-bento">

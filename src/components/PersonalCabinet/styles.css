@@ -460,6 +460,23 @@
 }
 .cab-session-meta strong { color: #f0c574; font-weight: 700; }
 
+.cab-archetype-talk {
+  display: inline-block;
+  margin-top: 10px;
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 8px 16px;
+  border-radius: 18px;
+  font-family: inherit; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cab-archetype-talk:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
 /* ─── Promises tab ─── */
 .cab-promises { padding: 8px 4px; }
 .cab-promises h3 { color: #f0c574; font-size: 18px; margin: 0 0 12px; letter-spacing: 0.5px; }

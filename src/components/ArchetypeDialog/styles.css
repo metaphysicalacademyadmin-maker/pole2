@@ -1,0 +1,172 @@
+.ad-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(8, 4, 16, 0.88);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px; overflow-y: auto;
+  backdrop-filter: blur(8px);
+}
+.ad-modal {
+  background: linear-gradient(140deg, #1a1228, #0f0a18);
+  border: 1px solid var(--arc-color, rgba(232, 196, 118, 0.35));
+  border-radius: 18px;
+  max-width: 520px; width: 100%;
+  height: min(80vh, 720px);
+  display: flex; flex-direction: column;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+  margin: auto 0;
+  overflow: hidden;
+}
+
+.ad-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(232, 196, 118, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+}
+.ad-symbol {
+  font-size: 32px;
+  text-shadow: 0 0 16px currentColor;
+  flex-shrink: 0;
+  animation: ad-pulse 4s ease-in-out infinite;
+}
+@keyframes ad-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+.ad-name-block { flex: 1; min-width: 0; }
+.ad-name {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px; font-weight: 700;
+  letter-spacing: 1px;
+}
+.ad-sub { font-size: 11px; color: #a8a09b; letter-spacing: 0.5px; }
+.ad-close {
+  background: transparent; border: none;
+  color: #a8a09b;
+  font-size: 28px; cursor: pointer;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+.ad-close:hover { background: rgba(255, 255, 255, 0.08); color: #f0c574; }
+
+.ad-thread {
+  flex: 1; overflow-y: auto;
+  padding: 18px; display: flex; flex-direction: column; gap: 14px;
+}
+.ad-msg {
+  display: flex; gap: 8px; align-items: flex-end;
+  max-width: 85%;
+}
+.ad-msg-archetype { align-self: flex-start; }
+.ad-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+.ad-msg-avatar {
+  font-size: 18px;
+  width: 28px; text-align: center;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+.ad-msg-bubble {
+  padding: 10px 14px;
+  border-radius: 16px;
+  line-height: 1.55;
+  font-size: 14px;
+  color: #fff7e0;
+  word-wrap: break-word;
+}
+.ad-msg-archetype .ad-msg-bubble {
+  background: rgba(232, 196, 118, 0.1);
+  border: 1px solid rgba(232, 196, 118, 0.25);
+  border-bottom-left-radius: 4px;
+}
+.ad-msg-user .ad-msg-bubble {
+  background: linear-gradient(135deg, var(--arc-color, #f0c574), color-mix(in srgb, var(--arc-color, #f0c574) 70%, #000));
+  color: #1a0f0a;
+  border-bottom-right-radius: 4px;
+  font-weight: 500;
+}
+.ad-msg-thinking {
+  display: inline-flex; gap: 4px; padding: 14px 16px;
+}
+.ad-msg-thinking span {
+  width: 6px; height: 6px;
+  background: var(--arc-color, #f0c574);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: ad-dot 1.2s ease-in-out infinite;
+}
+.ad-msg-thinking span:nth-child(2) { animation-delay: 0.2s; }
+.ad-msg-thinking span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes ad-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.ad-input-row {
+  display: flex; gap: 10px;
+  padding: 12px 14px 6px;
+  border-top: 1px solid rgba(232, 196, 118, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+}
+.ad-input-row textarea {
+  flex: 1;
+  background: rgba(15, 12, 24, 0.6);
+  border: 1px solid rgba(232, 196, 118, 0.25);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #fff7e0;
+  font-family: inherit; font-size: 14px;
+  resize: none; line-height: 1.4;
+}
+.ad-input-row textarea:focus {
+  outline: none; border-color: var(--arc-color, rgba(232, 196, 118, 0.7));
+}
+.ad-input-row textarea:disabled { opacity: 0.5; cursor: wait; }
+.ad-send {
+  width: 44px; flex-shrink: 0;
+  border: none; border-radius: 10px;
+  color: #1a0f0a; font-weight: 700; font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ad-send:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.1); }
+.ad-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.ad-hint {
+  text-align: center;
+  font-size: 10px; color: #a8a09b;
+  padding: 0 14px 10px;
+  font-style: italic;
+}
+
+.ad-empty {
+  text-align: center; padding: 40px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.ad-empty-icon {
+  font-size: 56px; color: #a8a09b;
+  filter: drop-shadow(0 0 16px rgba(168, 160, 155, 0.3));
+}
+.ad-empty h3 {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px; letter-spacing: 4px;
+  color: #f0c574; text-transform: uppercase;
+  margin: 0;
+}
+.ad-empty p { color: #c8b9a0; line-height: 1.6; max-width: 380px; }
+.ad-btn-close {
+  background: linear-gradient(135deg, #f0c574, #e8a85a);
+  border: none; color: #1a0f0a;
+  padding: 12px 24px; border-radius: 10px;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; letter-spacing: 0.5px;
+  margin-top: 8px;
+}
+.ad-btn-close:hover { filter: brightness(1.1); }
+
+@media (max-width: 540px) {
+  .ad-modal { height: 90vh; max-height: 90vh; }
+  .ad-symbol { font-size: 24px; }
+  .ad-msg { max-width: 92%; }
+}
