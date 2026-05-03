@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import MaturityMatrix from './MaturityMatrix.jsx';
 import MaturityTreeSvg from './MaturityTreeSvg.jsx';
+import MaturityBarometer from '../MaturityBarometer.jsx';
+import '../MaturityBarometer.css';
 import './styles.css';
 
 // Дерево Зрілості — нова вкладка у Особистому Кабінеті.
@@ -13,6 +15,9 @@ export default function MaturityTree() {
 
   return (
     <div className="mt-frame">
+      <div style={{ marginBottom: 16 }}>
+        <MaturityBarometer />
+      </div>
       <div className="mt-toggle">
         <button type="button"
           className={`mt-toggle-btn ${view === 'tree' ? 'is-active' : ''}`}

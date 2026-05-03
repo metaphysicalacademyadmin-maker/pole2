@@ -5,6 +5,8 @@ import { findSpecialization } from '../../data/specializations.js';
 import { COSMO_LEVELS, currentCosmoLevel } from '../../data/cosmo-levels.js';
 import { computeStreak, streakBadge } from '../../utils/streak-calc.js';
 import JoinGroupButton from '../JoinGroupButton.jsx';
+import MaturityBarometer from '../MaturityBarometer.jsx';
+import '../MaturityBarometer.css';
 
 // Профіль — все що знає Поле про гравця в одному місці.
 
@@ -82,6 +84,11 @@ export default function ProfileTab() {
           <div className="cab-bento-value">{totalDays} {totalDays === 1 ? 'день' : totalDays < 5 ? 'дні' : 'днів'}</div>
           <div className="cab-bento-hint">з тобою</div>
         </div>
+      </div>
+
+      {/* 9-й барометр — Зрілість (derived) */}
+      <div style={{ margin: '16px 0 8px' }}>
+        <MaturityBarometer />
       </div>
 
       {/* Намір */}
