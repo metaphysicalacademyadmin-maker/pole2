@@ -195,6 +195,114 @@
 }
 
 .petal-options { display: flex; flex-direction: column; gap: 10px; }
+
+/* ─── Phase dots — інстинкт / поглиблення / тіло ─── */
+.petal-phase-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 0 0 14px;
+}
+.petal-phase-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(232, 196, 118, 0.22);
+  transition: all 0.3s;
+}
+.petal-phase-dot.is-active {
+  background: #f0c574;
+  width: 28px; border-radius: 6px;
+  box-shadow: 0 0 12px rgba(232, 196, 118, 0.6);
+}
+.petal-phase-dot.is-done { background: rgba(232, 196, 118, 0.55); }
+
+.petal-phase-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 4px;
+  color: #c9b3e8;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 12px;
+  opacity: 0.85;
+  text-align: center;
+}
+
+.petal-custom-trigger {
+  display: block;
+  margin: 12px auto 0;
+  padding: 8px 18px;
+  background: rgba(232, 196, 118, 0.06);
+  border: 1px dashed rgba(232, 196, 118, 0.4);
+  border-radius: 999px;
+  color: #f0c574;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.petal-custom-trigger:hover:not(:disabled) {
+  background: rgba(232, 196, 118, 0.14);
+  border-style: solid;
+}
+.petal-custom-trigger:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.petal-custom-form {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.petal-custom-form textarea,
+.petal-deepening-input,
+.petal-body-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(20, 14, 30, 0.7);
+  border: 1.5px solid rgba(232, 196, 118, 0.3);
+  border-radius: 10px;
+  color: #fff7e0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px; line-height: 1.55;
+  font-style: italic;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.petal-body-input { font-style: normal; font-size: 17px; text-align: center; }
+.petal-custom-form textarea:focus,
+.petal-deepening-input:focus,
+.petal-body-input:focus {
+  outline: none;
+  border-color: #f0c574;
+  box-shadow: 0 0 0 3px rgba(232, 196, 118, 0.15);
+}
+
+.petal-phase-actions {
+  display: flex; justify-content: space-between; gap: 10px;
+  margin-top: 14px;
+}
+.petal-skip {
+  background: transparent;
+  border: 1px solid rgba(232, 196, 118, 0.25);
+  color: #968a7c;
+  padding: 8px 18px; border-radius: 999px;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.5px; cursor: pointer;
+  transition: all 0.2s;
+}
+.petal-skip:hover { color: #c8bca8; border-color: rgba(232,196,118,0.4); }
+.petal-deepening-go {
+  background: linear-gradient(180deg, rgba(232,196,118,.4), rgba(120,76,30,.5));
+  border: 1.5px solid #f0c574;
+  color: #fff7e0;
+  padding: 10px 22px; border-radius: 999px;
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; cursor: pointer;
+  transition: all 0.2s;
+}
+.petal-deepening-go:hover:not(:disabled) {
+  filter: brightness(1.1); transform: translateY(-1px);
+}
+.petal-deepening-go:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.petal-deepening, .petal-body-phase {
+  animation: petal-cell-fade 0.5s ease;
+}
 .petal-option {
   display: flex;
   align-items: stretch;
