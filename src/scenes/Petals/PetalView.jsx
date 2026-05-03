@@ -4,6 +4,7 @@ import { BAROMETERS } from '../../data/barometers.js';
 import { showToast } from '../../components/GlobalToast.jsx';
 import DeepeningPhase from './DeepeningPhase.jsx';
 import PetalComplete from './PetalComplete.jsx';
+import BodyPhase from './BodyPhase.jsx';
 
 const BAR_COLOR = Object.fromEntries(BAROMETERS.map((b) => [b.key, b.color]));
 
@@ -49,6 +50,8 @@ export default function PetalView({ petal }) {
   const [bodyMark, setBodyMark] = useState('');
   const [customMode, setCustomMode] = useState(false);
   const [customText, setCustomText] = useState('');
+  const [bodyMode, setBodyMode] = useState('word');     // 'word' | 'constellation'
+  const [constellation, setConstellation] = useState(null);
 
   // Reset фази при переході на нову клітинку
   const cellId = cell?.id;
@@ -67,6 +70,8 @@ export default function PetalView({ petal }) {
     setBodyMark('');
     setCustomMode(false);
     setCustomText('');
+    setBodyMode('word');
+    setConstellation(null);
   }
 
   function handlePickOption(opt) {
@@ -102,12 +107,14 @@ export default function PetalView({ petal }) {
     setTimeout(() => setPhase('deepening'), 700);
   }
 
-  function handleSaveAndAdvance() {
+  function handleSaveAndAdvance(extra = {}) {
     if (!cell || !instinct) return;
     recordAnswer(petal.id, cell.id, total, {
       ...instinct,
       deepening: deepening.trim() || null,
       bodyMark: bodyMark.trim() || null,
+      constellation: constellation || null,
+      ...extra,
     });
     resetPhase();
   }
@@ -205,29 +212,16 @@ export default function PetalView({ petal }) {
             )}
 
             {phase === 'body' && (
-              <div className="petal-cell petal-body-phase">
-                <div className="petal-phase-label">фаза 3 · тіло</div>
-                <h3 className="petal-cell-title">Де у тілі це зараз?</h3>
-                <p className="petal-cell-question">
-                  Одне слово — груди / живіт / горло / стопи / спина / руки / ціле тіло.
-                  Не шукай «правильне» — пиши перше що відчув.
-                </p>
-                <input type="text" value={bodyMark}
-                  onChange={(e) => setBodyMark(e.target.value)}
-                  placeholder="одне слово..."
-                  maxLength={40}
-                  className="petal-body-input" />
-                <div className="petal-phase-actions">
-                  <button type="button" className="petal-skip"
-                    onClick={handleSaveAndAdvance}>
-                    пропустити та зберегти
-                  </button>
-                  <button type="button" className="petal-deepening-go"
-                    onClick={handleSaveAndAdvance}>
-                    ✦ зберегти та далі
-                  </button>
-                </div>
-              </div>
+              <BodyPhase
+                petalColor={petal.color}
+                bodyMark={bodyMark} setBodyMark={setBodyMark}
+                bodyMode={bodyMode} setBodyMode={setBodyMode}
+                onSave={() => handleSaveAndAdvance()}
+                onConstellationSave={(figs) => {
+                  setConstellation(figs);
+                  handleSaveAndAdvance({ constellation: figs });
+                }}
+              />
             )}
           </>
         )}

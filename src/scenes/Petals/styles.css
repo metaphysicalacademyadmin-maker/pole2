@@ -445,3 +445,35 @@
   margin-top: -6px;
   margin-bottom: 16px;
 }
+
+.petal-mode-switch {
+  display: block; margin: 14px auto 0;
+  background: transparent;
+  border: 1px dashed rgba(116, 197, 181, 0.45);
+  color: #74c5b5;
+  padding: 8px 16px; border-radius: 20px;
+  font-family: inherit; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.5px; cursor: pointer;
+  transition: all 0.2s;
+}
+.petal-mode-switch:hover {
+  background: rgba(116, 197, 181, 0.1);
+  border-color: rgba(116, 197, 181, 0.7);
+}
+.petal-mode-back {
+  display: inline-block; margin-bottom: 12px;
+  background: transparent; border: none;
+  color: #a8a09b; font-size: 12px;
+  cursor: pointer;
+}
+.petal-mode-back:hover { color: #f0c574; }
+
+.petal-mini-const { text-align: center; }
+.petal-mini-svg {
+  display: block; margin: 16px auto;
+  width: 100%; max-width: 320px; height: 320px;
+  background: rgba(15, 12, 24, 0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(232, 196, 118, 0.15);
+  touch-action: none;
+}
