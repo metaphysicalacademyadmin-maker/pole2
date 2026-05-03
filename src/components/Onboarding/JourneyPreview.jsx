@@ -1,5 +1,5 @@
-// 3-частинна візуалізація для гайду — показує гравцеві
-// як виглядає весь шлях: піраміда → мандала → канали.
+// 4-частинна візуалізація для гайду — показує весь шлях:
+// піраміда → мандала → канали → дар у Світ.
 // SVG, без зовнішніх файлів.
 
 const CHAKRAS = ['#a8c898', '#9fc8e8', '#f5b870', '#f0a8b8', '#9fc8e8', '#c9b3e8', '#ffe7a8'];
@@ -7,11 +7,13 @@ const CHAKRAS = ['#a8c898', '#9fc8e8', '#f5b870', '#f0a8b8', '#9fc8e8', '#c9b3e8
 export default function JourneyPreview() {
   return (
     <div className="onb-journey">
-      <Stage label="перша спіраль" sub="7 рівнів"><Pyramid /></Stage>
+      <Stage label="перша" sub="7 рівнів"><Pyramid /></Stage>
       <Arrow />
-      <Stage label="друга спіраль" sub="12 пелюсток"><Mandala /></Stage>
+      <Stage label="друга" sub="12 пелюсток"><Mandala /></Stage>
       <Arrow />
-      <Stage label="третя спіраль" sub="11 каналів"><Channels /></Stage>
+      <Stage label="третя" sub="11 каналів"><Channels /></Stage>
+      <Arrow />
+      <Stage label="четверта" sub="дар у Світ"><Gift /></Stage>
     </div>
   );
 }
@@ -80,6 +82,37 @@ function Channels() {
             strokeLinecap="round" opacity="0.85" />
         );
       })}
+    </svg>
+  );
+}
+
+// ─── 4. Дар — центральна зірка випромінює до 6 точок назовні ────
+function Gift() {
+  const rays = Array.from({ length: 6 });
+  return (
+    <svg viewBox="-35 -35 70 70" width="100%" height="100%">
+      {rays.map((_, i) => {
+        const angle = (i * 60 - 90) * Math.PI / 180;
+        const x1 = Math.cos(angle) * 8;
+        const y1 = Math.sin(angle) * 8;
+        const x2 = Math.cos(angle) * 26;
+        const y2 = Math.sin(angle) * 26;
+        return (
+          <g key={i}>
+            <line x1={x1} y1={y1} x2={x2} y2={y2}
+              stroke="rgba(255, 231, 168, 0.45)" strokeWidth="0.8"
+              strokeLinecap="round" />
+            <circle cx={x2} cy={y2} r="3"
+              fill="#ffe7a8" stroke="#c89849" strokeWidth="0.6"
+              opacity="0.85" />
+          </g>
+        );
+      })}
+      {/* центральна сяюча зірка */}
+      <g>
+        <circle r="8" fill="rgba(255, 231, 168, 0.18)" />
+        <circle r="5" fill="#ffe7a8" stroke="#c89849" strokeWidth="0.8" />
+      </g>
     </svg>
   );
 }
