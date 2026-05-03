@@ -8,6 +8,7 @@ import { computeStreak, streakBadge } from '../../utils/streak-calc.js';
 import JoinGroupButton from '../JoinGroupButton.jsx';
 import MaturityBarometer from '../MaturityBarometer.jsx';
 import ArchetypeDialog from '../ArchetypeDialog/index.jsx';
+import Rodovid from '../Rodovid/index.jsx';
 import '../MaturityBarometer.css';
 
 // Профіль — все що знає Поле про гравця в одному місці.
@@ -16,6 +17,9 @@ export default function ProfileTab() {
   const state = useGameStore();
   const firstName = useProfileStore((s) => s.profile?.firstName);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [rodovidOpen, setRodovidOpen] = useState(false);
+  const rodovid = state.rodovid || {};
+  const rodovidFilled = Object.keys(rodovid).length;
 
   const archetype = state.archetypeCalibration?.confirmed
     ? findArchetype(state.archetypeCalibration.confirmed) : null;
@@ -58,6 +62,7 @@ export default function ProfileTab() {
       </div>
 
       {dialogOpen && <ArchetypeDialog onClose={() => setDialogOpen(false)} />}
+      {rodovidOpen && <Rodovid onClose={() => setRodovidOpen(false)} />}
 
       {/* 4 ключові факти — bento-grid */}
       <div className="cab-bento">
@@ -128,6 +133,12 @@ export default function ProfileTab() {
           <div className="cab-blessing-text">«{spec.blessing}»</div>
         </div>
       )}
+
+      <button type="button" className="cab-rod-cta"
+        onClick={() => setRodovidOpen(true)}>
+        🌳 Родове Дерево
+        {rodovidFilled > 0 && <span className="cab-rod-count">{rodovidFilled}/7</span>}
+      </button>
 
       <JoinGroupButton variant="inline"
         label="✦ Заявка на навчальну групу" />

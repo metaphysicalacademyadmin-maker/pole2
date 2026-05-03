@@ -408,6 +408,22 @@ export const petalActions = (set, get, ensure) => ({
       teacherWhisperHistory: { ...(s.teacherWhisperHistory || {}), [triggerId]: Date.now() },
     });
   },
+  saveRodovidNode: (nodeId, payload) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      rodovid: {
+        ...(s.rodovid || {}),
+        [nodeId]: { ...payload, ts: Date.now() },
+      },
+    });
+  },
+  clearRodovidNode: (nodeId) => {
+    const s = get();
+    const r = { ...(s.rodovid || {}) };
+    delete r[nodeId];
+    set({ ...ensure(s), rodovid: r });
+  },
   exitPetal: () => {
     set({ currentPetalId: null });
   },

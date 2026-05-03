@@ -4,6 +4,7 @@ import { isLlmWitnessAvailable } from '../../utils/llm-witness.js';
 import LlmWitness from '../../components/LlmWitness/index.jsx';
 import QuestOfferModal from '../../components/QuestOfferModal.jsx';
 import PetalAcademyHint from '../../components/PetalAcademyHint.jsx';
+import Rodovid from '../../components/Rodovid/index.jsx';
 import '../../components/QuestOfferModal.css';
 import '../../components/PetalAcademyHint.css';
 
@@ -12,6 +13,7 @@ import '../../components/PetalAcademyHint.css';
 export default function PetalComplete({ petal, lastAnswer, onExit }) {
   const [witnessOpen, setWitnessOpen] = useState(false);
   const [questOpen, setQuestOpen] = useState(false);
+  const [rodovidOpen, setRodovidOpen] = useState(false);
   const currentQuest = useGameStore((s) => s.currentQuest);
 
   const llmAvailable = isLlmWitnessAvailable();
@@ -44,6 +46,13 @@ export default function PetalComplete({ petal, lastAnswer, onExit }) {
             ✦ взяти обіцянку на 7 днів
           </button>
         )}
+        {petal.id === 'iii_rod' && (
+          <button type="button" className="petal-witness-btn"
+            onClick={() => setRodovidOpen(true)}
+            style={{ borderColor: 'rgba(232, 176, 184, 0.5)', color: '#e8b0b8' }}>
+            🌳 відкрити родове дерево
+          </button>
+        )}
         <button type="button" className="petal-btn-return" onClick={onExit}>
           повернутись на мандалу →
         </button>
@@ -57,6 +66,9 @@ export default function PetalComplete({ petal, lastAnswer, onExit }) {
       {questOpen && (
         <QuestOfferModal chakra={petal.id}
           onClose={() => setQuestOpen(false)} />
+      )}
+      {rodovidOpen && (
+        <Rodovid onClose={() => setRodovidOpen(false)} />
       )}
     </>
   );

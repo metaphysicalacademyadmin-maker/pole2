@@ -141,6 +141,13 @@ export const defaultState = {
   petalCooldownOverrides: {},      // { [petalId]: true } — гравець свідомо пропустив cooldown
   shadowPetalAcknowledged: false,  // true після того як гравець прочитав попередження перед xi_shadow
   teacherWhisperHistory: {},       // { [triggerId]: ts } — щоб не показувати один тригер двічі за 24год
+
+  // ─── Родовід (3 покоління) ───
+  // { [nodeId]: { name, gift, program, alive, ts } }
+  // nodeId: 'me', 'father', 'mother',
+  //         'gf-paternal' (тато тата), 'gm-paternal' (мама тата),
+  //         'gf-maternal' (тато мами), 'gm-maternal' (мама мами)
+  rodovid: {},
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
   // ─── Тижневі обіцянки (квести) ───
