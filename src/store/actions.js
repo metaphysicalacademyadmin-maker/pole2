@@ -410,11 +410,12 @@ export const petalActions = (set, get, ensure) => ({
   },
   saveRodovidNode: (nodeId, payload) => {
     const s = get();
+    const prev = s.rodovid?.[nodeId] || {};
     set({
       ...ensure(s),
       rodovid: {
         ...(s.rodovid || {}),
-        [nodeId]: { ...payload, ts: Date.now() },
+        [nodeId]: { ...prev, ...payload, ts: Date.now() },
       },
     });
   },
@@ -423,6 +424,80 @@ export const petalActions = (set, get, ensure) => ({
     const r = { ...(s.rodovid || {}) };
     delete r[nodeId];
     set({ ...ensure(s), rodovid: r });
+  },
+  markRodovidPhrase: (nodeId, phraseId) => {
+    const s = get();
+    const prev = s.rodovid?.[nodeId] || {};
+    const phrases = { ...(prev.phrases || {}), [phraseId]: Date.now() };
+    set({
+      ...ensure(s),
+      rodovid: { ...(s.rodovid || {}), [nodeId]: { ...prev, phrases } },
+    });
+  },
+  addExcludedMember: (payload) => {
+    const s = get();
+    const id = `excl-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const item = { id, acknowledged: false, ts: Date.now(), ...payload };
+    set({
+      ...ensure(s),
+      rodovidExcluded: [...(s.rodovidExcluded || []), item],
+    });
+    return id;
+  },
+  updateExcludedMember: (id, patch) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      rodovidExcluded: (s.rodovidExcluded || []).map((e) =>
+        e.id === id ? { ...e, ...patch } : e),
+    });
+  },
+  removeExcludedMember: (id) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      rodovidExcluded: (s.rodovidExcluded || []).filter((e) => e.id !== id),
+    });
+  },
+  setRodovidHistory: (patch) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      rodovidHistory: { ...(s.rodovidHistory || {}), ...patch },
+    });
+  },
+  setRodovidEntanglement: (entanglement) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      rodovidEntanglement: entanglement
+        ? { ...entanglement, ts: Date.now() }
+        : null,
+    });
+  },
+  releaseRodovidEntanglement: () => {
+    const s = get();
+    if (!s.rodovidEntanglement) return;
+    set({
+      ...ensure(s),
+      rodovidEntanglement: { ...s.rodovidEntanglement, released: true, releasedAt: Date.now() },
+    });
+  },
+  markParentRitual: (parent, phase) => {
+    // parent: 'mother'|'father', phase: 'acceptance'|'release'
+    const s = get();
+    const cur = s.rodovidParentRitual?.[parent] || {};
+    set({
+      ...ensure(s),
+      rodovidParentRitual: {
+        ...(s.rodovidParentRitual || {}),
+        [parent]: { ...cur, [phase]: Date.now() },
+      },
+    });
+  },
+  toggleRodovidFourthGen: () => {
+    const s = get();
+    set({ ...ensure(s), rodovidFourthGenShown: !s.rodovidFourthGenShown });
   },
   exitPetal: () => {
     set({ currentPetalId: null });

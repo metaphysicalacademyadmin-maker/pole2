@@ -3,6 +3,9 @@ import { useGameStore } from '../../store/gameStore.js';
 import { RODOVID_NODES, RODOVID_LINES, findNode } from '../../data/rodovid-nodes.js';
 import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import RodovidNodeEditor from './NodeEditor.jsx';
+import ExcludedSection from './ExcludedSection.jsx';
+import HistoricalContext from './HistoricalContext.jsx';
+import EntanglementCheck from './EntanglementCheck.jsx';
 import JoinGroupButton from '../JoinGroupButton.jsx';
 import './styles.css';
 
@@ -60,6 +63,10 @@ export default function Rodovid({ onClose }) {
               onClick={() => setEditing(node.id)} />
           ))}
         </svg>
+
+        <ExcludedSection />
+        <HistoricalContext />
+        <EntanglementCheck />
 
         {filledCount >= 3 && (
           <div className="rod-summary">

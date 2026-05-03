@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { findNode } from '../../data/rodovid-nodes.js';
+import { phrasesFor } from '../../data/rodovid-hellinger.js';
 import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 
 // Редактор одного вузла родоводу — модалка-form поверх SVG.
@@ -9,6 +10,7 @@ export default function RodovidNodeEditor({ nodeId, onClose }) {
   const existing = useGameStore((s) => s.rodovid?.[nodeId]);
   const save = useGameStore((s) => s.saveRodovidNode);
   const clear = useGameStore((s) => s.clearRodovidNode);
+  const markPhrase = useGameStore((s) => s.markRodovidPhrase);
 
   const [name, setName] = useState(existing?.name || '');
   const [gift, setGift] = useState(existing?.gift || '');
@@ -101,6 +103,13 @@ export default function RodovidNodeEditor({ nodeId, onClose }) {
           <span className="rne-hint">не вирок — спостереження. Назване — вже менше керує.</span>
         </label>
 
+        {existing && (
+          <RitualPhrasesBlock nodeId={nodeId}
+            phrases={existing.phrases || {}}
+            onMark={(phraseId) => markPhrase(nodeId, phraseId)}
+            color={node.color} />
+        )}
+
         <div className="rne-actions">
           {existing && (
             <button type="button" className="rne-btn rne-btn-clear"
@@ -112,6 +121,34 @@ export default function RodovidNodeEditor({ nodeId, onClose }) {
             ✓ зберегти
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function RitualPhrasesBlock({ nodeId, phrases, onMark, color }) {
+  const list = phrasesFor(nodeId);
+  return (
+    <div className="rne-ritual">
+      <div className="rne-ritual-label">
+        ⊹ ритуал визнання — вимов вголос
+      </div>
+      <div className="rne-ritual-hint">
+        За Хеллінгером: фраза, проговорена з тілом — звільняє переплетіння.
+      </div>
+      <div className="rne-ritual-list">
+        {list.map((p) => {
+          const spoken = !!phrases[p.id];
+          return (
+            <button key={p.id} type="button"
+              className={`rne-ritual-btn${spoken ? ' is-spoken' : ''}`}
+              onClick={() => onMark(p.id)}
+              style={spoken ? { borderColor: color, color } : undefined}>
+              <span className="rne-ritual-mark">{spoken ? '✓' : '○'}</span>
+              <span className="rne-ritual-text">«{p.text}»</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

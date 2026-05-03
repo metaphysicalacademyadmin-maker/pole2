@@ -48,7 +48,8 @@ export function sanitizeState(s, defaults) {
                     'archetypesMet', 'unlockedAbilities', 'completedInitiations',
                     'auraReadings', 'snakePenalties', 'shadowMirrorHistory',
                     'archetypeTransformations', 'cosmoIntroSeen', 'resonanceHistory',
-                    'modalQueue', 'achievements', 'gifts', 'questHistory']) {
+                    'modalQueue', 'achievements', 'gifts', 'questHistory',
+                    'rodovidExcluded']) {
     if (!Array.isArray(s[k])) s[k] = [...(defaults[k] || [])];
   }
 
@@ -56,7 +57,7 @@ export function sanitizeState(s, defaults) {
   for (const k of ['levelKeys', 'levelProgress', 'cellAnswers',
                     'petalAnswers', 'petalProgress', 'petalCooldownOverrides',
                     'channelAnswers', 'channelProgress', 'teacherWhisperHistory',
-                    'rodovid']) {
+                    'rodovid', 'rodovidHistory', 'rodovidParentRitual']) {
     if (!s[k] || typeof s[k] !== 'object') s[k] = {};
   }
   if (!s.archetypeCalibration || typeof s.archetypeCalibration !== 'object') {

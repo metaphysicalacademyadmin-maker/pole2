@@ -142,12 +142,36 @@ export const defaultState = {
   shadowPetalAcknowledged: false,  // true після того як гравець прочитав попередження перед xi_shadow
   teacherWhisperHistory: {},       // { [triggerId]: ts } — щоб не показувати один тригер двічі за 24год
 
-  // ─── Родовід (3 покоління) ───
-  // { [nodeId]: { name, gift, program, alive, ts } }
+  // ─── Родовід (3 покоління + Хеллінгер) ───
+  // { [nodeId]: { name, gift, program, alive, ts, phrases?: {[phraseId]: true} } }
   // nodeId: 'me', 'father', 'mother',
-  //         'gf-paternal' (тато тата), 'gm-paternal' (мама тата),
-  //         'gf-maternal' (тато мами), 'gm-maternal' (мама мами)
+  //         'gf-paternal'/'gm-paternal'/'gf-maternal'/'gm-maternal',
+  //         + 8 прадідів (gg-pp-1..2, gg-pm-1..2, gg-mp-1..2, gg-mm-1..2)
   rodovid: {},
+
+  // Виключені члени роду (Aussenseiter за Хеллінгером)
+  // [{ id, type, relation, name, story, acknowledged, ts }]
+  // type: 'lost-child' | 'first-partner' | 'repressed' | 'suicide' | 'displaced' | 'mental' | 'other'
+  // relation: 'mother-side' | 'father-side' | 'siblings' | 'me-line'
+  rodovidExcluded: [],
+
+  // Історичний контекст — війни/репресії XX ст.
+  rodovidHistory: {
+    holodomor: false, ww2: false, repressions: false,
+    displacement: false, currentWar: false, other: '',
+  },
+
+  // Переплетіння (Verstrickung) — чию долю ти несеш
+  rodovidEntanglement: null,
+  // { carrying: 'father'|'mother'|'deadChild'|'grandparent'|'custom'|null,
+  //   customText: '', released: false, ts }
+
+  // Двофазний ритуал з батьками
+  rodovidParentRitual: { mother: null, father: null },
+  // { mother: { acceptance: ts, release: ts } | null, father: same }
+
+  // 4-те покоління розкрите (toggle UI)
+  rodovidFourthGenShown: false,
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
   // ─── Тижневі обіцянки (квести) ───
