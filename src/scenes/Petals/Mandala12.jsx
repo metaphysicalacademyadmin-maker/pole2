@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { PETALS } from '../../data/petals.js';
+import { shouldShowCooldown } from '../../utils/petal-cooldown.js';
+import PetalCooldownModal from '../../components/PetalCooldownModal.jsx';
 import SacredGeometry from '../Final/SacredGeometry.jsx';
+import '../../components/PetalCooldownModal.css';
 
 const VIEW = 600;
 const CENTER = 300;
@@ -21,10 +24,22 @@ export default function Mandala12() {
   const enterPetal = useGameStore((s) => s.enterPetal);
   const exitPetals = useGameStore((s) => s.exitPetals);
   const progress = useGameStore((s) => s.petalProgress);
+  const overrides = useGameStore((s) => s.petalCooldownOverrides);
   const total = PETALS.length;
   const allDone = PETALS.every((p) => progress[p.id]?.completed);
   const completedCount = PETALS.filter((p) => progress[p.id]?.completed).length;
   const [hoveredId, setHoveredId] = useState(null);
+  const [pendingCooldown, setPendingCooldown] = useState(null);  // { petalId, name, cooldown }
+
+  function handleEnter(petalId) {
+    const cooldown = shouldShowCooldown(petalId, progress, overrides);
+    if (cooldown) {
+      const petal = PETALS.find((p) => p.id === petalId);
+      setPendingCooldown({ petalId, name: petal?.name || petalId, cooldown });
+      return;
+    }
+    enterPetal(petalId);
+  }
 
   return (
     <main className="scene petals-scene petals-cinematic">
@@ -128,7 +143,7 @@ export default function Mandala12() {
 
             return (
               <g key={petal.id}
-                onClick={() => enterPetal(petal.id)}
+                onClick={() => handleEnter(petal.id)}
                 onMouseEnter={() => setHoveredId(petal.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 className={`m12-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}`}
@@ -212,6 +227,19 @@ export default function Mandala12() {
           </div>
         )}
       </div>
+
+      {pendingCooldown && (
+        <PetalCooldownModal
+          petalId={pendingCooldown.petalId}
+          petalName={pendingCooldown.name}
+          cooldown={pendingCooldown.cooldown}
+          onClose={() => setPendingCooldown(null)}
+          onProceed={() => {
+            const id = pendingCooldown.petalId;
+            setPendingCooldown(null);
+            enterPetal(id);
+          }} />
+      )}
     </main>
   );
 }

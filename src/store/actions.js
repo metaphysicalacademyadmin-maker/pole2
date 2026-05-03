@@ -391,6 +391,13 @@ export const petalActions = (set, get, ensure) => ({
   enterPetal: (petalId) => {
     set({ currentPetalId: petalId });
   },
+  overridePetalCooldown: (petalId) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      petalCooldownOverrides: { ...(s.petalCooldownOverrides || {}), [petalId]: true },
+    });
+  },
   exitPetal: () => {
     set({ currentPetalId: null });
   },

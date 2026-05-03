@@ -54,7 +54,7 @@ export function sanitizeState(s, defaults) {
 
   // 6. Об'єкти — гарантовано об'єкти.
   for (const k of ['levelKeys', 'levelProgress', 'cellAnswers',
-                    'petalAnswers', 'petalProgress',
+                    'petalAnswers', 'petalProgress', 'petalCooldownOverrides',
                     'channelAnswers', 'channelProgress']) {
     if (!s[k] || typeof s[k] !== 'object') s[k] = {};
   }

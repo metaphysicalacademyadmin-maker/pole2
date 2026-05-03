@@ -138,6 +138,7 @@ export const defaultState = {
   currentPetalId: null,
   petalAnswers: {},
   petalProgress: {},
+  petalCooldownOverrides: {},      // { [petalId]: true } — гравець свідомо пропустив cooldown
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
   // ─── Тижневі обіцянки (квести) ───
