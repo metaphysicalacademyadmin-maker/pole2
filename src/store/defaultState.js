@@ -172,6 +172,15 @@ export const defaultState = {
 
   // 4-те покоління розкрите (toggle UI)
   rodovidFourthGenShown: false,
+
+  // ─── Інструменти кабінету ───
+  // Розстановки-як-практика (окрема від Constellation на рівні 3)
+  // [{ id, scenario, figures: [{type,x,y,label,notes}], reflection, ts }]
+  toolConstellations: [],
+
+  // Сесії використання інструментів — для статистики «активний користувач»
+  // { [toolId]: { firstUsed, lastUsed, count } }
+  toolUsage: {},
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
   // ─── Тижневі обіцянки (квести) ───

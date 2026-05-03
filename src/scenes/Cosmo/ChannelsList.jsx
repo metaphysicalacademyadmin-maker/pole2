@@ -11,16 +11,25 @@ export default function ChannelsList() {
 
   if (currentChannelId) return <ChannelView channelId={currentChannelId} />;
 
-  const certifiedCount = Object.values(channelProgress).filter((p) => p.completed).length;
+  const studiedCount = Object.values(channelProgress).filter((p) => p.completed).length;
   const totalChannels = COSMO_CHANNELS.length;
+  const allStudied = studiedCount === totalChannels;
+  const cosmoApp = useGameStore((s) => s.cosmoApplication);
+  const hasApplied = !!cosmoApp;
 
   return (
     <div className="cl-channels">
+      <div className="cl-channels-disclaimer">
+        ⚠ Це <strong>навчальний</strong> курс. Канали — теорія, історія, метод.
+        Реальне відкриття каналів відбувається <strong>лише у живій академії,
+        з учителем</strong>. Гра готує тебе — академія ініціює.
+      </div>
+
       <div className="cl-channels-header">
-        <div className="cl-channels-label">11 каналів — обери будь-який</div>
-        {certifiedCount > 0 && (
+        <div className="cl-channels-label">11 каналів — почни з будь-якого</div>
+        {studiedCount > 0 && (
           <div className="cl-channels-overall">
-            <strong>{certifiedCount}</strong> з {totalChannels} сертифіковано
+            <strong>{studiedCount}</strong> з {totalChannels} вивчено
           </div>
         )}
       </div>
@@ -40,7 +49,7 @@ export default function ChannelsList() {
               <div className="channel-tile-name">{ch.name}</div>
               <div className="channel-tile-type">{ch.type}</div>
               <div className="channel-tile-progress">
-                {prog.completed ? '✓ сертифікат' : inProgress ? `${done}/${total}` : 'не почато'}
+                {prog.completed ? '✓ вивчено' : inProgress ? `${done}/${total}` : 'не почато'}
               </div>
               {inProgress && (
                 <div className="channel-tile-bar"
@@ -50,6 +59,22 @@ export default function ChannelsList() {
           );
         })}
       </div>
+
+      {allStudied && !hasApplied && (
+        <div className="cl-channels-cta">
+          <div className="cl-channels-cta-eyebrow">всі канали вивчені</div>
+          <h3>Готовий до реальної ініціації?</h3>
+          <p>
+            Ти вивчив теорію всіх 11 каналів. Тепер можна подати заявку
+            на справжнє відкриття — у академії, з учителем.
+          </p>
+        </div>
+      )}
+      {hasApplied && (
+        <div className="cl-channels-applied">
+          ✦ Заявку подано — статус: <strong>{cosmoApp.status || 'submitted'}</strong>
+        </div>
+      )}
     </div>
   );
 }

@@ -12,10 +12,12 @@ import PracticesTab from './PracticesTab.jsx';
 import AuraTab from './AuraTab.jsx';
 import SessionsTab from './SessionsTab.jsx';
 import PromisesTab from './PromisesTab.jsx';
+import ToolsTab from './ToolsTab.jsx';
 import './styles.css';
 
 const TABS = [
   { id: 'profile',      label: 'профіль',     icon: '👤' },
+  { id: 'tools',        label: 'інструменти', icon: '🧰' },
   { id: 'promises',     label: 'обіцянки',    icon: '✦' },
   { id: 'maturity',     label: 'зростання',   icon: '🌳' },
   { id: 'achievements', label: 'досягнення',  icon: '🏆' },
@@ -67,6 +69,9 @@ export default function PersonalCabinet({ onClose }) {
 
         <div className="cab-content">
           {activeTab === 'profile' && <ProfileTab />}
+          {activeTab === 'tools' && (
+            <ToolsTab onOpenPractices={() => setActiveTab('practices')} />
+          )}
           {activeTab === 'promises' && <PromisesTab />}
           {activeTab === 'maturity' && <MaturityTree />}
           {activeTab === 'achievements' && <AchievementsTab />}

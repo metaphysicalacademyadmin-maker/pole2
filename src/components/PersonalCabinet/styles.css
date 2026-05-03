@@ -646,6 +646,88 @@
 .cab-quest-history-title { color: #fff7e0; font-size: 13px; font-weight: 500; }
 .cab-quest-history-meta { color: #a8a09b; font-size: 11px; }
 
+/* ─── Tools tab ─── */
+.tools-tab { padding: 4px; }
+.tools-intro { text-align: center; margin-bottom: 24px; }
+.tools-intro h3 {
+  color: #f0c574; font-size: 18px; margin: 0 0 8px;
+}
+.tools-intro p {
+  color: #c8b9a0; font-size: 13px; line-height: 1.55;
+  max-width: 420px; margin: 0 auto;
+}
+
+.tools-section { margin-bottom: 28px; }
+.tools-section-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 3px;
+  color: #f0c574; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 10px;
+}
+.tools-section-label span { color: #a8a09b; font-weight: 500; }
+.tools-locked-label { color: #6a5a48; }
+.tools-soon-label { color: #74c5b5; opacity: 0.7; }
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.tool-card {
+  display: flex; gap: 12px; align-items: flex-start;
+  text-align: left;
+  padding: 14px;
+  background: rgba(15, 12, 24, 0.55);
+  border: 1px solid rgba(232, 196, 118, 0.2);
+  border-radius: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tool-card:not(.is-locked):not(.is-placeholder):hover {
+  transform: translateY(-2px);
+  background: rgba(232, 196, 118, 0.05);
+}
+.tool-card.is-locked, .tool-card.is-placeholder {
+  cursor: not-allowed;
+  background: rgba(15, 12, 24, 0.3);
+  border-color: rgba(106, 90, 72, 0.3);
+  opacity: 0.7;
+}
+.tool-card.is-placeholder {
+  border-style: dashed;
+}
+.tool-icon {
+  font-size: 24px; flex-shrink: 0; line-height: 1;
+}
+.tool-body { flex: 1; min-width: 0; }
+.tool-name {
+  color: #fff7e0; font-weight: 600; font-size: 14px;
+  margin-bottom: 4px;
+}
+.tool-card.is-locked .tool-name, .tool-card.is-placeholder .tool-name {
+  color: #968a7c;
+}
+.tool-short {
+  color: #c8b9a0; font-size: 12px; line-height: 1.4;
+  font-style: italic;
+}
+.tool-card.is-locked .tool-short, .tool-card.is-placeholder .tool-short {
+  color: #6a5a48;
+}
+.tool-hint {
+  color: #968a7c; font-size: 11px;
+  margin-top: 6px;
+  border-top: 1px dashed rgba(106, 90, 72, 0.3);
+  padding-top: 5px;
+}
+.tool-usage {
+  font-size: 10px; color: #74c5b5;
+  margin-top: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 /* ─── Mobile ─── */
 @media (max-width: 540px) {
   .cab-bento { grid-template-columns: 1fr 1fr; }
@@ -653,4 +735,5 @@
   .cab-stats-line .cab-stat { font-size: 11px; padding: 5px 10px; }
   .cab-quest-card { padding: 16px; }
   .cab-quest-day-mark { font-size: 14px; }
+  .tools-grid { grid-template-columns: 1fr; }
 }

@@ -22,14 +22,25 @@ export default function ChannelView({ channelId }) {
   const cell = !allDone ? channel.cells[nextIdx] : null;
   const stage = !allDone ? STAGES[stageOf(nextIdx)] : null;
 
+  const isEducational = !!channel.educational;
+
   function handlePick(opt) {
     if (!cell) return;
     setPickedKey(opt.text);
     recordAnswer(channel.id, cell.id, total, {
-      choice: opt.text, barometer: opt.barometer, delta: opt.delta,
+      choice: opt.text,
+      // У освітніх каналах — без зміни ресурсів. Лише позначка знання.
+      barometer: isEducational ? null : opt.barometer,
+      delta: isEducational ? 0 : opt.delta,
+      knowledge: opt.knowledge || null,
     });
-    const sign = opt.delta >= 0 ? '+' : '';
-    showToast(`${sign}${opt.delta} ${opt.barometer}`, opt.delta >= 0 ? 'success' : 'info');
+    if (isEducational) {
+      const labels = { know: '✓ знаю', partial: '◐ частково', not_yet: '○ ще ні' };
+      showToast(labels[opt.knowledge] || '✓ записано', 'info');
+    } else {
+      const sign = opt.delta >= 0 ? '+' : '';
+      showToast(`${sign}${opt.delta} ${opt.barometer}`, opt.delta >= 0 ? 'success' : 'info');
+    }
     setTimeout(() => setPickedKey(null), 600);
   }
 
@@ -65,17 +76,32 @@ export default function ChannelView({ channelId }) {
             </div>
           )}
           <h4 className="channel-cell-title">{cell.title}</h4>
-          {cell.text && <p className="channel-cell-text">{cell.text}</p>}
-          <p className="channel-cell-question">{cell.question}</p>
-          <div className="channel-options">
-            {cell.options.map((opt, i) => (
-              <button key={i} type="button"
-                className={`channel-option${pickedKey === opt.text ? ' picked' : ''}`}
-                onClick={() => handlePick(opt)}
-                disabled={pickedKey != null}>
-                {opt.text}
-              </button>
-            ))}
+          {cell.text && (
+            <div className={isEducational ? 'channel-theory' : 'channel-cell-text-wrap'}>
+              {isEducational && <div className="channel-theory-label">📖 теорія</div>}
+              <p className="channel-cell-text">{cell.text}</p>
+            </div>
+          )}
+          <p className="channel-cell-question">
+            {isEducational && <span className="channel-q-tag">перевірка </span>}
+            {cell.question}
+          </p>
+          <div className={`channel-options${isEducational ? ' is-educational' : ''}`}>
+            {cell.options.map((opt, i) => {
+              const knowledgeIcon = opt.knowledge === 'know' ? '✓'
+                : opt.knowledge === 'partial' ? '◐'
+                : opt.knowledge === 'not_yet' ? '○'
+                : null;
+              return (
+                <button key={i} type="button"
+                  className={`channel-option${pickedKey === opt.text ? ' picked' : ''}${opt.knowledge ? ` knowledge-${opt.knowledge}` : ''}`}
+                  onClick={() => handlePick(opt)}
+                  disabled={pickedKey != null}>
+                  {knowledgeIcon && <span className="channel-option-mark">{knowledgeIcon}</span>}
+                  {opt.text}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
@@ -96,13 +122,14 @@ function CertificateView({ channel, progress, onClose }) {
         <span className="cert-corner cert-corner-bl" />
         <span className="cert-corner cert-corner-br" />
       </div>
-      <div className="cert-eyebrow">сертифікат провідника</div>
+      <div className="cert-eyebrow">підготовлений до ініціації</div>
       <div className="cert-symbol" style={{ color: channel.color }}>{channel.symbol}</div>
       <h3 className="cert-channel-name" style={{ color: channel.color }}>{channel.name}</h3>
       <div className="cert-divider" />
       <p className="cert-text">
-        Канал у тобі — ти у каналі.<br />
-        Це підпис Поля у твоєму полі.
+        Ти вивчив теорію цього каналу.<br />
+        Реальна ініціація — лише у живій академії, з учителем.<br />
+        Подай заявку коли відчуваєш готовність.
       </p>
       <div className="cert-meta">
         <div className="cert-date">{dateStr}</div>

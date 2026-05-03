@@ -499,6 +499,42 @@ export const petalActions = (set, get, ensure) => ({
     const s = get();
     set({ ...ensure(s), rodovidFourthGenShown: !s.rodovidFourthGenShown });
   },
+  saveToolConstellation: (payload) => {
+    // payload = { scenario, figures, reflection }
+    const s = get();
+    const id = `tcon-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    set({
+      ...ensure(s),
+      toolConstellations: [
+        ...(s.toolConstellations || []),
+        { id, ...payload, ts: Date.now() },
+      ],
+    });
+    return id;
+  },
+  removeToolConstellation: (id) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      toolConstellations: (s.toolConstellations || []).filter((t) => t.id !== id),
+    });
+  },
+  trackToolUsage: (toolId) => {
+    const s = get();
+    const cur = s.toolUsage?.[toolId] || { firstUsed: null, lastUsed: null, count: 0 };
+    const now = Date.now();
+    set({
+      ...ensure(s),
+      toolUsage: {
+        ...(s.toolUsage || {}),
+        [toolId]: {
+          firstUsed: cur.firstUsed || now,
+          lastUsed: now,
+          count: (cur.count || 0) + 1,
+        },
+      },
+    });
+  },
   exitPetal: () => {
     set({ currentPetalId: null });
   },

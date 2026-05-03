@@ -208,6 +208,97 @@
   color: #f0c574; font-weight: 700; font-size: 14px;
 }
 
+.cl-channels-disclaimer {
+  background: rgba(116, 197, 181, 0.06);
+  border-left: 2px solid rgba(116, 197, 181, 0.5);
+  color: #d8c0a0;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  font-size: 13px; line-height: 1.55;
+  border-radius: 0 8px 8px 0;
+}
+.cl-channels-disclaimer strong { color: #74c5b5; }
+
+.cl-channels-cta {
+  margin-top: 24px;
+  padding: 22px;
+  background: linear-gradient(135deg, rgba(232, 196, 118, 0.12), rgba(232, 196, 118, 0.04));
+  border: 1px solid rgba(232, 196, 118, 0.5);
+  border-radius: 16px;
+  text-align: center;
+}
+.cl-channels-cta-eyebrow {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 4px;
+  color: #f0c574; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 8px;
+}
+.cl-channels-cta h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic; font-size: 22px;
+  color: #fff7e0; margin: 0 0 12px;
+}
+.cl-channels-cta p {
+  color: #d8c0a0; line-height: 1.55; margin: 0;
+  font-size: 13px;
+  max-width: 460px; margin-left: auto; margin-right: auto;
+}
+
+.cl-channels-applied {
+  margin-top: 24px;
+  padding: 14px;
+  background: rgba(116, 197, 181, 0.08);
+  border: 1px solid rgba(116, 197, 181, 0.4);
+  border-radius: 12px;
+  color: #d8c0a0;
+  font-size: 13px;
+  text-align: center;
+}
+.cl-channels-applied strong { color: #74c5b5; font-weight: 600; }
+
+/* Освітній режим — підсилений теоретичний блок */
+.channel-theory {
+  background: rgba(116, 197, 181, 0.06);
+  border-left: 3px solid rgba(116, 197, 181, 0.5);
+  padding: 14px 16px;
+  margin: 12px 0 16px;
+  border-radius: 0 10px 10px 0;
+}
+.channel-theory-label {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px; letter-spacing: 3px;
+  color: #74c5b5; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 8px;
+}
+.channel-theory .channel-cell-text {
+  margin: 0; line-height: 1.6; color: #d8c0a0; font-size: 14px;
+}
+.channel-q-tag {
+  display: inline-block;
+  background: rgba(232, 196, 118, 0.12);
+  color: #f0c574;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.channel-options.is-educational .channel-option {
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.channel-option-mark {
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 14px;
+  width: 18px; text-align: center;
+}
+.channel-option.knowledge-know .channel-option-mark { color: #74c5b5; }
+.channel-option.knowledge-partial .channel-option-mark { color: #f0c574; }
+.channel-option.knowledge-not_yet .channel-option-mark { color: #968a7c; }
+
 .cl-channels-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
