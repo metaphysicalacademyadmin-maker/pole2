@@ -3,6 +3,8 @@ import { useGameStore } from '../../store/gameStore.js';
 import { showToast } from '../../components/GlobalToast.jsx';
 import { chakraForLevel } from '../../data/chakras.js';
 import { detectShadow } from '../../utils/shadow-detector.js';
+import { isLlmWitnessAvailable } from '../../utils/llm-witness.js';
+import LlmWitness from '../../components/LlmWitness/index.jsx';
 import CellOption from './CellOption.jsx';
 import ProgressDots from './ProgressDots.jsx';
 import CustomAnswer from './CustomAnswer.jsx';
@@ -24,6 +26,8 @@ export default function CellView({ cell, levelN, totalCells, currentIdx, lockedC
   const [customMode, setCustomMode] = useState(false);
   const [phase, setPhase] = useState('answer');     // answer | offer | practice
   const [answeredBarometer, setAnsweredBarometer] = useState(null);
+  const [witnessPayload, setWitnessPayload] = useState(null);
+  const intention = useGameStore((s) => s.intention);
 
   // Чакра рівня — вона спалахує коли гравець відповідає.
   const chakra = chakraForLevel(levelN);
@@ -80,10 +84,15 @@ export default function CellView({ cell, levelN, totalCells, currentIdx, lockedC
     if (chakra) triggerChakraFlash(chakra.id);
     showToast(`+${CUSTOM_DELTA} ${barometer} · своя відповідь`, 'success');
     setCustomMode(false);
-    // 🪞 Дзеркало Тіні — через 0.8с шукаємо тіньові тригери у тексті
+    // 🪞 Дзеркало Тіні має пріоритет над LLM-арбітром.
+    // Якщо є shadow-тригер — показуємо ShadowMirror; інакше — LLM-witness (якщо доступний).
     const shadow = detectShadow(text);
     if (shadow) {
       setTimeout(() => triggerShadowMirror({ ...shadow, cellId: cell.id, customText: text }), 800);
+    } else if (isLlmWitnessAvailable() && text.trim().length >= 20) {
+      setTimeout(() => setWitnessPayload({
+        text, levelN, chakra: chakra?.id || null, intention,
+      }), 800);
     }
     setTimeout(() => afterAnswer(barometer), 600);
   }
@@ -143,6 +152,9 @@ export default function CellView({ cell, levelN, totalCells, currentIdx, lockedC
             </span>
           </button>
         </>
+      )}
+      {witnessPayload && (
+        <LlmWitness payload={witnessPayload} onClose={() => setWitnessPayload(null)} />
       )}
     </div>
   );
