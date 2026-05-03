@@ -12,6 +12,7 @@ const PETAL_INNER = 80;
 // Артефакт «Карта Розквіту» — мандала з усіма 12 пелюстками золотою кольорою.
 export default function MandalaFinal({ openCosmo }) {
   const acknowledge = useGameStore((s) => s.acknowledgeMandalaFinal);
+  const exitPetals = useGameStore((s) => s.exitPetals);
   const completedLevels = useGameStore((s) => s.completedLevels);
   const channelsUnlocked = useGameStore((s) => s.channelsUnlocked);
 
@@ -22,6 +23,11 @@ export default function MandalaFinal({ openCosmo }) {
 
   function handleStayInMandala() {
     acknowledge();
+  }
+
+  function handleBackToFinal() {
+    acknowledge();
+    exitPetals();
   }
 
   return (
@@ -55,6 +61,9 @@ export default function MandalaFinal({ openCosmo }) {
           </button>
           <button type="button" className="mf-btn-ghost" onClick={handleStayInMandala}>
             ↩ повернутись до мандали
+          </button>
+          <button type="button" className="mf-btn-ghost" onClick={handleBackToFinal}>
+            🏠 на Карту Втілення
           </button>
         </div>
 

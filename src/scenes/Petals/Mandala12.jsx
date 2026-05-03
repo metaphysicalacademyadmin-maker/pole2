@@ -19,6 +19,7 @@ const PETAL_INNER = 90;
 //   7. Лейбли — серифні римські цифри з glow
 export default function Mandala12() {
   const enterPetal = useGameStore((s) => s.enterPetal);
+  const exitPetals = useGameStore((s) => s.exitPetals);
   const progress = useGameStore((s) => s.petalProgress);
   const total = PETALS.length;
   const allDone = PETALS.every((p) => progress[p.id]?.completed);
@@ -28,6 +29,10 @@ export default function Mandala12() {
   return (
     <main className="scene petals-scene petals-cinematic">
       <div className="petals-frame">
+        <button type="button" className="petals-exit" onClick={exitPetals}
+          aria-label="Повернутись на Карту Втілення">
+          ← на головний
+        </button>
         <div className="petals-eyebrow">розширений шлях</div>
         <h1 className="petals-title">12 сфер життя</h1>
         <p className="petals-subtitle">

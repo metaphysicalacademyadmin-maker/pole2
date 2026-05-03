@@ -16,6 +16,24 @@
 .petals-cinematic .petals-frame { position: relative; z-index: 1; }
 .petals-frame {
   max-width: 720px; margin: 0 auto; text-align: center;
+  position: relative;
+}
+.petals-exit {
+  position: absolute; top: 0; left: 0;
+  background: transparent;
+  border: 1px solid rgba(232, 196, 118, 0.3);
+  border-radius: 999px;
+  color: #c8bca8;
+  padding: 6px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  cursor: pointer; transition: all 0.2s;
+  z-index: 5;
+}
+.petals-exit:hover { color: #fff7e0; border-color: #c89849; }
+@media (max-width: 720px) {
+  .petals-frame { padding-top: 50px; }
+  .petals-exit { top: 8px; left: 8px; font-size: 10px; }
 }
 .petals-eyebrow {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;

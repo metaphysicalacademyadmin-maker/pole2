@@ -383,6 +383,11 @@ export const petalActions = (set, get, ensure) => ({
       }],
     });
   },
+  exitPetals: () => {
+    // Вихід з Petals на Final scene. Прогрес пелюсток зберігається,
+    // гравець може повернутись через кнопку «12 пелюсток» з Final.
+    set({ petalsActive: false, currentPetalId: null });
+  },
   enterPetal: (petalId) => {
     set({ currentPetalId: petalId });
   },
