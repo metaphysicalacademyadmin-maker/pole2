@@ -6,10 +6,11 @@ import { showToast } from './GlobalToast.jsx';
 import './ChannelRecommendation.css';
 
 const SNOOZE_MS = 30 * 60 * 1000;     // 30 хв між повторами
-let lastShownTs = 0;
+// Module-scope: snooze між показами зберігається між mount/unmount компонента
+let snoozeUntil = 0;
 
 // Рекомендація каналу коли барометр падає у мінус.
-// Тонка плашка-toast, не overlay-модалка. З'являється раз на 30 хв.
+// Тонка плашка-toast, не overlay-модалка. Snooze 30хв після показу/закриття.
 export default function ChannelRecommendation({ openCosmo }) {
   const state = useGameStore();
   const activateChannel = useGameStore((s) => s.activateChannel);
@@ -17,20 +18,21 @@ export default function ChannelRecommendation({ openCosmo }) {
 
   const rec = findChannelRecommendation(state);
   const channel = rec ? findChannel(rec.channelId) : null;
+  const isSnoozed = Date.now() < snoozeUntil;
+  const visible = !!rec && !!channel && !dismissed && !isSnoozed;
 
+  // Коли реально показуємо — одразу ставимо snooze щоб не зникло і знов
+  // не з'явилось при незначних коливаннях барометра.
   useEffect(() => {
-    if (rec && !dismissed && Date.now() - lastShownTs > SNOOZE_MS) {
-      lastShownTs = Date.now();
+    if (visible) {
+      snoozeUntil = Date.now() + SNOOZE_MS;
     }
-  }, [rec?.barometer, dismissed]);
+  }, [visible]);
 
-  if (!rec || !channel) return null;
-  if (dismissed) return null;
-  if (Date.now() - lastShownTs > SNOOZE_MS && lastShownTs !== 0) return null;
+  if (!visible) return null;
 
   function handleActivate() {
     if (!rec.hasAccess) {
-      // Канал ще не розблокований — направляємо у Cosmo
       if (openCosmo) openCosmo();
       showToast('відкрий заявку на космо у меню', 'info');
       setDismissed(true);
@@ -43,7 +45,7 @@ export default function ChannelRecommendation({ openCosmo }) {
 
   function handleDismiss() {
     setDismissed(true);
-    lastShownTs = Date.now();
+    snoozeUntil = Date.now() + SNOOZE_MS;
   }
 
   return (

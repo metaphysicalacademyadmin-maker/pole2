@@ -39,11 +39,11 @@ export function findChannelRecommendation(state) {
   const cosmoApproved = state?.cosmoApplication?.status === 'approved'
     || state?.cosmoApplication?.status === 'initiated';
 
-  // Шукаємо найслабший барометр під threshold
+  // Шукаємо найслабший барометр який <= threshold (-3)
   let weakest = null;
-  let minVal = THRESHOLD;
+  let minVal = Infinity;
   for (const [k, v] of Object.entries(r)) {
-    if (v < minVal) {
+    if (v <= THRESHOLD && v < minVal) {
       minVal = v;
       weakest = k;
     }
