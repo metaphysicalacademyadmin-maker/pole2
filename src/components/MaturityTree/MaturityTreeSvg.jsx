@@ -22,6 +22,7 @@ export default function MaturityTreeSvg({ onOpenMatrix }) {
   const petalProgress = useGameStore((s) => s.petalProgress) || {};
   const gifts = useGameStore((s) => s.gifts) || [];
   const practiceCompletions = useGameStore((s) => s.practiceCompletions) || [];
+  const intention = useGameStore((s) => s.intention);
   const season = currentSeason();
 
   const levelsCount = completedLevels.length;
@@ -114,15 +115,36 @@ export default function MaturityTreeSvg({ onOpenMatrix }) {
           </text>
         </g>
 
-        {/* Стовбур — росте знизу-вгору */}
-        <path
-          d={`M ${CENTER_X - trunkWidth / 2} 700
-             C ${CENTER_X - trunkWidth / 2 - 3} 500, ${CENTER_X - trunkWidth / 3} 320, ${CENTER_X - 6} 200
-             L ${CENTER_X + 6} 200
-             C ${CENTER_X + trunkWidth / 3} 320, ${CENTER_X + trunkWidth / 2 + 3} 500, ${CENTER_X + trunkWidth / 2} 700 Z`}
-          fill="url(#mt-trunk)"
-          opacity={trunkOpacity}
-        />
+        {/* Стовбур — органічна форма з текстурою */}
+        <g className="mt-trunk-group">
+          <path
+            d={`M ${CENTER_X - trunkWidth / 2} 700
+               C ${CENTER_X - trunkWidth / 2 - 3} 500, ${CENTER_X - trunkWidth / 3} 320, ${CENTER_X - 6} 200
+               L ${CENTER_X + 6} 200
+               C ${CENTER_X + trunkWidth / 3} 320, ${CENTER_X + trunkWidth / 2 + 3} 500, ${CENTER_X + trunkWidth / 2} 700 Z`}
+            fill="url(#mt-trunk)"
+            opacity={trunkOpacity}
+          />
+          {/* Текстура — горизонтальні живі лінії-кільця */}
+          {[420, 480, 540, 600, 660].map((y) => (
+            <path key={y}
+              d={`M ${CENTER_X - trunkWidth / 2 + 2} ${y} Q ${CENTER_X} ${y - 2} ${CENTER_X + trunkWidth / 2 - 2} ${y}`}
+              fill="none"
+              stroke="rgba(74, 50, 30, 0.4)"
+              strokeWidth="0.6"
+              opacity={trunkOpacity * 0.7} />
+          ))}
+        </g>
+
+        {/* Намір гравця — м'яко вписаний у стовбур */}
+        {intention && (
+          <text x={CENTER_X} y={500} textAnchor="middle"
+            fontSize="9" fill="rgba(255, 247, 224, 0.45)"
+            fontStyle="italic" fontFamily="Georgia, serif"
+            style={{ pointerEvents: 'none', letterSpacing: '0.3px' }}>
+            <tspan x={CENTER_X} dy="0">«{trim(intention, 22)}»</tspan>
+          </text>
+        )}
 
         {/* Гілки — 12 пелюсток */}
         {branches.map(({ petal, baseY, tipX, tipY, completed }, i) => (
@@ -182,6 +204,23 @@ export default function MaturityTreeSvg({ onOpenMatrix }) {
           </g>
         ))}
 
+        {/* Sparkle-частинки навколо верхівки коли все пройдено */}
+        {levelsCount === 7 && (
+          <g className="mt-sparkles">
+            {[0, 60, 120, 180, 240, 300].map((angle) => {
+              const rad = (angle * Math.PI) / 180;
+              const x = CENTER_X + Math.cos(rad) * 35;
+              const y = 50 + Math.sin(rad) * 28;
+              return (
+                <circle key={angle} cx={x} cy={y} r="1.5"
+                  fill="#ffe7a8" opacity="0.7"
+                  className="mt-sparkle"
+                  style={{ animationDelay: `${angle / 60 * 0.4}s` }} />
+              );
+            })}
+          </g>
+        )}
+
         {/* Верхівка — Я є */}
         <g className="mt-crown">
           <circle cx={CENTER_X} cy={50} r="14"
@@ -226,6 +265,11 @@ function Stat({ n, total, icon, label }) {
       <span className="mt-stat-label">{label}</span>
     </div>
   );
+}
+
+function trim(s, n) {
+  if (!s) return '';
+  return s.length > n ? s.slice(0, n - 1) + '…' : s;
 }
 
 function seasonGlowColor(s) {

@@ -84,6 +84,17 @@
   50%      { filter: brightness(1.15); }
 }
 
+.mt-sparkle {
+  animation: mt-sparkle 2.4s ease-in-out infinite;
+}
+@keyframes mt-sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.6); }
+  50%      { opacity: 0.95; transform: scale(1.4); }
+}
+
+.mt-trunk-group { transition: all 0.3s ease; }
+.mt-root-group:hover ellipse { opacity: 0.85; }
+
 .mt-leaf circle { transition: all 0.3s; }
 
 .mt-tree-foot {

@@ -15,15 +15,52 @@ export const CELLS_BY_LEVEL = {
   1: level1, 2: level2, 3: level3, 4: level4, 5: level5, 6: level6, 7: level7,
 };
 
+// Treck → базовий maxPriority (глибина клітинок).
+//   1 — лише найважливіші питання (поверхневий вхід)
+//   2 — основні + глибші
+//   3 — усі стандартні
+const TRACK_MAX_PRIORITY = {
+  // Нові 5 треків
+  root:     1,         // Корінь — м'який вхід, тільки priority 1
+  heart:    2,         // Серце — глибше, priority 1+2
+  voice:    2,         // Голос — те саме
+  shadow:   3,         // Тінь — все включно, готовий до глибокого
+  initiate: 3,         // Ініціат — повне занурення
+  // Legacy compatibility (для гравців із старим pathMode у localStorage)
+  touch:    1,
+  path:     2,
+  depth:    3,
+};
+
 export function getCellsForLevel(levelN, pathMode, state) {
   const all = CELLS_BY_LEVEL[levelN] || [];
-  const maxPriority = !pathMode || !PATH_MODES[pathMode] ? 1
-    : pathMode === 'touch' ? 1 : pathMode === 'path' ? 2 : 3;
+  const mode = PATH_MODES[pathMode];
+
+  // Базовий поріг за треком
+  const baseMax = TRACK_MAX_PRIORITY[pathMode] ?? 1;
+
+  // Boost: на focus-чакрах треку даємо +1 priority (глибше у фокус-зоні)
+  const isFocusLevel = !!mode?.focusChakras?.includes(levelN);
+  const maxPriority = isFocusLevel ? Math.min(3, baseMax + 1) : baseMax;
+
   const main = all.filter((c) => c.priority <= maxPriority);
+
+  // Якщо трек НЕ активує тінь (root) — приховуємо shadow-опції у options
+  const filtered = (mode?.shadowsActive === false)
+    ? main.map((cell) => ({
+        ...cell,
+        options: Array.isArray(cell.options)
+          ? cell.options.filter((o) => o.depth !== 'shadow')
+          : cell.options,
+      }))
+    : main;
+
+  // Снейк- і awakening-клітинки відкриваються через resource thresholds
   const conditional = all
     .filter((c) => c.priority >= 4 && c.unlock)
     .filter((c) => isUnlocked(c, state));
-  return [...main, ...conditional];
+
+  return [...filtered, ...conditional];
 }
 
 // Кількість заблокованих умовних клітинок на цьому рівні (для UI-індикатора)
