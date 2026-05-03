@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PATH_MODES } from '../../data/pathmodes.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 
 // Wizard 5 питань → рекомендує трек.
 // Кожна відповідь дає бал кожному з 5 треків. Сума → recommendation.
@@ -63,6 +64,8 @@ export default function TrackWizard({ onSelect, onClose }) {
   const [scores, setScores] = useState({ root: 0, heart: 0, voice: 0, shadow: 0, initiate: 0 });
   const [done, setDone] = useState(false);
 
+  useOverlayA11y(onClose);
+
   function pick(option) {
     const next = { ...scores };
     Object.keys(option.scores).forEach((k) => { next[k] += option.scores[k]; });
@@ -86,7 +89,7 @@ export default function TrackWizard({ onSelect, onClose }) {
     const topMode = PATH_MODES[top];
     const secondMode = PATH_MODES[second];
     return (
-      <div className="tw-overlay">
+      <div className="tw-overlay" role="dialog" aria-modal="true" aria-label="Помічник треку">
         <div className="tw-frame">
           <button type="button" className="tw-close" onClick={onClose}>×</button>
           <div className="tw-eyebrow">поле відчуло</div>
@@ -123,9 +126,10 @@ export default function TrackWizard({ onSelect, onClose }) {
 
   const q = QUESTIONS[step];
   return (
-    <div className="tw-overlay">
+    <div className="tw-overlay" role="dialog" aria-modal="true" aria-label="Помічник треку">
       <div className="tw-frame">
-        <button type="button" className="tw-close" onClick={onClose}>×</button>
+        <button type="button" className="tw-close" onClick={onClose}
+          aria-label="Закрити wizard">×</button>
 
         <div className="tw-progress">
           {QUESTIONS.map((_, i) => (

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { getMeditations, categoryMeta, formatDuration } from '../../utils/meditations.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import MeditationPlayer from './MeditationPlayer.jsx';
 import './styles.css';
 
@@ -10,6 +11,8 @@ export default function Meditations({ onClose }) {
   const list = getMeditations();
   const [active, setActive] = useState(null);
   const [filter, setFilter] = useState('all');
+
+  useOverlayA11y(active ? () => setActive(null) : onClose);
 
   const categories = useMemo(() => {
     if (!list) return [];
@@ -34,9 +37,10 @@ export default function Meditations({ onClose }) {
   }
 
   return (
-    <div className="med-overlay">
+    <div className="med-overlay" role="dialog" aria-modal="true" aria-label="Медитації — Метафізична Академія">
       <div className="med-frame">
-        <button type="button" className="med-close" onClick={onClose}>← повернутись</button>
+        <button type="button" className="med-close" onClick={onClose}
+          aria-label="Закрити відділ медитацій">← повернутись</button>
         <div className="med-eyebrow">метафізична академія</div>
         <h1 className="med-title">Медитації</h1>
         <p className="med-sub">

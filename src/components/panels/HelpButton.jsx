@@ -9,6 +9,7 @@ export default function HelpButton() {
       <button type="button"
         onClick={() => setOpen(true)}
         title="Учитель Поля — допомога з грою"
+        aria-label="Відкрити Учителя Поля — допомога з грою"
         style={{
           width: 28, height: 28,
           borderRadius: '50%',

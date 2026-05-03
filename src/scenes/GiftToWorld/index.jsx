@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { GIFT_KINDS, communityCount, publishGift } from '../../utils/community.js';
 import { showToast } from '../../components/GlobalToast.jsx';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import GiftForm from './GiftForm.jsx';
 import './styles.css';
 
@@ -14,6 +15,8 @@ export default function GiftToWorld({ onClose }) {
   const acknowledged = useGameStore((s) => s.fourthSpiralAcknowledged);
   const [activeKind, setActiveKind] = useState(null);
   const totalInField = communityCount();
+
+  useOverlayA11y(activeKind ? () => setActiveKind(null) : onClose);
 
   // Acknowledge у useEffect — не у render (інакше React warning + потенційно
   // блок рендеру).

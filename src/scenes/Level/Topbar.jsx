@@ -36,13 +36,13 @@ export default function Topbar({ onOpenSoulField, onOpenCabinet, onOpenMeditatio
       <PresenceButton onClick={() => setPresenceOpen(true)} />
       {onOpenMeditations && (
         <button type="button" className="lvl-tb-cab-btn" onClick={onOpenMeditations}
-          title="медитації з академії">
+          title="медитації з академії" aria-label="Відкрити медитації з академії">
           🎧
         </button>
       )}
       {onOpenCabinet && (
         <button type="button" className="lvl-tb-cab-btn" onClick={onOpenCabinet}
-          title="особистий кабінет">
+          title="особистий кабінет" aria-label="Відкрити особистий кабінет">
           👤
         </button>
       )}
