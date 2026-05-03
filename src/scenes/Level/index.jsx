@@ -28,12 +28,13 @@ import DailyRitualModal from '../../components/modals/DailyRitualModal.jsx';
 import EveningRitualModal from '../../components/modals/EveningRitualModal.jsx';
 import HistoryModal from '../../components/modals/HistoryModal.jsx';
 import ResetConfirmDialog from '../../components/modals/ResetConfirmDialog.jsx';
+import ChannelRecommendation from '../../components/ChannelRecommendation.jsx';
 import './styles.css';
 import './extras.css';
 
 // Композиція робочого рівня: топбар, 3-колонкова сітка
 // (піраміда + клітинка + барометри + 8 панелей), панель дій.
-export default function Level({ openSoulField, openCabinet, openMeditations }) {
+export default function Level({ openSoulField, openCabinet, openMeditations, openCosmo }) {
   const currentLevel = useGameStore((s) => s.currentLevel);
   const currentCellIdx = useGameStore((s) => s.currentCellIdx);
   const pathMode = useGameStore((s) => s.pathMode);
@@ -146,6 +147,7 @@ export default function Level({ openSoulField, openCabinet, openMeditations }) {
       <ShadowMirror />
       <CrisisModal />
       <SpecializationChoice />
+      <ChannelRecommendation openCosmo={openCosmo} />
     </main>
   );
 }
