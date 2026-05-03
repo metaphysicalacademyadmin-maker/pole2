@@ -2,9 +2,12 @@
   position: fixed; inset: 0; z-index: 1000;
   background: rgba(8, 4, 14, 0.85);
   backdrop-filter: blur(6px);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
   animation: arc-cal-fade 0.3s ease;
 }
+.arc-cal-overlay > * { margin: auto 0; flex-shrink: 0; }
 @keyframes arc-cal-fade {
   from { opacity: 0; }
   to { opacity: 1; }

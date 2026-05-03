@@ -1,11 +1,13 @@
 .lwit-overlay {
   position: fixed; inset: 0; z-index: 5800;
   background: linear-gradient(180deg, rgba(8,4,16,.85), rgba(20,10,32,.92));
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: flex-start; justify-content: center;
   padding: 24px 16px;
+  overflow-y: auto;
   animation: lwit-fade .5s ease;
   backdrop-filter: blur(8px);
 }
+.lwit-overlay > * { margin: auto 0; flex-shrink: 0; }
 @keyframes lwit-fade { from { opacity: 0; } to { opacity: 1; } }
 
 .lwit-modal {

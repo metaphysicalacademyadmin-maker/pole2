@@ -2,10 +2,12 @@
   position: fixed; inset: 0; z-index: 5000;
   background: radial-gradient(ellipse at center, rgba(40, 8, 14, 0.95), rgba(8, 4, 14, 0.98));
   backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: flex-start; justify-content: center;
   padding: 20px;
+  overflow-y: auto;
   animation: cs-fade 1s ease;
 }
+.crisis-overlay > * { margin: auto 0; flex-shrink: 0; }
 @keyframes cs-fade {
   from { opacity: 0; }
   to { opacity: 1; }

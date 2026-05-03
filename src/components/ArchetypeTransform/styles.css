@@ -2,10 +2,12 @@
   position: fixed; inset: 0; z-index: 1050;
   background: radial-gradient(ellipse at center, rgba(40, 30, 60, 0.93), rgba(8, 4, 14, 0.98));
   backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: flex-start; justify-content: center;
   padding: 20px;
+  overflow-y: auto;
   animation: atrans-fade 1s ease;
 }
+.atrans-overlay > * { margin: auto 0; flex-shrink: 0; }
 @keyframes atrans-fade {
   from { opacity: 0; }
   to { opacity: 1; }

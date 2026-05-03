@@ -2,11 +2,12 @@
   position: fixed; inset: 0; z-index: 1080;
   background: rgba(8, 4, 14, 0.93);
   backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: flex-start; justify-content: center;
   padding: 20px;
   overflow-y: auto;
   animation: spec-fade 0.7s ease;
 }
+.spec-overlay > * { margin: auto 0; flex-shrink: 0; }
 @keyframes spec-fade {
   from { opacity: 0; }
   to { opacity: 1; }
