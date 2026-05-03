@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
-import { RODOVID_NODES, RODOVID_LINES, findNode } from '../../data/rodovid-nodes.js';
+import { RODOVID_NODES, allNodes, allLines, findNode } from '../../data/rodovid-nodes.js';
 import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import RodovidNodeEditor from './NodeEditor.jsx';
 import ExcludedSection from './ExcludedSection.jsx';
+import ExcludedCeremony from './ExcludedCeremony.jsx';
 import HistoricalContext from './HistoricalContext.jsx';
 import EntanglementCheck from './EntanglementCheck.jsx';
+import ParentRitual from './ParentRitual.jsx';
 import JoinGroupButton from '../JoinGroupButton.jsx';
 import './styles.css';
 
@@ -14,8 +16,19 @@ import './styles.css';
 // (що повторюю/відмовляюсь повторювати), статус alive/transitioned.
 export default function Rodovid({ onClose }) {
   const rodovid = useGameStore((s) => s.rodovid) || {};
+  const showFourth = useGameStore((s) => s.rodovidFourthGenShown);
+  const toggleFourth = useGameStore((s) => s.toggleRodovidFourthGen);
   const filledCount = Object.keys(rodovid).length;
   const [editing, setEditing] = useState(null);   // nodeId | null
+  const [ceremonyId, setCeremonyId] = useState(null);   // excluded.id | null
+  const [parentRitualOpen, setParentRitualOpen] = useState(null);   // 'mother'|'father'|null
+  const motherFilled = !!rodovid.mother;
+  const fatherFilled = !!rodovid.father;
+  const ritualState = useGameStore((s) => s.rodovidParentRitual) || {};
+
+  const nodes = allNodes(showFourth);
+  const lines = allLines(showFourth);
+  const viewBox = showFourth ? '0 0 800 620' : '0 0 800 620';
 
   useOverlayA11y(onClose);
 
@@ -33,13 +46,17 @@ export default function Rodovid({ onClose }) {
             пам'ятаєш. Клікни вузол — назви.
           </p>
           <div className="rod-progress">
-            заповнено <strong>{filledCount}</strong> з {RODOVID_NODES.length}
+            заповнено <strong>{filledCount}</strong> з {nodes.length}
           </div>
+          <button type="button" className="rod-fourth-toggle"
+            onClick={toggleFourth}>
+            {showFourth ? '↓ сховати прадідів' : '↑ показати 4-те покоління (прадіди)'}
+          </button>
         </div>
 
-        <svg viewBox="0 0 600 500" className="rod-svg">
+        <svg viewBox={viewBox} className="rod-svg">
           {/* Лінії */}
-          {RODOVID_LINES.map(({ from, to }) => {
+          {lines.map(({ from, to }) => {
             const a = findNode(from);
             const b = findNode(to);
             if (!a || !b) return null;
@@ -57,14 +74,35 @@ export default function Rodovid({ onClose }) {
           })}
 
           {/* Вузли */}
-          {RODOVID_NODES.map((node) => (
+          {nodes.map((node) => (
             <RodovidNode key={node.id} node={node}
               filled={rodovid[node.id]}
               onClick={() => setEditing(node.id)} />
           ))}
         </svg>
 
-        <ExcludedSection />
+        {(motherFilled || fatherFilled) && (
+          <div className="rod-parent-rituals">
+            <h3>Ритуал з батьками</h3>
+            <p className="rod-parent-rituals-hint">
+              Annehmen — прийняти і повернути. Можна для одного, можна для обох.
+            </p>
+            <div className="rod-parent-rituals-grid">
+              {fatherFilled && (
+                <ParentRitualCard parent="father" name={rodovid.father.name}
+                  state={ritualState.father}
+                  onOpen={() => setParentRitualOpen('father')} />
+              )}
+              {motherFilled && (
+                <ParentRitualCard parent="mother" name={rodovid.mother.name}
+                  state={ritualState.mother}
+                  onOpen={() => setParentRitualOpen('mother')} />
+              )}
+            </div>
+          </div>
+        )}
+
+        <ExcludedSection onCeremonyOpen={setCeremonyId} />
         <HistoricalContext />
         <EntanglementCheck />
 
@@ -89,13 +127,52 @@ export default function Rodovid({ onClose }) {
         <RodovidNodeEditor nodeId={editing}
           onClose={() => setEditing(null)} />
       )}
+      {ceremonyId && (
+        <ExcludedCeremony excludedId={ceremonyId}
+          onClose={() => setCeremonyId(null)} />
+      )}
+      {parentRitualOpen && (
+        <ParentRitual parent={parentRitualOpen}
+          onClose={() => setParentRitualOpen(null)} />
+      )}
     </div>
+  );
+}
+
+function ParentRitualCard({ parent, name, state, onOpen }) {
+  const accDone = !!state?.acceptance;
+  const relDone = !!state?.release;
+  const fullDone = accDone && relDone;
+  const color = parent === 'mother' ? '#f0a8b8' : '#9fc8e8';
+  const label = parent === 'mother' ? 'Мама' : 'Тато';
+
+  return (
+    <button type="button"
+      className={`rod-parent-card${fullDone ? ' is-done' : ''}`}
+      style={{ borderColor: `${color}66` }}
+      onClick={onOpen}>
+      <div className="rod-parent-card-icon" style={{ color }}>
+        {parent === 'mother' ? '◈' : '◇'}
+      </div>
+      <div className="rod-parent-card-body">
+        <div className="rod-parent-card-name" style={{ color }}>{name || label}</div>
+        <div className="rod-parent-card-state">
+          <span className={accDone ? 'is-done' : ''}>
+            {accDone ? '✓' : '○'} беру
+          </span>
+          <span className={relDone ? 'is-done' : ''}>
+            {relDone ? '✓' : '○'} залишаю
+          </span>
+        </div>
+      </div>
+    </button>
   );
 }
 
 function RodovidNode({ node, filled, onClick }) {
   const isMe = node.id === 'me';
-  const r = isMe ? 32 : 26;
+  const isGreatGen = node.generation === 3;
+  const r = isMe ? 32 : isGreatGen ? 18 : 26;
   const fillColor = filled ? node.color : '#1a1228';
 
   return (
@@ -114,17 +191,19 @@ function RodovidNode({ node, filled, onClick }) {
           transition: 'all 0.3s',
         }} />
       <text x={node.x} y={node.y + 5} textAnchor="middle"
-        fontSize={isMe ? 14 : 11} fontWeight="700"
+        fontSize={isMe ? 14 : isGreatGen ? 8 : 11} fontWeight="700"
         fill={filled ? '#1a0f0a' : '#a8a09b'}
         style={{ userSelect: 'none', pointerEvents: 'none' }}>
-        {filled?.name || node.label.split(' ')[0]}
+        {filled?.name?.slice(0, isGreatGen ? 5 : 12) || (isGreatGen ? '+' : node.label.split(' ')[0])}
       </text>
-      <text x={node.x} y={node.y + r + 18} textAnchor="middle"
-        fontSize="9" fill="#a8a09b"
-        style={{ userSelect: 'none', pointerEvents: 'none' }}>
-        {node.label.includes('(') ? node.label.match(/\(([^)]+)\)/)?.[1] : ''}
-      </text>
-      {!filled && (
+      {!isGreatGen && (
+        <text x={node.x} y={node.y + r + 18} textAnchor="middle"
+          fontSize="9" fill="#a8a09b"
+          style={{ userSelect: 'none', pointerEvents: 'none' }}>
+          {node.label.includes('(') ? node.label.match(/\(([^)]+)\)/)?.[1] : ''}
+        </text>
+      )}
+      {!filled && !isGreatGen && (
         <text x={node.x} y={node.y + 4} textAnchor="middle"
           fontSize="20" fill={node.color} opacity="0.8"
           style={{ userSelect: 'none', pointerEvents: 'none' }}>+</text>
