@@ -4,6 +4,7 @@ import { detectNewAchievements } from '../../utils/achievement-detector.js';
 import { showToast } from '../GlobalToast.jsx';
 import { ACHIEVEMENTS } from '../../data/achievements.js';
 import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
+import PracticesModal from '../modals/PracticesModal.jsx';
 import ProfileTab from './ProfileTab.jsx';
 import AchievementsTab from './AchievementsTab.jsx';
 import PracticesTab from './PracticesTab.jsx';
@@ -21,6 +22,7 @@ const TABS = [
 
 export default function PersonalCabinet({ onClose }) {
   const [activeTab, setActiveTab] = useState('profile');
+  const [runningPractice, setRunningPractice] = useState(null);
   const award = useGameStore((s) => s.awardAchievements);
 
   useOverlayA11y(onClose);
@@ -62,11 +64,15 @@ export default function PersonalCabinet({ onClose }) {
         <div className="cab-content">
           {activeTab === 'profile' && <ProfileTab />}
           {activeTab === 'achievements' && <AchievementsTab />}
-          {activeTab === 'practices' && <PracticesTab />}
+          {activeTab === 'practices' && <PracticesTab onLaunch={setRunningPractice} />}
           {activeTab === 'aura' && <AuraTab />}
           {activeTab === 'sessions' && <SessionsTab />}
         </div>
       </div>
+      {runningPractice && (
+        <PracticesModal autoLaunch={runningPractice}
+          onClose={() => setRunningPractice(null)} />
+      )}
     </div>
   );
 }

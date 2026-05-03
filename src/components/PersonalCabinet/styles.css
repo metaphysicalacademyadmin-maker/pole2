@@ -301,6 +301,68 @@
 .cab-pract-badge.available { background: rgba(159, 200, 232, 0.1); color: #9fc8e8; }
 .cab-pract-badge.locked { background: rgba(255, 255, 255, 0.05); color: #968a7c; }
 
+/* Clickable row — кнопка для запуску практики */
+.cab-pract-row.is-clickable {
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+  color: inherit;
+}
+.cab-pract-row.is-clickable:hover {
+  background: rgba(232, 196, 118, 0.1);
+  border-color: #f0c574;
+  transform: translateX(3px);
+}
+.cab-pract-row.is-clickable:hover .cab-pract-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
+.cab-pract-arrow {
+  color: #f0c574;
+  font-size: 14px;
+  opacity: 0.5;
+  transition: all 0.2s;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+.cab-pract-status {
+  display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0;
+}
+.cab-pract-last {
+  color: #c89849;
+  font-style: italic;
+}
+
+/* Filters chips */
+.cab-pract-filters {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin: 14px 0 10px;
+}
+.cab-pract-chip {
+  padding: 5px 12px; border-radius: 999px;
+  background: rgba(20, 14, 30, 0.5);
+  border: 1px solid rgba(232, 196, 118, 0.2);
+  color: #c8bca8;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.5px; cursor: pointer;
+  transition: all 0.2s;
+}
+.cab-pract-chip:hover { color: #fff7e0; border-color: #c89849; }
+.cab-pract-chip.is-active {
+  background: rgba(232, 196, 118, 0.18);
+  border-color: #f0c574;
+  color: #fff7e0;
+}
+
+.cab-pract-empty {
+  padding: 24px; text-align: center;
+  color: #968a7c; font-style: italic; font-size: 13px;
+  border: 1px dashed rgba(232, 196, 118, 0.2);
+  border-radius: 10px;
+}
+
 /* ─── Aura ─── */
 .cab-aura-sparkline {
   background: rgba(20, 14, 30, 0.5);
