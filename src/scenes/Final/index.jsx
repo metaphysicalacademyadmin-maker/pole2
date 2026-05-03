@@ -7,6 +7,7 @@ import ContactsBlock from '../../components/Contacts/ContactsBlock.jsx';
 import SoulBook from '../../components/SoulBook/index.jsx';
 import Circles from '../../components/Circles/index.jsx';
 import FinalPresenceLine from '../../components/FieldPresence/FinalPresenceLine.jsx';
+import JoinGroupButton from '../../components/JoinGroupButton.jsx';
 import { PETALS } from '../../data/petals.js';
 import './styles.css';
 
@@ -166,6 +167,10 @@ export default function Final({ openCosmo, openAdmin, openPartnership, openCabin
             )}
           </div>
         </div>
+
+        <JoinGroupButton variant="primary"
+          label="🎓 Заявка на навчальну групу"
+          hint="Готовий до глибшого? Команда академії підбере групу під твій шлях." />
 
         {/* Reset — destructive */}
         <div className="final-reset">

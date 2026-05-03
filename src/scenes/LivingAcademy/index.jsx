@@ -7,6 +7,7 @@ import {
 } from '../../utils/academy.js';
 import { showToast } from '../../components/GlobalToast.jsx';
 import GiftFormPanel from './GiftFormPanel.jsx';
+import JoinGroupButton from '../../components/JoinGroupButton.jsx';
 import './styles.css';
 
 // Четверта спіраль — «Поле кличе».
@@ -77,6 +78,10 @@ export default function LivingAcademy({ onClose }) {
             )}
           </>
         )}
+
+        <JoinGroupButton variant="soft"
+          label="💬 Не бачиш події під себе? Заявка на навчальну групу"
+          hint="Команда академії підбере групу під твій запит — індивідуально." />
 
         <div className="la-divider" />
 

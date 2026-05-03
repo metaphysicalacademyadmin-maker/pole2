@@ -4,6 +4,7 @@ import { findArchetype } from '../../data/archetypes.js';
 import { findSpecialization } from '../../data/specializations.js';
 import { COSMO_LEVELS, currentCosmoLevel } from '../../data/cosmo-levels.js';
 import { computeStreak, streakBadge } from '../../utils/streak-calc.js';
+import JoinGroupButton from '../JoinGroupButton.jsx';
 
 // Профіль — все що знає Поле про гравця в одному місці.
 
@@ -108,6 +109,9 @@ export default function ProfileTab() {
           <div className="cab-blessing-text">«{spec.blessing}»</div>
         </div>
       )}
+
+      <JoinGroupButton variant="inline"
+        label="✦ Заявка на навчальну групу" />
     </div>
   );
 }
