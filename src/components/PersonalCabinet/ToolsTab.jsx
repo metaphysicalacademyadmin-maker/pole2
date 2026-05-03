@@ -5,6 +5,7 @@ import { showToast } from '../GlobalToast.jsx';
 import ConstellationTool from '../ConstellationTool/index.jsx';
 import Rodovid from '../Rodovid/index.jsx';
 import ArchetypeDialog from '../ArchetypeDialog/index.jsx';
+import Library from '../Library/index.jsx';
 
 // Вкладка «Інструменти» — скриня практик доступних гравцеві.
 // Кожен інструмент розблоковується через певну точку прогресу.
@@ -21,7 +22,8 @@ export default function ToolsTab({ onOpenPractices, onOpenBodyMap }) {
   const placeholders = placeholderTools();
 
   function handleOpen(tool) {
-    if (tool.id === 'constellation' || tool.id === 'rodovid' || tool.id === 'archetype-dialog') {
+    if (tool.id === 'constellation' || tool.id === 'rodovid'
+        || tool.id === 'archetype-dialog' || tool.id === 'library') {
       setActiveTool(tool.id);
       return;
     }
@@ -98,6 +100,9 @@ export default function ToolsTab({ onOpenPractices, onOpenBodyMap }) {
       )}
       {activeTool === 'archetype-dialog' && (
         <ArchetypeDialog onClose={() => setActiveTool(null)} />
+      )}
+      {activeTool === 'library' && (
+        <Library onClose={() => setActiveTool(null)} />
       )}
     </div>
   );

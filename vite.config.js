@@ -55,6 +55,23 @@ export default defineConfig(({ mode }) => {
               find: /^.*\/data\/mirror\.js$/,
               replacement: path.resolve(__dirname, 'src/data/mirror.lite.js'),
             },
+            // Library — стаби у lite-build
+            {
+              find: /^.*\/data\/library\/index\.json$/,
+              replacement: path.resolve(__dirname, 'src/data/library/index.lite.json'),
+            },
+            {
+              find: /^.*\/data\/library\/cosmo\.json$/,
+              replacement: path.resolve(__dirname, 'src/data/library/empty-book.lite.json'),
+            },
+            {
+              find: /^.*\/data\/library\/methodichka\.json$/,
+              replacement: path.resolve(__dirname, 'src/data/library/empty-book.lite.json'),
+            },
+            {
+              find: /^.*\/data\/library\/united\.json$/,
+              replacement: path.resolve(__dirname, 'src/data/library/empty-book.lite.json'),
+            },
           ]
         : [],
     },
