@@ -127,12 +127,12 @@ export default function Mandala12() {
             const glowR = isHovered ? 22 : (prog.completed ? 18 : 10);
 
             return (
-              <g key={petal.id} style={{ cursor: 'pointer' }}
+              <g key={petal.id}
                 onClick={() => enterPetal(petal.id)}
                 onMouseEnter={() => setHoveredId(petal.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 className={`m12-petal${isHovered ? ' hover' : ''}${prog.completed ? ' done' : ''}`}
-                style={{ animationDelay: `${i * 0.08}s` }}>
+                style={{ cursor: 'pointer', animationDelay: `${i * 0.08}s` }}>
                 <path d={path}
                   fill={`url(#petal-grad-${petal.id})`}
                   stroke={petal.color}

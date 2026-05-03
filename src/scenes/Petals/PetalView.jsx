@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { BAROMETERS } from '../../data/barometers.js';
 import { showToast } from '../../components/GlobalToast.jsx';
+import DeepeningPhase from './DeepeningPhase.jsx';
+import PetalComplete from './PetalComplete.jsx';
 
 const BAR_COLOR = Object.fromEntries(BAROMETERS.map((b) => [b.key, b.color]));
 
@@ -23,6 +25,22 @@ export default function PetalView({ petal }) {
   const nextIdx = petal.cells.findIndex((c) => !answered.includes(c.id));
   const allDone = nextIdx === -1 || progress.completed;
   const cell = !allDone ? petal.cells[nextIdx] : null;
+
+  // Остання відповідь у пелюстці — для свідчення Арбітра
+  const petalAnswers = useGameStore((s) => s.petalAnswers) || {};
+  const lastAnswer = useMemo(() => {
+    if (!allDone || !answered.length) return null;
+    let latest = null;
+    let latestTs = 0;
+    for (const cId of answered) {
+      const a = petalAnswers[`${petal.id}-${cId}`];
+      if (a && (a.ts || 0) > latestTs) {
+        latestTs = a.ts || 0;
+        latest = a;
+      }
+    }
+    return latest;
+  }, [allDone, answered, petalAnswers, petal.id]);
 
   // Фази однієї клітинки
   const [phase, setPhase] = useState('instinct');
@@ -132,7 +150,7 @@ export default function PetalView({ petal }) {
         </div>
 
         {allDone ? (
-          <PetalComplete petal={petal} onExit={exitPetal} />
+          <PetalComplete petal={petal} lastAnswer={lastAnswer} onExit={exitPetal} />
         ) : (
           <>
             <PhaseDots current={phase} />
@@ -178,29 +196,12 @@ export default function PetalView({ petal }) {
             )}
 
             {phase === 'deepening' && (
-              <div className="petal-cell petal-deepening">
-                <div className="petal-phase-label">фаза 2 · поглиблення</div>
-                <h3 className="petal-cell-title">А тепер чесніше</h3>
-                <p className="petal-cell-question">
-                  Ти щойно сказав «{trim(instinct?.customText || instinct?.choice, 60)}».
-                  Що ти приховав від цієї відповіді? Що було під нею?
-                </p>
-                <textarea value={deepening} onChange={(e) => setDeepening(e.target.value)}
-                  placeholder="напиши те, чого не сказав уперше..."
-                  rows={4} maxLength={400}
-                  className="petal-deepening-input" />
-                <div className="petal-phase-actions">
-                  <button type="button" className="petal-skip"
-                    onClick={() => setPhase('body')}>
-                    пропустити →
-                  </button>
-                  <button type="button" className="petal-deepening-go"
-                    onClick={() => setPhase('body')}
-                    disabled={deepening.trim().length < 5}>
-                    далі — у тіло →
-                  </button>
-                </div>
-              </div>
+              <DeepeningPhase
+                instinct={instinct}
+                deepening={deepening}
+                setDeepening={setDeepening}
+                onNext={() => setPhase('body')}
+              />
             )}
 
             {phase === 'body' && (
@@ -232,21 +233,6 @@ export default function PetalView({ petal }) {
         )}
       </div>
     </main>
-  );
-}
-
-function PetalComplete({ petal, onExit }) {
-  return (
-    <div className="petal-completed">
-      <div className="petal-completed-symbol" style={{ color: petal.color }}>✦</div>
-      <div className="petal-completed-title">пелюстка завершена</div>
-      <div className="petal-completed-text">
-        Сфера «{petal.name}» — пройдена. Поле прийняло інстинкт, поглиблення, тіло.
-      </div>
-      <button type="button" className="petal-btn-return" onClick={onExit}>
-        повернутись на мандалу →
-      </button>
-    </div>
   );
 }
 
