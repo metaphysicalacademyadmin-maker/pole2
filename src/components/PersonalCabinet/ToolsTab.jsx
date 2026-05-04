@@ -7,6 +7,8 @@ import Rodovid from '../Rodovid/index.jsx';
 import ArchetypeDialog from '../ArchetypeDialog/index.jsx';
 import Library from '../Library/index.jsx';
 import MentalCode from '../MentalCode/index.jsx';
+import Elements from '../Elements/index.jsx';
+import Blindness from '../Blindness/index.jsx';
 
 // Вкладка «Інструменти» — скриня практик доступних гравцеві.
 // Кожен інструмент розблоковується через певну точку прогресу.
@@ -25,7 +27,8 @@ export default function ToolsTab({ onOpenPractices, onOpenBodyMap }) {
   function handleOpen(tool) {
     if (tool.id === 'constellation' || tool.id === 'rodovid'
         || tool.id === 'archetype-dialog' || tool.id === 'library'
-        || tool.id === 'mental-code') {
+        || tool.id === 'mental-code' || tool.id === 'elements'
+        || tool.id === 'blindness') {
       setActiveTool(tool.id);
       return;
     }
@@ -108,6 +111,12 @@ export default function ToolsTab({ onOpenPractices, onOpenBodyMap }) {
       )}
       {activeTool === 'mental-code' && (
         <MentalCode onClose={() => setActiveTool(null)} />
+      )}
+      {activeTool === 'elements' && (
+        <Elements onClose={() => setActiveTool(null)} />
+      )}
+      {activeTool === 'blindness' && (
+        <Blindness onClose={() => setActiveTool(null)} />
       )}
     </div>
   );

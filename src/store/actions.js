@@ -548,6 +548,27 @@ export const petalActions = (set, get, ensure) => ({
       },
     });
   },
+  saveElementRitual: (elementId, reflection) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      elementRituals: {
+        ...(s.elementRituals || {}),
+        [elementId]: { reflection: reflection || null, ts: Date.now() },
+      },
+    });
+  },
+  saveBlindnessCheck: ({ activeShadows, reflection }) => {
+    const s = get();
+    set({
+      ...ensure(s),
+      blindnessCheck: {
+        activeShadows: activeShadows || [],
+        reflection: reflection || null,
+        ts: Date.now(),
+      },
+    });
+  },
   exitPetal: () => {
     set({ currentPetalId: null });
   },

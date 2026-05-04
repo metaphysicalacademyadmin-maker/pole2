@@ -100,6 +100,26 @@ export const TOOLS = [
     color: '#c9b3e8',
   },
   {
+    id: 'elements',
+    icon: '🜃',
+    name: 'Стихії Метатрона',
+    short: 'ритуальний прохід 6 стихій',
+    description: 'Повітря · Вогонь · Вода · Земля · Метал · Ефір. 5-кроковий ритуал на стихію + Куб Метатрона.',
+    unlockedBy: (s) => (s.completedLevels || []).length >= 2,
+    unlockHint: 'після 2 рівнів',
+    color: '#74c5b5',
+  },
+  {
+    id: 'blindness',
+    icon: '🌑',
+    name: 'Ніч Я',
+    short: '7 затемнень свідомості',
+    description: 'Метафізична карта станів коли Я зникає з власного поля. Не діагноз — фази еволюції.',
+    unlockedBy: () => true,        // завжди доступно — для важких моментів
+    unlockHint: 'для важких моментів',
+    color: '#7a5a8a',
+  },
+  {
     id: 'protective',
     icon: '🛡',
     name: 'Захисні практики',

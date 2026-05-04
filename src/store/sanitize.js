@@ -58,7 +58,7 @@ export function sanitizeState(s, defaults) {
                     'petalAnswers', 'petalProgress', 'petalCooldownOverrides',
                     'channelAnswers', 'channelProgress', 'teacherWhisperHistory',
                     'rodovid', 'rodovidHistory', 'rodovidParentRitual',
-                    'toolUsage']) {
+                    'toolUsage', 'elementRituals']) {
     if (!s[k] || typeof s[k] !== 'object') s[k] = {};
   }
   if (!s.archetypeCalibration || typeof s.archetypeCalibration !== 'object') {

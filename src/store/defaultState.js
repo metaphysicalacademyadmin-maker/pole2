@@ -185,6 +185,14 @@ export const defaultState = {
   // Ментальний код — діагностика 7 категорій (1-5 шкала)
   // { [categoryId]: avgScore, ts: timestamp, attempt: N }
   mentalCode: null,
+
+  // Стихії Метатрона — останні інтеграції на стихію
+  // { [elementId]: { reflection, ts } }
+  elementRituals: {},
+
+  // Сліпота — діагностика 7 затемнень
+  // { activeShadows: [shadowId, ...], reflection, ts }
+  blindnessCheck: null,
   mandalaFinalShown: false,        // true після того як гравець побачив церемонію Квітки Життя
 
   // ─── Тижневі обіцянки (квести) ───
