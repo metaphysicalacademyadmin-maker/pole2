@@ -1,10 +1,13 @@
 import { useGameStore } from '../../store/gameStore.js';
 import { findScenario } from '../../data/constellation/scenarios.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 
 // Історія розстановок — список збережених сесій
 export default function ConstellationHistory({ onClose }) {
   const items = useGameStore((s) => s.toolConstellations) || [];
   const remove = useGameStore((s) => s.removeToolConstellation);
+
+  useOverlayA11y(onClose);
 
   return (
     <div className="ct-overlay" role="dialog" aria-modal="true">

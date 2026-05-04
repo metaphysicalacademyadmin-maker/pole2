@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { FIGURE_TYPES } from '../../data/constellation/figures.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 
 const VW = 600, VH = 500;
 
@@ -12,6 +13,8 @@ export default function ConstellationSession({ scenario, onEnd, onCancel }) {
   const [phrasesSpoken, setPhrasesSpoken] = useState({});
   const [reflection, setReflection] = useState('');
   const [phase, setPhase] = useState('place');     // 'place' | 'ritual' | 'reflect'
+
+  useOverlayA11y(onCancel);
   const svgRef = useRef(null);
 
   function svgPoint(e) {

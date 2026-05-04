@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
 import { ELEMENTS, RITUAL_STEPS } from '../../data/elements.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 
 // Сесія однієї стихії: 5 кроків ритуалу + завершення з рефлексією.
 export default function ElementSession({ elementId, onComplete, onCancel }) {
@@ -8,6 +9,8 @@ export default function ElementSession({ elementId, onComplete, onCancel }) {
   const saveRitual = useGameStore((s) => s.saveElementRitual);
   const [stepIdx, setStepIdx] = useState(0);
   const [reflection, setReflection] = useState('');
+
+  useOverlayA11y(onCancel);
 
   if (!element) return null;
 

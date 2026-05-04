@@ -1,4 +1,5 @@
 import { MENTAL_CODE_CATEGORIES, RECOMMENDATIONS, findCategory } from '../../data/mental-code.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 
 const RADAR_R = 130;
 const VIEW = 320;
@@ -7,6 +8,8 @@ const VIEW = 320;
 export default function MentalCodeResult({ scores, onRetake, onClose }) {
   const cats = MENTAL_CODE_CATEGORIES;
   const center = VIEW / 2;
+
+  useOverlayA11y(onClose);
 
   // Точки на радарі
   const points = cats.map((c, i) => {

@@ -1,53 +1,77 @@
 import { useEffect } from 'react';
 
-// Глобальний лічильник відкритих overlay'їв.
-// Body locked коли counter > 0; розблокований коли усі закриті.
+// Глобальний стек відкритих overlay-handler'ів.
+// ESC викликає тільки TOP-handler — щоб вкладений overlay закривався
+// без зачеплення батьківських.
+//
+// Body locked поки stack непорожній; розблокований коли усі закриті.
 // Захищає від race condition коли overlay-й відкриваються/закриваються
-// у вільному порядку — body не застрягає у hidden.
-let overlayCounter = 0;
-let originalBodyOverflow = '';
+// у вільному порядку.
 
-function lockBody() {
-  if (typeof document === 'undefined') return;
-  if (overlayCounter === 0) {
-    originalBodyOverflow = document.body.style.overflow || '';
-    document.body.style.overflow = 'hidden';
+let stack = [];                    // [{ onClose, escapable }]
+let originalBodyOverflow = '';
+let keyListenerAttached = false;
+
+function onGlobalKeyDown(e) {
+  if (e.key !== 'Escape') return;
+  const top = stack[stack.length - 1];
+  if (top && top.escapable) {
+    e.preventDefault();
+    top.onClose?.();
   }
-  overlayCounter += 1;
 }
 
-function unlockBody() {
+function attachKeyListener() {
+  if (keyListenerAttached || typeof window === 'undefined') return;
+  window.addEventListener('keydown', onGlobalKeyDown);
+  keyListenerAttached = true;
+}
+
+function detachKeyListener() {
+  if (!keyListenerAttached || typeof window === 'undefined') return;
+  window.removeEventListener('keydown', onGlobalKeyDown);
+  keyListenerAttached = false;
+}
+
+function pushOverlay(entry) {
   if (typeof document === 'undefined') return;
-  overlayCounter = Math.max(0, overlayCounter - 1);
-  if (overlayCounter === 0) {
+  if (stack.length === 0) {
+    originalBodyOverflow = document.body.style.overflow || '';
+    document.body.style.overflow = 'hidden';
+    attachKeyListener();
+  }
+  stack.push(entry);
+}
+
+function popOverlay(entry) {
+  if (typeof document === 'undefined') return;
+  const idx = stack.lastIndexOf(entry);
+  if (idx >= 0) stack.splice(idx, 1);
+  if (stack.length === 0) {
     document.body.style.overflow = originalBodyOverflow;
+    detachKeyListener();
   }
 }
 
 // A11y hook для overlay-модалок:
-//   1. Escape → onClose (можна вимкнути через options.escapable=false)
-//   2. Лочить scroll body поки overlay відкритий (з захистом від race conditions)
+//   1. Escape → onClose (тільки top-most overlay)
+//   2. Лочить scroll body поки відкрито хоч один overlay
 //   3. Повертає focus на елемент-тригер після закриття
 export function useOverlayA11y(onClose, options = {}) {
   const { lockScroll = true, escapable = true } = options;
 
   useEffect(() => {
     const trigger = typeof document !== 'undefined' ? document.activeElement : null;
+    const entry = { onClose, escapable };
 
-    function onKeyDown(e) {
-      if (escapable && e.key === 'Escape') {
-        e.preventDefault();
-        onClose?.();
-      }
+    if (lockScroll) pushOverlay(entry);
+    else if (escapable) {
+      // Без lockScroll — все одно треба пушити для коректного ESC-стеку
+      pushOverlay(entry);
     }
 
-    window.addEventListener('keydown', onKeyDown);
-    if (lockScroll) lockBody();
-
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
-      if (lockScroll) unlockBody();
-      // Повертаємо focus на тригер
+      popOverlay(entry);
       if (trigger && typeof trigger.focus === 'function') {
         try { trigger.focus(); } catch (_) {}
       }

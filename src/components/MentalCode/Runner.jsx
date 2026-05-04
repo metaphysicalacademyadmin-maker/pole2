@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MENTAL_CODE_CATEGORIES, SCORE_LABELS } from '../../data/mental-code.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 
 // Послідовне проходження по 7 категоріях × 3-4 питання = 21-28 кроків.
 // На кожному — slider/buttons 1-5. Авто-перехід після вибору.
@@ -7,6 +8,8 @@ export default function MentalCodeRunner({ onComplete, onCancel }) {
   const [catIdx, setCatIdx] = useState(0);
   const [qIdx, setQIdx] = useState(0);
   const [answers, setAnswers] = useState({});
+
+  useOverlayA11y(onCancel);
 
   const cat = MENTAL_CODE_CATEGORIES[catIdx];
   const question = cat.questions[qIdx];
