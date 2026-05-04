@@ -11,18 +11,18 @@ import './styles.css';
 //   усі 12 done && !shown      → MandalaFinal (церемонія Квітки Життя)
 //   інакше                     → Mandala12 (селектор)
 
-export default function Petals({ openCosmo }) {
+export default function Petals({ openCosmo, openCabinet }) {
   const currentPetalId = useGameStore((s) => s.currentPetalId);
   const petalProgress = useGameStore((s) => s.petalProgress);
   const mandalaFinalShown = useGameStore((s) => s.mandalaFinalShown);
 
   const petal = currentPetalId ? findPetal(currentPetalId) : null;
-  if (petal) return <PetalView petal={petal} />;
+  if (petal) return <PetalView petal={petal} openCabinet={openCabinet} />;
 
   const allDone = PETALS.every((p) => petalProgress?.[p.id]?.completed);
   if (allDone && !mandalaFinalShown) {
-    return <MandalaFinal openCosmo={openCosmo} />;
+    return <MandalaFinal openCosmo={openCosmo} openCabinet={openCabinet} />;
   }
 
-  return <Mandala12 />;
+  return <Mandala12 openCabinet={openCabinet} />;
 }

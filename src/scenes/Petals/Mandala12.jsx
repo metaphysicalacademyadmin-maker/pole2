@@ -24,7 +24,7 @@ const PETAL_INNER = 90;
 //   5. Пелюстки — radial gradient fill, drop-shadow glow, bloom-anim
 //   6. Центральне ядро — концентричні кола з повільним поворотом
 //   7. Лейбли — серифні римські цифри з glow
-export default function Mandala12() {
+export default function Mandala12({ openCabinet }) {
   const enterPetal = useGameStore((s) => s.enterPetal);
   const exitPetals = useGameStore((s) => s.exitPetals);
   const progress = useGameStore((s) => s.petalProgress);
@@ -61,6 +61,13 @@ export default function Mandala12() {
           aria-label="Повернутись на Карту Втілення">
           ← на головний
         </button>
+        {openCabinet && (
+          <button type="button" className="petals-cab-btn" onClick={openCabinet}
+            aria-label="Відкрити особистий кабінет"
+            title="особистий кабінет">
+            👤
+          </button>
+        )}
         <div className="petals-eyebrow">розширений шлях</div>
         <h1 className="petals-title">12 сфер життя</h1>
         <p className="petals-subtitle">

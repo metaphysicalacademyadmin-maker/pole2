@@ -10,7 +10,7 @@ const PETAL_INNER = 80;
 
 // Церемоніальний екран — з'являється коли гравець завершив усі 12 пелюсток.
 // Артефакт «Карта Розквіту» — мандала з усіма 12 пелюстками золотою кольорою.
-export default function MandalaFinal({ openCosmo }) {
+export default function MandalaFinal({ openCosmo, openCabinet }) {
   const acknowledge = useGameStore((s) => s.acknowledgeMandalaFinal);
   const exitPetals = useGameStore((s) => s.exitPetals);
   const completedLevels = useGameStore((s) => s.completedLevels);

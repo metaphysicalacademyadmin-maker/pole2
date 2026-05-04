@@ -209,7 +209,7 @@ function pickScene({ pathMode, intention, currentLevel, awaitingKey, constellati
   if (!pathMode) return <PathMode />;
   if (!intention) return <Entry />;
   if (currentLevel > 7) {
-    if (petalsActive) return <Petals openCosmo={openCosmo} />;
+    if (petalsActive) return <Petals openCosmo={openCosmo} openCabinet={openCabinet} />;
     return <Final openCosmo={openCosmo} openAdmin={openAdmin}
       openPartnership={openPartnership} openCabinet={openCabinet} openGift={openGift} />;
   }
