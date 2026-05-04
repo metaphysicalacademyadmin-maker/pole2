@@ -25,6 +25,29 @@
   font-family: inherit; font-size: 13px; cursor: pointer;
   transition: all 0.2s;
 }
+
+/* Завжди-видима кнопка close — fixed у viewport-куті, поверх scroll-контенту */
+.sb-fixed-close {
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 1300;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(8, 4, 14, 0.88);
+  border: 1px solid rgba(232, 196, 118, 0.6);
+  color: #f0c574;
+  font-size: 22px; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s;
+}
+.sb-fixed-close:hover {
+  background: rgba(232, 196, 118, 0.2);
+  border-color: rgba(232, 196, 118, 0.9);
+  transform: scale(1.05);
+}
 .sb-btn-close:hover { color: #fff7e0; border-color: rgba(255,255,255,0.4); }
 .sb-btn-print {
   background: linear-gradient(135deg, #f0c574, #e8a85a);

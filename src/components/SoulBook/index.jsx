@@ -1,6 +1,7 @@
 import { useGameStore } from '../../store/gameStore.js';
 import { findArchetype } from '../../data/archetypes.js';
 import { BAROMETERS } from '../../data/barometers.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import SoulBookSections from './Sections.jsx';
 import './styles.css';
 
@@ -12,12 +13,21 @@ export default function SoulBook({ onClose }) {
   const state = useGameStore();
   const data = collectBookData(state);
 
+  useOverlayA11y(onClose);
+
   function handlePrint() {
     window.print();
   }
 
   return (
     <div className="soulbook-overlay">
+      {/* Завжди-видима fixed кнопка close — працює і коли sticky-toolbar заховався */}
+      <button type="button" className="sb-fixed-close no-print" onClick={onClose}
+        aria-label="Закрити книгу душі"
+        title="закрити">
+        ←
+      </button>
+
       <div className="soulbook-toolbar no-print">
         <button type="button" className="sb-btn-close" onClick={onClose}>← повернутись</button>
         <div className="sb-toolbar-title">📜 Книга Душі</div>
