@@ -106,7 +106,9 @@ export function useOverlayA11y(onClose, options = {}) {
     return () => {
       popOverlay(entry);
       if (trigger && typeof trigger.focus === 'function') {
-        try { trigger.focus(); } catch (_) {}
+        // preventScroll — інакше focus() сам прокручує сторінку до тригера,
+        // перебиваючи window.scrollTo() у unlockBackgroundScroll.
+        try { trigger.focus({ preventScroll: true }); } catch (_) {}
       }
     };
   }, [onClose, lockScroll, escapable]);
