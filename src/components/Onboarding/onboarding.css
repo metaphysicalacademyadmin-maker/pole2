@@ -7,6 +7,7 @@
   z-index: 9000;
   padding: 32px 20px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   animation: onbFade 0.6s ease-out;
 }
 @keyframes onbFade { from { opacity: 0; } to { opacity: 1; } }
@@ -24,6 +25,89 @@
 @keyframes onbScale {
   from { opacity: 0; transform: scale(0.95) translateY(8px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ─── Містичне проявлення слайда ─────────────────────────────────
+   Шарова анімація: спочатку контейнер "видихає" з туману (blur+scale),
+   потім по черзі проступають icon → title → journey → text.
+   Загальна тривалість ~1.6s — ритуал розкриття, не клік-клік-клік. */
+.onb-slide {
+  position: relative;
+  animation: onbSlideEmerge 0.55s ease-out both;
+}
+@keyframes onbSlideEmerge {
+  0% {
+    opacity: 0;
+    filter: blur(16px);
+    transform: scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+/* Світловий серпанок, що плавно пробігає по слайду під час проявлення.
+   Дає відчуття "енергії що приходить з глибини". */
+.onb-slide::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 60% 40% at 50% 50%,
+    rgba(240, 197, 116, 0.18),
+    rgba(240, 197, 116, 0) 70%
+  );
+  opacity: 0;
+  animation: onbAura 0.8s ease-out both;
+  z-index: -1;
+}
+@keyframes onbAura {
+  0%   { opacity: 0; transform: scale(0.6); }
+  35%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
+/* Шарове проявлення дочірніх елементів — як свідомість що сходить
+   рівень за рівнем: спершу образ (icon), далі ім'я (title), тоді шлях
+   (journey), і останнім — слово (text). */
+.onb-slide > .onb-breath-orb,
+.onb-slide > .onb-icon,
+.onb-slide > .onb-title,
+.onb-slide > .onb-journey,
+.onb-slide > .onb-text {
+  animation: onbReveal 0.45s ease-out both;
+}
+.onb-slide > .onb-breath-orb { animation-delay: 0s; }
+.onb-slide > .onb-icon       { animation-delay: 0.05s; }
+.onb-slide > .onb-title      { animation-delay: 0.12s; }
+.onb-slide > .onb-journey    { animation-delay: 0.18s; }
+.onb-slide > .onb-text       { animation-delay: 0.22s; }
+
+@keyframes onbReveal {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* Поважаємо prefers-reduced-motion — ламати ритуал не треба, але
+   аніматити повільно для тих, кому це болить, теж не треба. */
+@media (prefers-reduced-motion: reduce) {
+  .onb-slide,
+  .onb-slide::before,
+  .onb-slide > * {
+    animation-duration: 0.3s !important;
+    animation-delay: 0s !important;
+  }
 }
 
 .onb-progress {
@@ -87,8 +171,8 @@
   flex-wrap: wrap;
 }
 .onb-btn-next, .onb-btn-back, .onb-btn-skip {
-  padding: 10px 22px;
-  border-radius: 999px;
+  padding: 12px 28px;
+  border-radius: 4px;
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
