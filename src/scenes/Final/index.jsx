@@ -64,7 +64,7 @@ export default function Final({ openCosmo, openAdmin, openPartnership, openCabin
         )}
 
         <div className="final-mandala-row">
-          <Mandala completedLevels={completedLevels} levelKeys={levelKeys} />
+          <Mandala onClick={() => setBookOpen(true)} />
           {Object.keys(bodyMap).length > 0 && (
             <div className="final-body-map">
               <div className="final-body-map-label">карта тіла</div>

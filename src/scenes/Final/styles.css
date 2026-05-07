@@ -178,6 +178,82 @@
   gap: 24px;
   flex-wrap: wrap;
 }
+
+/* ─── Inline SVG-мандала (клікабельна, дихає, обертається) ─── */
+.final-mandala-wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 480px;
+  cursor: pointer;
+  border-radius: 50%;
+  outline: none;
+  /* колір — гарне золото, успадковується SVG через currentColor */
+  color: #f0c574;
+  transition: color 0.5s ease, filter 0.6s ease;
+  filter: drop-shadow(0 0 14px rgba(232, 196, 118, 0.28));
+}
+.final-mandala-wrap::before {
+  /* ритуальне halo позаду мандали */
+  content: '';
+  position: absolute;
+  inset: -8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(232, 196, 118, 0.22) 0%,
+    rgba(232, 196, 118, 0.08) 45%,
+    transparent 75%
+  );
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  opacity: 0.7;
+}
+.final-mandala-wrap:hover,
+.final-mandala-wrap:focus-visible {
+  color: #ffe7a8;
+  filter: drop-shadow(0 0 28px rgba(255, 231, 168, 0.55));
+}
+.final-mandala-wrap:hover::before,
+.final-mandala-wrap:focus-visible::before {
+  opacity: 1;
+}
+.final-mandala-wrap:focus-visible {
+  outline: 1px solid rgba(232, 196, 118, 0.45);
+  outline-offset: 8px;
+}
+
+.final-mandala-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: center;
+  /* idle: ледь помітне дихання */
+  animation: mandala-breath 7s ease-in-out infinite;
+  transition: transform 4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.final-mandala-wrap.is-spinning .final-mandala-svg {
+  /* при кліку: одне ритуальне обертання, перекриває idle-дихання */
+  animation: none;
+  transform: rotate(360deg);
+}
+
+@keyframes mandala-breath {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.018); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .final-mandala-svg {
+    animation: none;
+    transition: none;
+  }
+  .final-mandala-wrap.is-spinning .final-mandala-svg {
+    transform: none;
+  }
+}
+
 .final-body-map { text-align: center; }
 .final-body-map-label {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;

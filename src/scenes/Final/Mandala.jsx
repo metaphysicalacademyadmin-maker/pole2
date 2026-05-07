@@ -1,99 +1,54 @@
-import { PYRAMID_LEVELS } from '../../data/levels.js';
-import SacredGeometry from './SacredGeometry.jsx';
+import { useState } from 'react';
+import mandalaSvgRaw from '../../assets/mandala.svg?raw';
 
-const CENTER = 300;
-const PETAL_OUTER_R = 240;
-const PETAL_INNER_R = 80;
-const RAY_COUNT = 7;     // по одній пелюстці на кожен з 7 рівнів
+// Inline SVG-мандала — артефакт Карти Втілення.
+// Витягуємо вміст файлу (між <svg> і </svg>) щоб обгорнути власною React-обгорткою
+// з нашими атрибутами, обробниками і aria. Білий fill замінюємо на currentColor —
+// мандала підхопить золотий колір з CSS (тёмні деталі лишаємо як є для глибини).
+const INNER_SVG = mandalaSvgRaw
+  .replace(/^\s*<svg[^>]*>/, '')
+  .replace(/<\/svg>\s*$/, '')
+  .replace(/fill="#fff"/gi, 'fill="currentColor"')
+  .replace(/fill="#ffffff"/gi, 'fill="currentColor"');
 
-// Підсумкова мандала на Final-екрані. 7 пелюсток (кожна = рівень).
-// Завершені — кольорові, незавершені — приглушені.
-// Кожна пелюстка показує номер у центрі.
-export default function Mandala({ completedLevels, levelKeys }) {
-  const levels = PYRAMID_LEVELS.filter((l) => l.n >= 1);   // 1..7
-  return (
-    <svg viewBox="0 0 600 600" style={{ width: '100%', maxWidth: 480, height: 'auto' }}>
-      <defs>
-        {levels.map((lvl) => (
-          <radialGradient key={`g-${lvl.n}`} id={`grad-${lvl.n}`}>
-            <stop offset="0%" stopColor={chakraColor(lvl)} stopOpacity="0.85" />
-            <stop offset="100%" stopColor={chakraColor(lvl)} stopOpacity="0.15" />
-          </radialGradient>
-        ))}
-      </defs>
+// Підсумкова мандала на Final-екрані. Клік запускає одне ритуальне обертання
+// (4 секунди). Якщо передано onClick — викликається теж після старту анімації.
+// Props completedLevels / levelKeys лишилися у сигнатурі для сумісності з Final/index.jsx
+// — поточна реалізація їх не використовує (мандала статична-цілісна, без per-level стану).
+export default function Mandala({ onClick }) {
+  const [spinning, setSpinning] = useState(false);
 
-      {/* зовнішнє коло */}
-      <circle cx={CENTER} cy={CENTER} r={PETAL_OUTER_R + 12} fill="none"
-        stroke="rgba(232,196,118,0.18)" strokeWidth="0.5" />
+  function handleActivate(e) {
+    if (!spinning) {
+      setSpinning(true);
+      setTimeout(() => setSpinning(false), 4000);
+    }
+    onClick?.(e);
+  }
 
-      {/* пелюстки */}
-      {levels.map((lvl, i) => (
-        <Petal
-          key={lvl.n}
-          index={i}
-          level={lvl}
-          completed={completedLevels.includes(lvl.n)}
-          keyText={levelKeys[lvl.n]}
-        />
-      ))}
-
-      {/* Sacred Geometry — Меркаба → Куб Метатрона → Квітка Життя */}
-      <SacredGeometry keysCount={completedLevels.length} cx={CENTER} cy={CENTER} />
-
-      {/* центральне коло */}
-      <circle cx={CENTER} cy={CENTER} r={PETAL_INNER_R - 8} fill="rgba(20, 14, 30, 0.7)"
-        stroke="var(--gold)" strokeWidth="1" />
-      <text x={CENTER} y={CENTER + 4} textAnchor="middle"
-        fontFamily="Cormorant Garamond, serif" fontStyle="italic"
-        fontSize="42" fill="var(--gold-light)">∞</text>
-    </svg>
-  );
-}
-
-function Petal({ index, level, completed, keyText }) {
-  const angle = (index / RAY_COUNT) * 360 - 90;
-  const rad = (angle * Math.PI) / 180;
-  const cx = CENTER + Math.cos(rad) * ((PETAL_OUTER_R + PETAL_INNER_R) / 2);
-  const cy = CENTER + Math.sin(rad) * ((PETAL_OUTER_R + PETAL_INNER_R) / 2);
-  const halfWidth = 38;
-
-  // Створюємо «лотосну» форму через два дзеркальних квадратичних path
-  const startX = CENTER + Math.cos(rad) * PETAL_INNER_R;
-  const startY = CENTER + Math.sin(rad) * PETAL_INNER_R;
-  const tipX = CENTER + Math.cos(rad) * PETAL_OUTER_R;
-  const tipY = CENTER + Math.sin(rad) * PETAL_OUTER_R;
-  const perpX = Math.cos(rad + Math.PI / 2);
-  const perpY = Math.sin(rad + Math.PI / 2);
-  const ctrl1X = cx + perpX * halfWidth;
-  const ctrl1Y = cy + perpY * halfWidth;
-  const ctrl2X = cx - perpX * halfWidth;
-  const ctrl2Y = cy - perpY * halfWidth;
-
-  const pathD = `M ${startX} ${startY}
-    Q ${ctrl1X} ${ctrl1Y} ${tipX} ${tipY}
-    Q ${ctrl2X} ${ctrl2Y} ${startX} ${startY} Z`;
+  function handleKeyDown(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleActivate(e);
+    }
+  }
 
   return (
-    <g opacity={completed ? 1 : 0.25}>
-      <path
-        d={pathD}
-        fill={completed ? `url(#grad-${level.n})` : 'rgba(40, 28, 60, 0.4)'}
-        stroke={completed ? chakraColor(level) : 'rgba(232,196,118,0.18)'}
-        strokeWidth={completed ? 1.5 : 0.5}
+    <div
+      className={`final-mandala-wrap${spinning ? ' is-spinning' : ''}`}
+      role="button"
+      tabIndex={0}
+      onClick={handleActivate}
+      onKeyDown={handleKeyDown}
+      aria-label="Мандала Втілення — натисни щоб відкрити Книгу Душі"
+    >
+      <svg
+        viewBox="0 0 800 800"
+        xmlns="http://www.w3.org/2000/svg"
+        className="final-mandala-svg"
+        aria-hidden="true"
+        dangerouslySetInnerHTML={{ __html: INNER_SVG }}
       />
-      <text x={cx} y={cy + 4} textAnchor="middle"
-        fontFamily="IBM Plex Mono, monospace" fontSize="14"
-        fill={completed ? chakraColor(level) : 'rgba(220,200,160,0.32)'}
-        style={{ userSelect: 'none' }}>
-        {level.n}
-      </text>
-      {keyText && completed && (
-        <title>{keyText}</title>
-      )}
-    </g>
+    </div>
   );
-}
-
-function chakraColor(level) {
-  return level.chakra?.color || 'var(--gold)';
 }
