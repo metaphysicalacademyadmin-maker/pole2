@@ -9,7 +9,7 @@ import './styles.css';
 
 // Перший екран: гравець обирає трек шляху (5 варіантів).
 // Або через wizard — 5 питань → рекомендований трек.
-export default function PathMode() {
+export default function PathMode({ openMandala }) {
   const setPathMode = useGameStore((s) => s.setPathMode);
   const [wizardOpen, setWizardOpen] = useState(false);
 
@@ -28,6 +28,13 @@ export default function PathMode() {
         <button type="button" className="pm-wizard-cta" onClick={() => setWizardOpen(true)}>
           ✺ не знаєш що обрати? — 5 питань допоможуть
         </button>
+
+        {openMandala && (
+          <button type="button" className="pm-wizard-cta" onClick={openMandala}
+            style={{ marginTop: 8 }}>
+            🜂 переглянути Мандалу
+          </button>
+        )}
 
         <div className="pm-cards pm-cards-5">
           {PATH_MODE_ORDER.map((id) => (

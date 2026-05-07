@@ -1,0 +1,124 @@
+.mnd-overlay {
+  position: fixed; inset: 0; z-index: 1100;
+  background: linear-gradient(180deg, rgba(8, 4, 16, 0.97), rgba(20, 14, 30, 0.98));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 16px;
+}
+.mnd-frame {
+  max-width: 900px; width: 100%;
+  margin: auto 0;
+  padding: 24px 16px 60px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff7e0;
+}
+.mnd-close {
+  background: transparent; border: none;
+  color: #c8b9a0; font-size: 14px;
+  cursor: pointer; padding: 8px 12px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.mnd-close:hover {
+  background: rgba(232, 196, 118, 0.1);
+  color: #f0c574;
+}
+
+.mnd-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.mnd-eyebrow {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #f0c574;
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
+.mnd-title {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0;
+  color: #fff7e0;
+}
+
+.mnd-info {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #c8b9a0;
+  letter-spacing: 0.4px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.mnd-info strong {
+  color: #f0c574;
+  font-weight: 600;
+}
+
+.mnd-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 247, 224, 0.02);
+  border: 1px solid rgba(232, 196, 118, 0.15);
+  border-radius: 16px;
+}
+.mnd-stage > svg {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 24px rgba(232, 196, 118, 0.12));
+  /* щоб дочірні <g class="mnd-petal"> могли мати свій box для hover */
+  overflow: visible;
+}
+
+/* ─── Пелюстки — hover/selected ─────────────────────────────── */
+.mnd-petal {
+  cursor: pointer;
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: filter 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+}
+/* SVG-форми всередині мають fill через inline-style (Illustrator export),
+   тож для зміни кольору на gold потрібен !important. transition теж тут. */
+.mnd-petal path,
+.mnd-petal circle,
+.mnd-petal polygon,
+.mnd-petal ellipse {
+  transition: fill 0.3s ease;
+}
+
+.mnd-petal:hover {
+  filter: drop-shadow(0 0 12px rgba(232, 196, 118, 0.7))
+          brightness(1.1);
+  transform: scale(1.02);
+}
+
+/* Selected — перефарбовуємо оригінал на місці, без клонування у top-шар.
+   Завдяки цьому пелюстка лишається у своєму z-порядку, не перекриває
+   сусідні пелюстки (як це було б, якби клон малювався в кінці SVG). */
+.mnd-petal.is-selected path[style*="FFFFFF"],
+.mnd-petal.is-selected circle[style*="FFFFFF"],
+.mnd-petal.is-selected polygon[style*="FFFFFF"],
+.mnd-petal.is-selected ellipse[style*="FFFFFF"] {
+  fill: #ffd700 !important;
+}
+.mnd-petal.is-selected path[style*="231F20"],
+.mnd-petal.is-selected circle[style*="231F20"],
+.mnd-petal.is-selected polygon[style*="231F20"],
+.mnd-petal.is-selected ellipse[style*="231F20"] {
+  fill: #a85d10 !important;
+}
+/* Fallback — на випадок інших кольорів */
+.mnd-petal.is-selected path:not([style*="231F20"]):not([style*="FFFFFF"]),
+.mnd-petal.is-selected circle:not([style*="231F20"]):not([style*="FFFFFF"]) {
+  fill: #ffd700 !important;
+}
+
+/* Центр мандали — без cursor:pointer, hover не реагує */
+.mnd-center { pointer-events: none; }

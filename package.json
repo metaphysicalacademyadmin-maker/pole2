@@ -10,7 +10,8 @@
     "build:embed-lite": "vite build --mode embed-lite",
     "preview": "vite preview",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "tag-mandala": "node scripts/tag-mandala.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
