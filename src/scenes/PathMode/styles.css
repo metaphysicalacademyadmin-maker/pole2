@@ -276,39 +276,43 @@
   pointer-events: auto;
 }
 
-/* ─── Info-іконка (для тач-пристроїв, але видима всюди) ──────── */
+/* ─── Info-іконка (тільки для тач-пристроїв) ──────────────────── */
 .pm-info {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  width: 26px;
-  height: 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(232, 196, 118, 0.12);
-  color: #f0c574;
-  border: 1px solid rgba(232, 196, 118, 0.35);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  cursor: pointer;
-  z-index: 3;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  user-select: none;
-  line-height: 1;
+  display: none;
 }
-.pm-info:hover,
-.pm-info:focus-visible {
-  background: rgba(232, 196, 118, 0.25);
-  border-color: #f0c574;
-  outline: none;
-}
-.pm-card--show-details .pm-info {
-  background: rgba(232, 196, 118, 0.3);
-  border-color: #f0c574;
-  transform: rotate(90deg);
+@media (hover: none) {
+  .pm-info {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(232, 196, 118, 0.12);
+    color: #f0c574;
+    border: 1px solid rgba(232, 196, 118, 0.35);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    cursor: pointer;
+    z-index: 3;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    user-select: none;
+    line-height: 1;
+  }
+  .pm-info:focus-visible {
+    background: rgba(232, 196, 118, 0.25);
+    border-color: #f0c574;
+    outline: none;
+  }
+  .pm-card--show-details .pm-info {
+    background: rgba(232, 196, 118, 0.3);
+    border-color: #f0c574;
+    transform: rotate(90deg);
+  }
 }
 
 .pm-foot {

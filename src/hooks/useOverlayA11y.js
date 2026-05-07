@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 // у вільному порядку.
 
 let stack = [];                    // [{ onClose, escapable }]
-let originalBodyOverflow = '';
+let savedScroll = null;            // { y, htmlOverflow, bodyOverflow, bodyPosition, bodyTop, bodyWidth }
 let keyListenerAttached = false;
 
 function onGlobalKeyDown(e) {
@@ -33,11 +33,44 @@ function detachKeyListener() {
   keyListenerAttached = false;
 }
 
+// Бомбостійкий scroll-lock: блокуємо і <html>, і <body>, бо у різних
+// браузерах scroll-target різний. Плюс position:fixed на body зберігає
+// scroll position — інакше після закриття overlay сторінка стрибає вгору.
+function lockBackgroundScroll() {
+  const html = document.documentElement;
+  const body = document.body;
+  savedScroll = {
+    y: window.scrollY,
+    htmlOverflow: html.style.overflow,
+    bodyOverflow: body.style.overflow,
+    bodyPosition: body.style.position,
+    bodyTop: body.style.top,
+    bodyWidth: body.style.width,
+  };
+  html.style.overflow = 'hidden';
+  body.style.overflow = 'hidden';
+  body.style.position = 'fixed';
+  body.style.top = `-${savedScroll.y}px`;
+  body.style.width = '100%';
+}
+
+function unlockBackgroundScroll() {
+  if (!savedScroll) return;
+  const html = document.documentElement;
+  const body = document.body;
+  html.style.overflow = savedScroll.htmlOverflow;
+  body.style.overflow = savedScroll.bodyOverflow;
+  body.style.position = savedScroll.bodyPosition;
+  body.style.top = savedScroll.bodyTop;
+  body.style.width = savedScroll.bodyWidth;
+  window.scrollTo(0, savedScroll.y);
+  savedScroll = null;
+}
+
 function pushOverlay(entry) {
   if (typeof document === 'undefined') return;
   if (stack.length === 0) {
-    originalBodyOverflow = document.body.style.overflow || '';
-    document.body.style.overflow = 'hidden';
+    lockBackgroundScroll();
     attachKeyListener();
   }
   stack.push(entry);
@@ -48,7 +81,7 @@ function popOverlay(entry) {
   const idx = stack.lastIndexOf(entry);
   if (idx >= 0) stack.splice(idx, 1);
   if (stack.length === 0) {
-    document.body.style.overflow = originalBodyOverflow;
+    unlockBackgroundScroll();
     detachKeyListener();
   }
 }
