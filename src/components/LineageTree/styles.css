@@ -1,0 +1,77 @@
+/* Родове дерево · Варіант A — gen-graph вгору. */
+.lin-root { color: #fff7e0; padding: 18px 12px; }
+
+.lin-header { text-align: center; margin-bottom: 16px; }
+.lin-eyebrow {
+  font-size: 11px; letter-spacing: 5px; color: #f0c574;
+  text-transform: uppercase; font-weight: 700; opacity: 0.85;
+}
+.lin-title {
+  font-family: 'EB Garamond Variable', Georgia, serif;
+  font-size: 32px; font-weight: 400; font-style: italic;
+  margin: 6px 0 4px; letter-spacing: 1px;
+}
+.lin-info {
+  font-size: 12px; color: rgba(232, 221, 196, 0.7); font-style: italic;
+  max-width: 540px; margin: 0 auto;
+}
+
+.lin-svg {
+  width: 100%; max-width: 980px; height: auto; display: block;
+  margin: 14px auto 0;
+  filter: drop-shadow(0 0 16px rgba(232, 196, 118, 0.18));
+}
+
+/* ─── Лінії-зв'язки ─── */
+.lin-link {
+  stroke: rgba(232, 196, 118, 0.18);
+  stroke-width: 0.7;
+}
+
+/* ─── Вузли ─── */
+.lin-node { cursor: pointer; outline: none; transition: filter 0.3s ease; }
+.lin-node circle {
+  stroke: #1a0820; stroke-width: 1; fill: rgba(180, 170, 150, 0.4);
+  transition: r 0.25s ease, fill 0.3s ease, stroke 0.3s ease;
+}
+.lin-node__initial {
+  font-family: 'EB Garamond Variable', Georgia, serif; font-size: 11px; font-weight: 700;
+  fill: #04020c; pointer-events: none; user-select: none;
+}
+
+/* Лінія = колір */
+.lin-node--me circle {
+  fill: #ffe7a8; stroke: #f0c574; stroke-width: 1.6;
+  filter: drop-shadow(0 0 8px #ffe7a8);
+}
+.lin-node--maternal circle { fill: rgba(240, 168, 184, 0.45); }
+.lin-node--paternal circle { fill: rgba(159, 200, 232, 0.45); }
+
+/* Статус-колір override (overrides line color коли статус ≠ unknown) */
+.lin-node--silent.lin-node--maternal circle      { fill: rgba(240, 168, 184, 0.78); }
+.lin-node--silent.lin-node--paternal circle      { fill: rgba(159, 200, 232, 0.78); }
+.lin-node--known.lin-node--maternal circle       { fill: #f0a8b8; stroke: #fff7e0; stroke-width: 1.4; }
+.lin-node--known.lin-node--paternal circle       { fill: #9fc8e8; stroke: #fff7e0; stroke-width: 1.4; }
+.lin-node--transitioned.lin-node--maternal circle { fill: #c97090; stroke: #fff7e0; opacity: 0.78; }
+.lin-node--transitioned.lin-node--paternal circle { fill: #6a8aa8; stroke: #fff7e0; opacity: 0.78; }
+
+.lin-node:hover circle, .lin-node:focus-visible circle {
+  filter: drop-shadow(0 0 10px currentColor);
+}
+.lin-node:focus-visible {
+  outline: 1px solid rgba(232, 196, 118, 0.5);
+  outline-offset: 4px;
+}
+
+/* Підписи сторін */
+.lin-side {
+  font-family: 'EB Garamond Variable', Georgia, serif;
+  font-size: 12px; font-style: italic; opacity: 0.8;
+}
+.lin-side--mat { fill: #f0a8b8; }
+.lin-side--pat { fill: #9fc8e8; }
+
+@media (max-width: 720px) {
+  .lin-title { font-size: 24px; }
+  .lin-info { font-size: 11px; }
+}

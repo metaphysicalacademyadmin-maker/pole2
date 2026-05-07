@@ -70,3 +70,53 @@ export function findNode(id) {
     || RODOVID_NODES_4TH.find((n) => n.id === id)
     || null;
 }
+
+// ───────────── РОЗШИРЕННЯ ДО 7 ПОКОЛІНЬ ─────────────
+//
+// Indexing convention: у поколінні N (gen=0..6) є 2^gen вузлів,
+// idx=0..2^gen-1. Перші 2^(gen-1) — материнська лінія, решта — батьківська.
+// Materinska/batkivska частина рекурсивно ділиться так само на materinsku/batkivsku.
+//
+// Маппінг до legacy IDs (gen 0..3) щоб не ламати існуюче state.rodovid:
+//   gen 0: 'me'
+//   gen 1: 0='mother', 1='father'
+//   gen 2: 0='gm-maternal', 1='gf-maternal', 2='gm-paternal', 3='gf-paternal'
+//   gen 3: 0..7 legacy IDs у тому самому order: m-m-f, m-m-m, m-f-f, m-f-m, f-m-f, f-m-m, f-f-f, f-f-m
+//
+// Для gen 4..6 — нова схема "g{N}-{idx}".
+const GEN2_MAP = ['gm-maternal', 'gf-maternal', 'gm-paternal', 'gf-paternal'];
+const GEN3_MAP = [
+  'gg-gm-maternal-f', 'gg-gm-maternal-m',
+  'gg-gf-maternal-f', 'gg-gf-maternal-m',
+  'gg-gm-paternal-f', 'gg-gm-paternal-m',
+  'gg-gf-paternal-f', 'gg-gf-paternal-m',
+];
+
+export function lineageId(gen, idx) {
+  if (gen === 0) return 'me';
+  if (gen === 1) return idx === 0 ? 'mother' : 'father';
+  if (gen === 2) return GEN2_MAP[idx];
+  if (gen === 3) return GEN3_MAP[idx];
+  return `g${gen}-${idx}`;
+}
+
+/** Повертає мета-дані вузла (id, label, color, sex). */
+export function lineageNodeMeta(gen, idx) {
+  const id = lineageId(gen, idx);
+  const legacy = findNode(id);
+  if (legacy) return legacy;
+  // Generated meta для поколінь 4-6: idx parity = sex (even=female, odd=male)
+  const isFemale = (idx & 1) === 0;
+  const labelPrefix = gen === 4 ? 'Прапрадід' : gen === 5 ? 'Прапрапрадід' : 'Пращур';
+  const labelFem    = gen === 4 ? 'Прапрабаба' : gen === 5 ? 'Прапрапрабаба' : 'Пращурка';
+  return {
+    id, generation: gen,
+    label: isFemale ? labelFem : labelPrefix,
+    color: isFemale ? '#a899c0' : '#7a9bb8',
+    sex: isFemale ? 'female' : 'male',
+  };
+}
+
+export function countAtGen(gen) {
+  return 2 ** gen;
+}
