@@ -46,13 +46,13 @@
   --z-onboarding: 9000;         /* Welcome — ритуал входу, поверх усіх модалок */
   --z-toast: 9999;              /* Toast — поверх усього */
 
-  /* Шрифт-стеки. Cormorant Garamond Cyrillic у normal weight рендериться
-     невидимо у деяких комбінаціях DPI/viewport — Georgia є надійним
-     fallback з повним кириличним покриттям у будь-якому weight/style. */
-  --font-display: Georgia, 'Times New Roman', 'Cormorant Garamond', serif;
-  --font-italic:  'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-mono:    'IBM Plex Mono', 'Menlo', 'Courier New', monospace;
-  --font-body:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* Шрифт-стеки. Manrope Variable + EB Garamond Variable — обидва
+     з повним кириличним покриттям, підключені через @fontsource (main.jsx).
+     Cormorant Garamond прибрано — рендериться невидимо у normal weight. */
+  --font-body:    'Manrope Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: 'EB Garamond Variable', Georgia, 'Times New Roman', serif;
+  --font-italic:  'EB Garamond Variable', Georgia, serif;
+  --font-mono:    Menlo, 'Courier New', monospace;
 }
 
 /* Сцени переозначають font-family самі. Тут лише дефолти через variables. */
@@ -63,7 +63,7 @@ html, body {
   min-height: 100%;
   background: var(--space-deep);
   color: var(--ink-primary);
-  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.55;
   overflow-x: hidden;
@@ -191,7 +191,7 @@ input, textarea {
   padding: 10px 22px;
   border-radius: 999px;
   border: 0.5px solid var(--gold-deep);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -211,7 +211,7 @@ input, textarea {
 .muted.small { font-size: 12px; margin-top: 4px; }
 
 code {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   background: var(--space-shallow);
   padding: 2px 6px;
@@ -220,7 +220,7 @@ code {
 
 /* ═══ Eyebrow / meta tag pattern (used in many scenes) ═══ */
 .eyebrow {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;

@@ -25,14 +25,27 @@ const theme = createTheme({
     divider: 'rgba(232, 196, 118, 0.32)',
   },
   typography: {
-    // Cyrillic-safe stack only. Cormorant Garamond прибрано — кирилиця у normal weight рендериться невидимо.
-    fontFamily: '"IBM Plex Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+    // Manrope Variable для body — гуманістичний sans з повною кирилицею.
+    // EB Garamond Variable для display (заголовки, ритуальні тексти) — серіф з повною кирилицею.
+    // Обидва підключені через @fontsource у main.jsx. Cormorant Garamond прибрано (невидимий у normal weight).
+    fontFamily: '"Manrope Variable", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
-    h1: { fontWeight: 400, letterSpacing: '0.01em' },
-    h2: { fontWeight: 400, letterSpacing: '0.01em' },
-    h3: { fontWeight: 500 },
+    h1: {
+      fontFamily: '"EB Garamond Variable", Georgia, serif',
+      fontWeight: 500,
+      letterSpacing: '0.01em',
+    },
+    h2: {
+      fontFamily: '"EB Garamond Variable", Georgia, serif',
+      fontWeight: 500,
+      letterSpacing: '0.01em',
+    },
+    h3: {
+      fontFamily: '"EB Garamond Variable", Georgia, serif',
+      fontWeight: 500,
+    },
   },
   shape: {
     borderRadius: 10,

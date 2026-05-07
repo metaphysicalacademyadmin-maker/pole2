@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import App from './App.jsx';
 import theme from './theme.js';
+import './fonts.css';
 import './styles.css';
 import './components/GlossaryTerm.css';
 
