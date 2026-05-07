@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useGameStore } from '../../store/gameStore.js';
-import { findNode } from '../../data/rodovid-nodes.js';
+import { findNode, lineageNodeMeta } from '../../data/rodovid-nodes.js';
 import { phrasesFor } from '../../data/rodovid-hellinger.js';
 import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
+import PowerRitual from './PowerRitual.jsx';
 
 // Редактор одного вузла родоводу — модалка-form поверх SVG.
 export default function RodovidNodeEditor({ nodeId, onClose }) {
-  const node = findNode(nodeId);
+  // Підтримуємо legacy IDs (3 покоління) і нові 'g{N}-{idx}' з LineageTree
+  const node = findNode(nodeId) || guessLineageNode(nodeId);
   const existing = useGameStore((s) => s.rodovid?.[nodeId]);
   const save = useGameStore((s) => s.saveRodovidNode);
   const clear = useGameStore((s) => s.clearRodovidNode);
@@ -16,6 +18,7 @@ export default function RodovidNodeEditor({ nodeId, onClose }) {
   const [gift, setGift] = useState(existing?.gift || '');
   const [program, setProgram] = useState(existing?.program || '');
   const [alive, setAlive] = useState(existing?.alive !== false);
+  const [showRitual, setShowRitual] = useState(false);
 
   useOverlayA11y(onClose);
 
@@ -110,6 +113,14 @@ export default function RodovidNodeEditor({ nodeId, onClose }) {
             color={node.color} />
         )}
 
+        {!isMe && (
+          <button type="button" className="rne-btn-power"
+            onClick={() => setShowRitual(true)}>
+            🌿 практика «Яку силу несе цей предок?»
+            {existing?.power?.word && <em> · {existing.power.word}</em>}
+          </button>
+        )}
+
         <div className="rne-actions">
           {existing && (
             <button type="button" className="rne-btn rne-btn-clear"
@@ -122,8 +133,19 @@ export default function RodovidNodeEditor({ nodeId, onClose }) {
           </button>
         </div>
       </div>
+
+      {showRitual && (
+        <PowerRitual nodeId={nodeId} onClose={() => setShowRitual(false)} />
+      )}
     </div>
   );
+}
+
+// Fallback meta для нових IDs g{N}-{idx} коли findNode() не знаходить (4-6 покоління).
+function guessLineageNode(id) {
+  const m = id.match(/^g(\d)-(\d+)$/);
+  if (!m) return null;
+  return lineageNodeMeta(Number(m[1]), Number(m[2]));
 }
 
 function RitualPhrasesBlock({ nodeId, phrases, onMark, color }) {

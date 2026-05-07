@@ -1,0 +1,186 @@
+/* Практика «Яку силу несе цей предок?» — повноекранний overlay із slow pacing. */
+
+.pr-overlay {
+  position: fixed; inset: 0; z-index: 1300;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 30%, rgba(70, 30, 110, 0.7), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(40, 18, 60, 0.6), transparent 65%),
+    rgba(8, 4, 16, 0.97);
+  backdrop-filter: blur(10px);
+  animation: pr-overlay-in 0.7s ease-out both;
+  padding: 32px 20px;
+}
+@keyframes pr-overlay-in {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(10px); }
+}
+
+.pr-close {
+  position: absolute; top: 18px; right: 22px;
+  background: transparent; border: none; cursor: pointer;
+  color: rgba(232, 196, 118, 0.55); font-size: 28px; line-height: 1;
+  padding: 6px 10px; border-radius: 50%;
+  transition: color 0.3s, background 0.3s;
+}
+.pr-close:hover { color: #f0c574; background: rgba(232, 196, 118, 0.08); }
+
+.pr-stage {
+  max-width: 640px; width: 100%;
+  text-align: center; color: #fff7e0;
+  font-family: 'Manrope Variable', -apple-system, sans-serif;
+}
+
+/* Кожен крок плавно зявляється */
+.pr-step { animation: pr-step-in 0.9s cubic-bezier(0.2, 0.6, 0.3, 1) both; }
+@keyframes pr-step-in {
+  from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* ─── Спільні елементи ─── */
+.pr-eyebrow {
+  font-size: 11px; letter-spacing: 6px; text-transform: uppercase;
+  font-weight: 700; color: #f0c574; opacity: 0.85; margin-bottom: 14px;
+}
+.pr-title {
+  font-family: 'EB Garamond Variable', Georgia, serif;
+  font-size: 42px; font-weight: 400; font-style: italic;
+  color: #fff7e0; letter-spacing: 1px;
+  margin: 0 0 28px;
+  text-shadow: 0 0 24px rgba(232, 196, 118, 0.4);
+}
+.pr-title em { font-style: italic; color: #ffe7a8; }
+.pr-instruction {
+  font-size: 17px; line-height: 1.9; color: rgba(232, 221, 196, 0.85);
+  font-style: italic;
+  max-width: 440px; margin: 0 auto 36px;
+}
+.pr-question {
+  font-family: 'EB Garamond Variable', Georgia, serif;
+  font-size: 32px; font-weight: 400; font-style: italic;
+  color: #fff7e0; line-height: 1.4;
+  margin: 16px auto 6px; max-width: 540px;
+  text-shadow: 0 0 20px rgba(232, 196, 118, 0.25);
+}
+.pr-hint {
+  font-size: 12px; letter-spacing: 0.5px; color: rgba(232, 196, 118, 0.65);
+  margin-bottom: 28px; font-style: italic;
+}
+.pr-quiet {
+  font-size: 13px; letter-spacing: 1px; color: rgba(232, 221, 196, 0.55);
+  margin-bottom: 18px;
+}
+.pr-quiet em {
+  font-family: 'EB Garamond Variable', Georgia, serif;
+  font-style: italic; color: #f0c574; font-size: 16px;
+}
+
+/* ─── Поля вводу ─── */
+.pr-input, .pr-textarea {
+  width: 100%; max-width: 480px; margin: 0 auto 24px;
+  display: block;
+  background: rgba(255, 247, 224, 0.04);
+  border: 1px solid rgba(232, 196, 118, 0.25);
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #fff7e0; font-family: 'Manrope Variable', sans-serif;
+  font-size: 18px; line-height: 1.5;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  resize: none;
+}
+.pr-textarea { font-size: 15px; min-height: 140px; resize: vertical; }
+.pr-input:focus, .pr-textarea:focus {
+  outline: none;
+  border-color: #f0c574;
+  background: rgba(255, 247, 224, 0.07);
+  box-shadow: 0 0 24px rgba(232, 196, 118, 0.18);
+}
+.pr-input::placeholder, .pr-textarea::placeholder {
+  color: rgba(232, 221, 196, 0.35); font-style: italic;
+}
+
+/* ─── Кнопки ─── */
+.pr-btn {
+  font-family: inherit; font-size: 14px; font-weight: 500; letter-spacing: 1px;
+  padding: 12px 32px; border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.6, 0.3, 1);
+  text-transform: lowercase;
+}
+.pr-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.pr-btn--soft {
+  background: transparent;
+  border: 1px solid rgba(232, 196, 118, 0.45);
+  color: rgba(232, 196, 118, 0.9);
+}
+.pr-btn--soft:hover:not(:disabled) {
+  background: rgba(232, 196, 118, 0.12);
+  border-color: #f0c574; color: #fff7e0;
+  transform: translateY(-1px);
+}
+
+.pr-btn--gold {
+  background: linear-gradient(135deg, #f0c574, #ffe7a8);
+  border: 1px solid #f0c574;
+  color: #04020c; font-weight: 600;
+  box-shadow: 0 0 24px rgba(232, 196, 118, 0.35);
+}
+.pr-btn--gold:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 32px rgba(255, 231, 168, 0.55);
+  transform: translateY(-1px);
+}
+
+/* ─── Фінальний крок ─── */
+.pr-step--final { padding: 30px 0; }
+.pr-final-line {
+  font-family: 'EB Garamond Variable', Georgia, serif;
+  font-size: 20px; font-style: italic;
+  color: rgba(232, 221, 196, 0.85);
+  margin: 0 0 18px;
+}
+.pr-final-line em { color: #ffe7a8; font-weight: 400; }
+.pr-final-line--soft {
+  color: rgba(232, 221, 196, 0.65); font-size: 16px; margin-top: 32px;
+}
+.pr-power-word {
+  font-family: 'EB Garamond Variable', Georgia, serif;
+  font-size: 64px; font-style: italic; font-weight: 500;
+  color: #ffe7a8; letter-spacing: 1px;
+  margin: 12px auto 18px; padding: 8px 24px;
+  text-shadow:
+    0 0 18px rgba(255, 231, 168, 0.7),
+    0 0 36px rgba(232, 196, 118, 0.45),
+    0 0 60px rgba(216, 140, 200, 0.25);
+  animation: pr-word-glow 4s ease-in-out infinite;
+}
+@keyframes pr-word-glow {
+  50% { text-shadow:
+    0 0 24px rgba(255, 231, 168, 0.9),
+    0 0 48px rgba(232, 196, 118, 0.6),
+    0 0 80px rgba(216, 140, 200, 0.4); }
+}
+
+/* ─── Кнопка-тригер у RodovidNodeEditor ─── */
+.rne-btn-power {
+  width: 100%; margin-top: 8px;
+  background: rgba(232, 196, 118, 0.08);
+  border: 1px solid rgba(232, 196, 118, 0.35);
+  color: #f0c574;
+  padding: 10px 16px; border-radius: 10px;
+  font-family: inherit; font-size: 13px; letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.rne-btn-power:hover {
+  background: rgba(232, 196, 118, 0.16);
+  border-color: #f0c574; color: #ffe7a8;
+}
+
+@media (max-width: 540px) {
+  .pr-title { font-size: 32px; }
+  .pr-question { font-size: 24px; }
+  .pr-power-word { font-size: 44px; }
+}

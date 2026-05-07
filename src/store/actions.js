@@ -434,6 +434,17 @@ export const petalActions = (set, get, ensure) => ({
       rodovid: { ...(s.rodovid || {}), [nodeId]: { ...prev, phrases } },
     });
   },
+  // Практика «Яку силу несе цей предок?» — двокроковий ритуал.
+  // Зберігається у state.rodovid[nodeId].power = { word, why, ts }.
+  saveRodovidPower: (nodeId, { word, why }) => {
+    const s = get();
+    const prev = s.rodovid?.[nodeId] || {};
+    const power = { word: word.trim(), why: why.trim(), ts: Date.now() };
+    set({
+      ...ensure(s),
+      rodovid: { ...(s.rodovid || {}), [nodeId]: { ...prev, power } },
+    });
+  },
   addExcludedMember: (payload) => {
     const s = get();
     const id = `excl-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
