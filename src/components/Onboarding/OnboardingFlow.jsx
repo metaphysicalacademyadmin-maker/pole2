@@ -10,41 +10,26 @@ export default function OnboardingFlow({ onComplete }) {
   const overlayRef = useRef(null);
   const firstName = useProfileStore((s) => s.profile?.firstName);
 
+  // Блокуємо фоновий скрол поки онбординг відкритий.
+  // Self-contained — не використовуємо useOverlayA11y, бо онбординг
+  // завжди один-єдиний overlay у момент свого показу (до нього нічого
+  // не доступно). Запускається ОДИН раз на mount, deps:[].
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+    return () => {
+      html.style.overflow = '';
+      body.style.overflow = '';
+    };
+  }, []);
+
   // На зміну слайда — скрол overlay у початок (не плавно, миттєво,
   // щоб збігалось з новою blur-анімацією).
   useEffect(() => {
     overlayRef.current?.scrollTo({ top: 0, behavior: 'instant' });
   }, [step]);
-
-  // Блокуємо фоновий скрол поки онбординг відкритий.
-  // Why: overlay — position:fixed, але scroll-target у браузері може бути <html>
-  // (а не <body>), тож блокуємо обидва. Також зберігаємо scroll position через
-  // position:fixed на body, інакше після закриття сторінка стрибає вгору.
-  useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    const scrollY = window.scrollY;
-    const prev = {
-      htmlOverflow: html.style.overflow,
-      bodyOverflow: body.style.overflow,
-      bodyPosition: body.style.position,
-      bodyTop: body.style.top,
-      bodyWidth: body.style.width,
-    };
-    html.style.overflow = 'hidden';
-    body.style.overflow = 'hidden';
-    body.style.position = 'fixed';
-    body.style.top = `-${scrollY}px`;
-    body.style.width = '100%';
-    return () => {
-      html.style.overflow = prev.htmlOverflow;
-      body.style.overflow = prev.bodyOverflow;
-      body.style.position = prev.bodyPosition;
-      body.style.top = prev.bodyTop;
-      body.style.width = prev.bodyWidth;
-      window.scrollTo(0, scrollY);
-    };
-  }, []);
   // Перший заголовок персоналізуємо: «Вітаю, Назар, у Полі» — або «Вітаю у Полі» без імені.
   const stepsLocalized = STEPS.map((s, i) =>
     i === 0

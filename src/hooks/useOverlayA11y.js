@@ -5,11 +5,8 @@ import { useEffect } from 'react';
 // без зачеплення батьківських.
 //
 // Body locked поки stack непорожній; розблокований коли усі закриті.
-// Захищає від race condition коли overlay-й відкриваються/закриваються
-// у вільному порядку.
 
 let stack = [];                    // [{ onClose, escapable }]
-let savedScroll = null;            // { y, htmlOverflow, bodyOverflow, bodyPosition, bodyTop, bodyWidth }
 let keyListenerAttached = false;
 
 function onGlobalKeyDown(e) {
@@ -33,38 +30,17 @@ function detachKeyListener() {
   keyListenerAttached = false;
 }
 
-// Бомбостійкий scroll-lock: блокуємо і <html>, і <body>, бо у різних
-// браузерах scroll-target різний. Плюс position:fixed на body зберігає
-// scroll position — інакше після закриття overlay сторінка стрибає вгору.
+// Блокуємо overflow на html І body. У різних браузерах scroll-target
+// різний (Chrome — html, Safari — body), тому потрібно обидва.
+// Браузер сам зберігає scroll position при перемиканні overflow.
 function lockBackgroundScroll() {
-  const html = document.documentElement;
-  const body = document.body;
-  savedScroll = {
-    y: window.scrollY,
-    htmlOverflow: html.style.overflow,
-    bodyOverflow: body.style.overflow,
-    bodyPosition: body.style.position,
-    bodyTop: body.style.top,
-    bodyWidth: body.style.width,
-  };
-  html.style.overflow = 'hidden';
-  body.style.overflow = 'hidden';
-  body.style.position = 'fixed';
-  body.style.top = `-${savedScroll.y}px`;
-  body.style.width = '100%';
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
 }
 
 function unlockBackgroundScroll() {
-  if (!savedScroll) return;
-  const html = document.documentElement;
-  const body = document.body;
-  html.style.overflow = savedScroll.htmlOverflow;
-  body.style.overflow = savedScroll.bodyOverflow;
-  body.style.position = savedScroll.bodyPosition;
-  body.style.top = savedScroll.bodyTop;
-  body.style.width = savedScroll.bodyWidth;
-  window.scrollTo(0, savedScroll.y);
-  savedScroll = null;
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
 }
 
 function pushOverlay(entry) {
@@ -88,7 +64,7 @@ function popOverlay(entry) {
 
 // A11y hook для overlay-модалок:
 //   1. Escape → onClose (тільки top-most overlay)
-//   2. Лочить scroll body поки відкрито хоч один overlay
+//   2. Лочить scroll на html+body поки відкрито хоч один overlay
 //   3. Повертає focus на елемент-тригер після закриття
 export function useOverlayA11y(onClose, options = {}) {
   const { lockScroll = true, escapable = true } = options;
@@ -106,8 +82,6 @@ export function useOverlayA11y(onClose, options = {}) {
     return () => {
       popOverlay(entry);
       if (trigger && typeof trigger.focus === 'function') {
-        // preventScroll — інакше focus() сам прокручує сторінку до тригера,
-        // перебиваючи window.scrollTo() у unlockBackgroundScroll.
         try { trigger.focus({ preventScroll: true }); } catch (_) {}
       }
     };
