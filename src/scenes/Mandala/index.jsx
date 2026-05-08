@@ -17,7 +17,8 @@ import './styles.css';
 export default function Mandala({ onClose }) {
   const stageRef = useRef(null);
   // Set ключів "ring-n" — обрані пелюстки. Клік перемикає елемент.
-  const [selected, setSelected] = useState(() => new Set(['8-1']));
+  // Стартово порожньо: гравець сам обирає, нічого не передвибрано.
+  const [selected, setSelected] = useState(() => new Set());
   useOverlayA11y(onClose);
 
   function handleStageClick(e) {
@@ -47,6 +48,99 @@ export default function Mandala({ onClose }) {
       if (orig) orig.classList.add('is-selected');
     });
   }, [selected]);
+
+  // Душа в центрі — броунівські частинки з blur для відчуття туману.
+  // Радіус 95 безпечно вписується у білий void перед ring-9 (~111).
+  //
+  // TODO: прив'язати до прогресу. Чим більше пройдених пелюсток (selected.size
+  // або окрема "completed" структура) — тим яскравіша душа і тим більше колір
+  // зміщується палітрою (наприклад: бузковий → ціан → золото → білий).
+  // Залежність може бути на: COUNT, baseOpacity, blur, palette index/mix.
+  // Колекцію кольорів витягнути в стейт або derive із прогресу й оновлювати
+  // частинки без перестворення шару (щоб рух не «смикався» при додаванні).
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const svg = stage.querySelector('svg');
+    if (!svg) return;
+
+    const NS = 'http://www.w3.org/2000/svg';
+    const CX = 400, CY = 400;
+    const R_MAX = 95;
+    const COUNT = 50;
+
+    const layer = document.createElementNS(NS, 'g');
+    layer.setAttribute('id', 'mnd-soul');
+    layer.style.pointerEvents = 'none'; // не блокує кліки під соулом
+    // Сильний blur + великі частинки = дим, який тече, без чітких дисків
+    layer.style.filter = 'blur(7px)';
+    svg.appendChild(layer);
+
+    // Бузково-фіолетова палітра: «душа/дух»
+    const colors = ['#c4b5fd', '#a78bfa', '#d8b4fe', '#e9d5ff', '#f0abfc'];
+    const particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const r = Math.random() * R_MAX * 0.6;
+      const c = document.createElementNS(NS, 'circle');
+      const size = 10 + Math.random() * 22;
+      const opacity = 0.35 + Math.random() * 0.4;
+      c.setAttribute('r', size);
+      c.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
+      c.setAttribute('opacity', opacity);
+      layer.appendChild(c);
+      particles.push({
+        el: c,
+        x: CX + Math.cos(angle) * r,
+        y: CY + Math.sin(angle) * r,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        baseOpacity: opacity,
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+
+    let raf = 0;
+    let t = 0;
+    function tick() {
+      t += 0.016;
+      for (const p of particles) {
+        // Хаос: сильний випадковий поштовх по обох осях, без орбітального
+        // зміщення — кожна частинка йде своєю траєкторією, без обертання
+        // навколо центру
+        p.vx += (Math.random() - 0.5) * 0.4;
+        p.vy += (Math.random() - 0.5) * 0.4;
+        // Демпфування — щоб швидкість не накопичувалась
+        p.vx *= 0.92;
+        p.vy *= 0.92;
+        // Тяжіння до центру коли йде далеко (тільки радіальне, без дотичної)
+        const dx = p.x - CX;
+        const dy = p.y - CY;
+        const dist = Math.hypot(dx, dy) || 0.0001;
+        if (dist > R_MAX) {
+          p.vx -= (dx / dist) * 0.22;
+          p.vy -= (dy / dist) * 0.22;
+        } else if (dist > R_MAX * 0.7) {
+          p.vx -= (dx / dist) * 0.05;
+          p.vy -= (dy / dist) * 0.05;
+        }
+        p.x += p.vx;
+        p.y += p.vy;
+        p.el.setAttribute('cx', p.x.toFixed(2));
+        p.el.setAttribute('cy', p.y.toFixed(2));
+        // Гостріше «дихання» — швидше і ширше коливається яскравість
+        const breathe = 0.55 + 0.45 * Math.sin(t * 2.2 + p.phase);
+        p.el.setAttribute('opacity', (p.baseOpacity * breathe).toFixed(3));
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      layer.remove();
+    };
+  }, []);
 
   return (
     <div className="mnd-overlay" role="dialog" aria-modal="true" aria-label="Мандала">

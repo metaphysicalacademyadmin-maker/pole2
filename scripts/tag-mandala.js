@@ -8,12 +8,15 @@
 //
 //   <g id="_x34_">                ← root
 //     <g>                          ← wrapper
-//       <g>...</g>                 ← center (1-ша дитина wrapper'а)
-//       <g>                        ← ring N (2..)
+//       <g>                        ← ring N (1..)
 //         <g>...</g>               ← bg-circle (1-ша дитина ринга)
 //         <g>                      ← petals-wrap (2-га дитина ринга)
 //           <g>...</g>             ← петал 1
 //           <g>...</g>             ← петал 2
+//
+// Усі діти wrapper'а — ринги. Раніше idx=0 спеціально маркувалось як
+// "center", але це виявилось неправильним: idx=0 у цьому SVG — це
+// зовнішній ринг (35 петлей на радіусі ~300), а не центр.
 //
 // Запуск: node scripts/tag-mandala.js
 
@@ -53,15 +56,10 @@ for (const line of lines) {
       entry = { type: 'wrapper', childCount: 0 };
     } else if (parent?.type === 'wrapper') {
       const idx = parent.childCount++;
-      if (idx === 0) {
-        entry = { type: 'center' };
-        newAttrs = ' id="mandala-center" class="mnd-center"';
-      } else {
-        const ringNum = idx;
-        totalRings = Math.max(totalRings, ringNum);
-        entry = { type: 'ring', ringNum, childCount: 0 };
-        newAttrs = ` id="ring-${ringNum}" class="mnd-ring"`;
-      }
+      const ringNum = idx + 1; // 1-based: ring-1 — outermost, ring-N — innermost
+      totalRings = Math.max(totalRings, ringNum);
+      entry = { type: 'ring', ringNum, childCount: 0 };
+      newAttrs = ` id="ring-${ringNum}" class="mnd-ring"`;
     } else if (parent?.type === 'ring') {
       const idx = parent.childCount++;
       if (idx === 0) {

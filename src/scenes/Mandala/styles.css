@@ -75,6 +75,25 @@
   filter: drop-shadow(0 0 24px rgba(232, 196, 118, 0.12));
   /* щоб дочірні <g class="mnd-petal"> могли мати свій box для hover */
   overflow: visible;
+  /* Entry-анімація — ритуал розкриття всієї фігури як одного шару.
+     Стиль аналогічний onbSlideEmerge у Onboarding: opacity + blur + scale.
+     Один composite-шар замість 315 індивідуальних анімацій. */
+  animation: mndEmerge 0.7s ease-out both;
+}
+@keyframes mndEmerge {
+  0% {
+    opacity: 0;
+    filter: drop-shadow(0 0 24px rgba(232, 196, 118, 0.12)) blur(16px);
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 24px rgba(232, 196, 118, 0.12)) blur(0);
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mnd-stage > svg { animation-duration: 0.3s; }
 }
 
 /* ─── Пелюстки — hover/selected ─────────────────────────────── */
@@ -93,6 +112,7 @@
   transition: fill 0.3s ease;
 }
 
+/* Одиночний hover — пелюстка під курсором м'яко підсвічується */
 .mnd-petal:hover {
   filter: drop-shadow(0 0 12px rgba(232, 196, 118, 0.7))
           brightness(1.1);
@@ -120,5 +140,10 @@
   fill: #ffd700 !important;
 }
 
-/* Центр мандали — без cursor:pointer, hover не реагує */
-.mnd-center { pointer-events: none; }
+/* Bg-кола рингів (перший <g> в кожному <g class="mnd-ring">) НЕ повинні
+   ловити кліки — інакше bg ринга N перекриває пелюстки ринга N-1, і
+   кліки на зовнішній ряд пелюсток поглинаються прозорим bg, не доходячи
+   до .mnd-petal. Залишаємо клікабельним лише .mnd-petals-wrap. */
+.mnd-ring > g:not(.mnd-petals-wrap) {
+  pointer-events: none;
+}
