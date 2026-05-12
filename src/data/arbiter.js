@@ -75,12 +75,12 @@ export const ARBITER_LINES = [
     weight: 'final',
   },
 
-  // ─── Після завершення Поля з активною Шивою (трансформація) ───
+  // ─── Після завершення Поля з активною Лугрою (розчинення блокувань) ───
   {
-    id: 'shiva_transformation',
+    id: 'lugra_transformation',
     trigger: 'channel_active',
-    channelId: 'shiva',
-    text: 'Ти руйнуєш застаріле — і це теж священне. Шива знає це.',
+    channelId: 'lugra',
+    text: 'Ти розчиняєш застаріле — і це теж священне. Лугра знає це.',
     weight: 'gentle',
   },
 

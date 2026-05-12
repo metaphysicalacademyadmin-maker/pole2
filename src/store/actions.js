@@ -803,8 +803,10 @@ export const uiActions = (set, get, ensure) => ({
 // Швидкі телепорти для тестування без проходження гри з нуля.
 // Доступні лише через Admin-сцену (?admin=true).
 
-const ALL_CHANNEL_IDS = ['tata', 'farun-budda', 'farun', 'zevs', 'simargl',
-  'sutra-karma', 'kkr', 'firast', 'kraon', 'dzhilius', 'gold-pyramid'];
+// Узгоджено з src/data/channels.js (7 каналів). cosmo-channels/ це
+// окремий навчальний модуль — там старі IDs (тимчасовий борг).
+const ALL_CHANNEL_IDS = ['firast', 'farun_budda', 'kraon', 'shaon', 'anael',
+  'golden_pyramid', 'lugra'];
 
 export const devActions = (set, get, ensure) => ({
   __devJumpToLevel: (n) => {
