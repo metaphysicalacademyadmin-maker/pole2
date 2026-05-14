@@ -1,6 +1,14 @@
+/* ╔════════════════════════════════════════════════════════════════╗
+   ║ Кольори — у config.js (COLORS + buildColorCssVars).            ║
+   ║ Mandala-компонент інжектить ці значення як CSS custom           ║
+   ║ properties (`--mnd-*`) у inline style на .mnd-overlay.          ║
+   ║ Тут читаємо їх через var(--mnd-*).                              ║
+   ║ Хочеш змінити колір? → редагуй COLORS у config.js.              ║
+   ╚════════════════════════════════════════════════════════════════╝ */
+
 .mnd-overlay {
-  position: fixed; inset: 0; z-index: 1100;
-  background: linear-gradient(180deg, rgba(8, 4, 16, 0.97), rgba(20, 14, 30, 0.98));
+  position: fixed; inset: 0; z-index: var(--mnd-z-overlay);
+  background: linear-gradient(180deg, var(--mnd-overlay-bg-top), var(--mnd-overlay-bg-bottom));
   overflow-y: auto;
   overscroll-behavior: contain;
   display: flex; align-items: flex-start; justify-content: center;
@@ -11,19 +19,19 @@
   margin: auto 0;
   padding: 24px 16px 60px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #fff7e0;
+  color: var(--mnd-text-primary);
 }
 .mnd-close {
   background: transparent; border: none;
-  color: #c8b9a0; font-size: 14px;
+  color: var(--mnd-text-secondary); font-size: 14px;
   cursor: pointer; padding: 8px 12px;
   margin-bottom: 14px;
   border-radius: 8px;
   transition: background 0.2s ease, color 0.2s ease;
 }
 .mnd-close:hover {
-  background: rgba(232, 196, 118, 0.1);
-  color: #f0c574;
+  background: var(--mnd-gold-faint-bg);
+  color: var(--mnd-gold);
 }
 
 .mnd-header {
@@ -34,7 +42,7 @@
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #f0c574;
+  color: var(--mnd-gold);
   opacity: 0.7;
   margin-bottom: 8px;
 }
@@ -43,18 +51,18 @@
   font-weight: 600;
   letter-spacing: 1px;
   margin: 0;
-  color: #fff7e0;
+  color: var(--mnd-text-primary);
 }
 
 .mnd-info {
   margin-top: 12px;
   font-size: 13px;
-  color: #c8b9a0;
+  color: var(--mnd-text-secondary);
   letter-spacing: 0.4px;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 .mnd-info strong {
-  color: #f0c574;
+  color: var(--mnd-gold);
   font-weight: 600;
 }
 
@@ -63,8 +71,8 @@
   justify-content: center;
   align-items: center;
   padding: 16px;
-  background: rgba(255, 247, 224, 0.02);
-  border: 1px solid rgba(232, 196, 118, 0.15);
+  background: var(--mnd-stage-bg);
+  border: 1px solid var(--mnd-gold-hairline);
   border-radius: 16px;
 }
 .mnd-stage > svg {
@@ -72,28 +80,9 @@
   max-width: 800px;
   height: auto;
   display: block;
-  filter: drop-shadow(0 0 24px rgba(232, 196, 118, 0.12));
+  filter: drop-shadow(0 0 24px var(--mnd-gold-haze));
   /* щоб дочірні <g class="mnd-petal"> могли мати свій box для hover */
   overflow: visible;
-  /* Entry-анімація — ритуал розкриття всієї фігури як одного шару.
-     Стиль аналогічний onbSlideEmerge у Onboarding: opacity + blur + scale.
-     Один composite-шар замість 315 індивідуальних анімацій. */
-  animation: mndEmerge 0.7s ease-out both;
-}
-@keyframes mndEmerge {
-  0% {
-    opacity: 0;
-    filter: drop-shadow(0 0 24px rgba(232, 196, 118, 0.12)) blur(16px);
-    transform: scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    filter: drop-shadow(0 0 24px rgba(232, 196, 118, 0.12)) blur(0);
-    transform: scale(1);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mnd-stage > svg { animation-duration: 0.3s; }
 }
 
 /* ─── Пелюстки — hover/selected ─────────────────────────────── */
@@ -101,7 +90,9 @@
   cursor: pointer;
   transform-origin: center;
   transform-box: fill-box;
-  transition: filter 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  transition: filter var(--mnd-petal-transition-ms) ease,
+              transform var(--mnd-petal-transition-ms) ease,
+              opacity var(--mnd-petal-transition-ms) ease;
 }
 /* SVG-форми всередині мають fill через inline-style (Illustrator export),
    тож для зміни кольору на gold потрібен !important. transition теж тут. */
@@ -109,35 +100,133 @@
 .mnd-petal circle,
 .mnd-petal polygon,
 .mnd-petal ellipse {
-  transition: fill 0.3s ease;
+  transition: fill var(--mnd-fill-transition-ms) ease;
 }
 
-/* Одиночний hover — пелюстка під курсором м'яко підсвічується */
-.mnd-petal:hover {
-  filter: drop-shadow(0 0 12px rgba(232, 196, 118, 0.7))
-          brightness(1.1);
-  transform: scale(1.02);
+/* Sector-hover: при наведенні на будь-яку пелюстку — підсвічуються всі
+   35 пелюсток того ж сектора (data-sector). Клас додається з JS.
+   Інтенсивність м'якша за одиночний hover, бо світяться 35 одночасно. */
+.mnd-petal.is-sector-hover {
+  filter: drop-shadow(0 0 6px var(--mnd-gold-soft))
+          brightness(1.05);
+  transform: scale(1.012);
 }
 
-/* Selected — перефарбовуємо оригінал на місці, без клонування у top-шар.
-   Завдяки цьому пелюстка лишається у своєму z-порядку, не перекриває
-   сусідні пелюстки (як це було б, якби клон малювався в кінці SVG). */
-.mnd-petal.is-selected path[style*="FFFFFF"],
-.mnd-petal.is-selected circle[style*="FFFFFF"],
-.mnd-petal.is-selected polygon[style*="FFFFFF"],
-.mnd-petal.is-selected ellipse[style*="FFFFFF"] {
-  fill: #ffd700 !important;
+/* Sector-locked: весь сектор заблоковано — темно-сірі пелюстки. */
+.mnd-petal.is-locked {
+  cursor: not-allowed;
+  filter: brightness(0.55);
 }
-.mnd-petal.is-selected path[style*="231F20"],
-.mnd-petal.is-selected circle[style*="231F20"],
-.mnd-petal.is-selected polygon[style*="231F20"],
-.mnd-petal.is-selected ellipse[style*="231F20"] {
-  fill: #a85d10 !important;
+.mnd-petal.is-locked.is-sector-hover {
+  filter: brightness(0.55);
+  transform: none;
 }
-/* Fallback — на випадок інших кольорів */
-.mnd-petal.is-selected path:not([style*="231F20"]):not([style*="FFFFFF"]),
-.mnd-petal.is-selected circle:not([style*="231F20"]):not([style*="FFFFFF"]) {
-  fill: #ffd700 !important;
+
+/* Petal-locked: точкове блокування пелюстки у ВІДКРИТОМУ секторі —
+   суцільна заливка бронзою / «червоним золотом». */
+.mnd-petal.is-petal-locked {
+  cursor: not-allowed;
+}
+/* fill через rgba у COLORS.bronzeFill — півпрозорий заливний колір, без
+   opacity на цілий <g> (інакше фон просвічувався б під деталями). Темна
+   деталь лишається повністю непрозорою — щоб орнамент не зникав. */
+.mnd-petal.is-petal-locked path[style*="FFFFFF"],
+.mnd-petal.is-petal-locked circle[style*="FFFFFF"],
+.mnd-petal.is-petal-locked polygon[style*="FFFFFF"],
+.mnd-petal.is-petal-locked ellipse[style*="FFFFFF"] {
+  fill: var(--mnd-bronze-fill) !important;
+}
+.mnd-petal.is-petal-locked path[style*="231F20"],
+.mnd-petal.is-petal-locked circle[style*="231F20"],
+.mnd-petal.is-petal-locked polygon[style*="231F20"],
+.mnd-petal.is-petal-locked ellipse[style*="231F20"] {
+  fill: var(--mnd-bronze-deep) !important;
+}
+.mnd-petal.is-petal-locked.is-sector-hover {
+  transform: none;
+}
+
+/* Beacon: пелюстка пульсує рубіновим кольором + halo навколо.
+   Усі параметри ефекту керуються з config.js → BEACON / COLORS.ruby*:
+     - швидкість/тривалість: BEACON.DURATION_MS, DURATION_REDUCED_MS
+     - радіуси halo: BEACON.SHADOW_BASE_PX, SHADOW_PEAK_OUTER_PX, _INNER_PX
+     - колір: COLORS.ruby, rubyLight, rubyBright, rubyDeep, rubyDeepMute
+   Тут — лише патерн; реальні значення інжектяться як CSS-змінні. */
+.mnd-petal.is-beacon {
+  animation: mndBeaconPulse var(--mnd-beacon-duration) ease-in-out infinite;
+}
+@keyframes mndBeaconPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 var(--mnd-beacon-shadow-base) var(--mnd-ruby));
+  }
+  50% {
+    filter: drop-shadow(0 0 var(--mnd-beacon-shadow-peak-outer) var(--mnd-ruby-bright))
+            drop-shadow(0 0 var(--mnd-beacon-shadow-peak-inner) var(--mnd-ruby));
+  }
+}
+
+/* Заливка пульсує між двома рубіновими відтінками (синхронно з тінню).
+   !important потрібен щоб перебити inline style="fill:..." */
+.mnd-petal.is-beacon path[style*="FFFFFF"],
+.mnd-petal.is-beacon circle[style*="FFFFFF"],
+.mnd-petal.is-beacon polygon[style*="FFFFFF"],
+.mnd-petal.is-beacon ellipse[style*="FFFFFF"] {
+  animation: mndBeaconFillLight var(--mnd-beacon-duration) ease-in-out infinite;
+}
+.mnd-petal.is-beacon path[style*="231F20"],
+.mnd-petal.is-beacon circle[style*="231F20"],
+.mnd-petal.is-beacon polygon[style*="231F20"],
+.mnd-petal.is-beacon ellipse[style*="231F20"] {
+  animation: mndBeaconFillDark var(--mnd-beacon-duration) ease-in-out infinite;
+}
+@keyframes mndBeaconFillLight {
+  0%, 100% { fill: var(--mnd-ruby-light); }
+  50%      { fill: var(--mnd-ruby-bright); }
+}
+@keyframes mndBeaconFillDark {
+  0%, 100% { fill: var(--mnd-ruby-deep-mute); }
+  50%      { fill: var(--mnd-ruby-deep); }
+}
+
+/* Beacon не пульсує якщо пелюстка заблокована (захист від дивних кейсів) */
+.mnd-petal.is-beacon.is-locked,
+.mnd-petal.is-beacon.is-petal-locked,
+.mnd-petal.is-beacon.is-locked path,
+.mnd-petal.is-beacon.is-petal-locked path {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mnd-petal.is-beacon,
+  .mnd-petal.is-beacon path { animation-duration: var(--mnd-beacon-duration-reduced); }
+}
+
+/* Прогрес рівнів: sub-group усередині пелюстки що виконаний — золотий.
+   Класи додаються з JS на leaf-`<g>`. */
+.mnd-petal-sub.is-done path[style*="FFFFFF"],
+.mnd-petal-sub.is-done circle[style*="FFFFFF"],
+.mnd-petal-sub.is-done polygon[style*="FFFFFF"],
+.mnd-petal-sub.is-done ellipse[style*="FFFFFF"] {
+  fill: var(--mnd-gold-bright) !important;
+}
+.mnd-petal-sub.is-done path[style*="231F20"],
+.mnd-petal-sub.is-done circle[style*="231F20"],
+.mnd-petal-sub.is-done polygon[style*="231F20"],
+.mnd-petal-sub.is-done ellipse[style*="231F20"] {
+  fill: var(--mnd-gold-deep) !important;
+}
+
+/* 100% completed — фарбуємо всю пелюстку (включаючи головний силует) */
+.mnd-petal.is-completed path[style*="FFFFFF"],
+.mnd-petal.is-completed circle[style*="FFFFFF"],
+.mnd-petal.is-completed polygon[style*="FFFFFF"],
+.mnd-petal.is-completed ellipse[style*="FFFFFF"] {
+  fill: var(--mnd-gold-bright) !important;
+}
+.mnd-petal.is-completed path[style*="231F20"],
+.mnd-petal.is-completed circle[style*="231F20"],
+.mnd-petal.is-completed polygon[style*="231F20"],
+.mnd-petal.is-completed ellipse[style*="231F20"] {
+  fill: var(--mnd-gold-deep) !important;
 }
 
 /* Bg-кола рингів (перший <g> в кожному <g class="mnd-ring">) НЕ повинні
@@ -147,3 +236,288 @@
 .mnd-ring > g:not(.mnd-petals-wrap) {
   pointer-events: none;
 }
+
+/* ─── Модалка рівнів (PetalLevelsModal) ────────────────────────── */
+.mnd-levels-overlay {
+  position: fixed; inset: 0; z-index: var(--mnd-z-modal);
+  background: rgba(0, 0, 0, 0.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  animation: mndLvlFade var(--mnd-modal-fade-ms) ease-out;
+}
+@keyframes mndLvlFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Trace: повноекранний SVG із двома спіральними лініями, що вилітають
+   з пелюстки і малюють периметр модалки. transition stroke-dashoffset
+   виставляється у JS (бо потрібна реальна довжина шляху). */
+.mnd-modal-trace {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+.mnd-trace-path {
+  fill: none;
+  stroke: var(--mnd-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px var(--mnd-gold-glow))
+          drop-shadow(0 0 2px var(--mnd-gold));
+  /* Початкові dasharray/dashoffset виставляються з JS після
+     getTotalLength(); тут лише дефолт щоб не блимало до useEffect */
+  stroke-dasharray: 9999;
+  stroke-dashoffset: 9999;
+}
+
+/* Сама модалка — матеріалізується ПІСЛЯ того як рамка майже домальована */
+.mnd-levels-modal {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(20, 14, 30, 0.98), rgba(8, 4, 16, 0.99));
+  border: 1px solid var(--mnd-gold-hairline);
+  border-radius: 16px;
+  padding: 28px 32px 24px;
+  max-width: 100%;
+  width: 100%;
+  height: calc(100vh - 32px);
+  max-height: calc(100vh - 32px);
+  display: flex; flex-direction: column;
+  color: var(--mnd-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow: 0 0 40px var(--mnd-gold-haze);
+  opacity: 0;
+  transform: scale(0.92);
+  animation: mndModalReveal var(--mnd-modal-reveal-ms) cubic-bezier(0.34, 1.4, 0.64, 1) var(--mnd-modal-reveal-delay-ms) forwards;
+}
+@keyframes mndModalReveal {
+  0%   { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Reverse-анімація закриття ────────────────────────────────────
+   Послідовність:
+     1. Модалка згасає (одразу) — fade out + scale down
+     2. Trace стирається у напрямку до пелюстки (керується JS у ModalTrace)
+     3. Overlay фон згасає в кінці, після того як trace зник
+   Координати тут із --mnd-close-overlay-fade-* (config.js → MODAL_OPEN). */
+.mnd-levels-overlay.is-closing .mnd-levels-modal {
+  animation: mndModalDisappear var(--mnd-modal-reveal-ms) ease-in forwards;
+}
+@keyframes mndModalDisappear {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.92); }
+}
+.mnd-levels-overlay.is-closing {
+  animation:
+    mndOverlayFadeOut var(--mnd-close-overlay-fade-ms) ease-in
+      var(--mnd-close-overlay-fade-delay-ms) forwards;
+}
+@keyframes mndOverlayFadeOut {
+  to { opacity: 0; }
+}
+.mnd-levels-close {
+  position: absolute; top: 8px; right: 12px;
+  background: transparent; border: none;
+  color: var(--mnd-text-secondary); font-size: 24px; line-height: 1;
+  cursor: pointer; padding: 4px 10px;
+  border-radius: 8px;
+}
+.mnd-levels-close:hover {
+  color: var(--mnd-gold);
+  background: var(--mnd-gold-faint-bg);
+}
+.mnd-levels-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mnd-gold);
+  opacity: 0.7;
+  text-align: center;
+}
+.mnd-levels-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 6px 0 4px;
+  text-align: center;
+}
+.mnd-levels-progress {
+  text-align: center;
+  font-size: 13px;
+  color: var(--mnd-text-secondary);
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+}
+/* Канвас для візуалізації — фіксований аспект, центрування */
+.mnd-levels-canvas {
+  flex: 1 1 auto;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 0;
+  margin-top: 4px;
+  overflow: hidden;
+}
+.mnd-levels-viz {
+  width: 100%;
+  max-width: min(720px, 70vh);
+  max-height: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+/* Lotus-варіант: модалка стає на повний екран, заголовок зверху,
+   canvas без обрізки → пелюстки можуть розлітатися по сторінці. */
+.mnd-levels-modal.is-lotus {
+  padding: 20px 24px 12px;
+  overflow: hidden; /* модалка сама лишається в межах вікна */
+}
+.mnd-levels-modal.is-lotus .mnd-levels-eyebrow,
+.mnd-levels-modal.is-lotus .mnd-levels-title,
+.mnd-levels-modal.is-lotus .mnd-levels-progress {
+  position: relative;
+  z-index: 5; /* верхній текст поверх лотоса */
+}
+.mnd-levels-canvas.is-lotus {
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+/* ─── Variant 2: Лотос (lotus.svg) ──────────────────────────────── */
+/* Контейнер заповнює весь canvas — щоб пелюстки могли розлітатися
+   на весь екран. Через overflow:visible вище (canvas.is-lotus) клітинки
+   зміщені назовні через transform не обрізаються. */
+.mnd-lotus-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Центральна фігура лотоса — компактна, ~50vmin, центрована.
+   Простір навколо лишається вільним для розкиданих пелюсток (overflow
+   на canvas.is-lotus — visible, дозволяє пелюсткам літати за межі бокса). */
+.mnd-lotus-svg {
+  width: 50vmin;
+  height: 50vmin;
+  max-width: 100%;
+  max-height: 100%;
+  flex-shrink: 0;
+}
+/* preserveAspectRatio="xMidYMid meet" у самому <svg> атрибуті центрує
+   квадратну мандалу у будь-якому прямокутнику контейнера — масштабує
+   зі збереженням аспекту і вирівнює по центру обох осей. */
+.mnd-lotus-svg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 0 12px var(--mnd-gold-glow));
+}
+
+/* Базовий вигляд path-пелюсток — СІРУВАТА заливка (заблоковані / декоративні
+   ринги, не клікабельні). Клікабельні пелюстки нижче перевизначають у
+   білу заливку з золотим обведенням. */
+.mnd-lotus-svg svg path {
+  fill: rgba(170, 165, 155, 0.18);
+  stroke: rgba(150, 142, 125, 0.45);
+  stroke-width: 1.1;
+  transition: fill 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+}
+/* Центральне коло (path3213) — світний акцент посередині */
+.mnd-lotus-svg svg #path3213 {
+  fill: var(--mnd-gold-haze);
+  stroke: var(--mnd-gold);
+  stroke-width: 1.4;
+}
+
+/* Коли всі клікабельні пелюстки зібрані → внутрішні (декоративні) кільця
+   стають білими з золотим обведенням і починають повільно обертатися
+   навколо центру лотоса. Кожне кільце — своя швидкість і напрям, що
+   створює відчуття живого розквітлого мандала. */
+.mnd-lotus-svg.is-complete svg #g3146 path,
+.mnd-lotus-svg.is-complete svg #g3164 path,
+.mnd-lotus-svg.is-complete svg #g3182 path {
+  fill: #ffffff;
+  stroke: var(--mnd-gold);
+  stroke-width: 1.4;
+}
+.mnd-lotus-svg.is-complete {
+  filter: drop-shadow(0 0 18px var(--mnd-gold-glow))
+          drop-shadow(0 0 8px var(--mnd-gold-glow));
+}
+
+/* transform-box: fill-box + transform-origin: center → пивот = геометричний
+   центр bbox групи, що співпадає з центром лотоса (бо ринги симетричні).
+   Кожне кільце — своя швидкість І свій напрям, що дає шарований
+   "небесний" ефект — кільця ковзають одне відносно одного. */
+.mnd-lotus-svg.is-complete svg #g3146 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mndLotusSpin 130s linear infinite reverse;
+}
+.mnd-lotus-svg.is-complete svg #g3164 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mndLotusSpin 55s linear infinite;
+}
+.mnd-lotus-svg.is-complete svg #g3182 {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mndLotusSpin 90s linear infinite reverse;
+}
+@keyframes mndLotusSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mnd-lotus-svg.is-complete svg #g3146,
+  .mnd-lotus-svg.is-complete svg #g3164,
+  .mnd-lotus-svg.is-complete svg #g3182 {
+    animation: none;
+  }
+}
+/* Приховані символи з оригіналу (g3200) — лишаються прихованими */
+.mnd-lotus-svg svg #g3200 {
+  display: none;
+}
+
+/* Клікабельна пелюстка-рівень — useEffect навішує .mnd-lotus-petal на
+   перші N <path>'ів пелюсткових рингів. Початково має transform="translate(X Y)"
+   що зсуває її радіально назовні; після кліку (.is-done) transform = "translate(0 0)"
+   → CSS transition повертає пелюстку на місце з overshoot-easing (cubic-bezier
+   "back-out" — легкий відскок при сідланні). */
+.mnd-lotus-svg svg path.mnd-lotus-petal {
+  cursor: pointer;
+  fill: #ffffff;
+  stroke: var(--mnd-gold);
+  stroke-width: 1.5;
+  transition: transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1),
+              fill 0.4s ease, stroke 0.4s ease, filter 0.4s ease;
+}
+.mnd-lotus-svg svg path.mnd-lotus-petal:hover {
+  fill: var(--mnd-gold-faint-bg);
+  stroke: var(--mnd-gold-bright);
+  stroke-width: 1.8;
+}
+.mnd-lotus-svg svg path.mnd-lotus-petal.is-done {
+  fill: var(--mnd-gold-bright);
+  stroke: var(--mnd-gold-bright);
+  filter: drop-shadow(0 0 6px var(--mnd-gold-glow));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mnd-lotus-svg svg path.mnd-lotus-petal {
+    transition: fill 0.2s ease, stroke 0.2s ease;
+  }
+}
+
+
