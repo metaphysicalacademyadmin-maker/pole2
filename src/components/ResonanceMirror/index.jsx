@@ -12,7 +12,11 @@ export default function ResonanceMirror() {
   const resolve = useGameStore((s) => s.resolveResonance);
 
   const open = !!r && activeModal?.id === 'resonance';
-  useOverlayA11y(open ? () => resolve('skipped') : null);
+  // active: open — без цього хук пушив entry у scroll-lock стек навіть
+  // коли open=false (модалка не показана), бо ResonanceMirror рендериться
+  // у App.jsx завжди (без зовнішнього &&). Це створювало фантом-лок який
+  // ламав скрол назавжди.
+  useOverlayA11y(open ? () => resolve('skipped') : null, { active: open });
 
   if (!open) return null;
   const { pseudoPlayer, message, levelN } = r;

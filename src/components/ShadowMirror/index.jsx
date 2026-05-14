@@ -13,7 +13,10 @@ export default function ShadowMirror() {
   const resolve = useGameStore((s) => s.resolveShadowMirror);
 
   const open = !!mirror && activeModal?.id === 'shadow-mirror';
-  useOverlayA11y(open ? () => resolve('skipped') : null);
+  // active: open — без цього хук пушив entry у scroll-lock стек навіть
+  // коли open=false (модалка не показана), бо компонент змонтований
+  // завжди. Це фантом-лок який ламав скрол назавжди.
+  useOverlayA11y(open ? () => resolve('skipped') : null, { active: open });
 
   if (!open) return null;
 

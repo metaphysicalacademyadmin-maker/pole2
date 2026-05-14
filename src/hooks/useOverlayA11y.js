@@ -66,10 +66,17 @@ function popOverlay(entry) {
 //   1. Escape → onClose (тільки top-most overlay)
 //   2. Лочить scroll на html+body поки відкрито хоч один overlay
 //   3. Повертає focus на елемент-тригер після закриття
+//
+// options.active (default true) — гейтує реєстрацію у стеку. Потрібно
+// для модалок, що завжди змонтовані але показуються по флагу: вони
+// викликають хук безумовно (rules of hooks), але передають active=open.
+// Інакше entry "фантома" застрягав би у стеку і лочив scroll назавжди.
 export function useOverlayA11y(onClose, options = {}) {
-  const { lockScroll = true, escapable = true } = options;
+  const { lockScroll = true, escapable = true, active = true } = options;
 
   useEffect(() => {
+    if (!active) return undefined;
+
     const trigger = typeof document !== 'undefined' ? document.activeElement : null;
     const entry = { onClose, escapable };
 
@@ -85,5 +92,5 @@ export function useOverlayA11y(onClose, options = {}) {
         try { trigger.focus({ preventScroll: true }); } catch (_) {}
       }
     };
-  }, [onClose, lockScroll, escapable]);
+  }, [onClose, lockScroll, escapable, active]);
 }

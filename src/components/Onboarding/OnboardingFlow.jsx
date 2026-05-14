@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useProfileStore } from '../../store/profileStore.js';
+import { useOverlayA11y } from '../../hooks/useOverlayA11y.js';
 import JourneyPreview from './JourneyPreview.jsx';
 import { STEPS } from './onboarding-steps.js';
 import './onboarding.css';
@@ -10,20 +11,12 @@ export default function OnboardingFlow({ onComplete }) {
   const overlayRef = useRef(null);
   const firstName = useProfileStore((s) => s.profile?.firstName);
 
-  // Блокуємо фоновий скрол поки онбординг відкритий.
-  // Self-contained — не використовуємо useOverlayA11y, бо онбординг
-  // завжди один-єдиний overlay у момент свого показу (до нього нічого
-  // не доступно). Запускається ОДИН раз на mount, deps:[].
-  useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    html.style.overflow = 'hidden';
-    body.style.overflow = 'hidden';
-    return () => {
-      html.style.overflow = '';
-      body.style.overflow = '';
-    };
-  }, []);
+  // Блокуємо фоновий скрол через спільний стек overlay-ів. Без цього
+  // ручне керування overflow конфліктувало з іншими модалками: якщо
+  // ще одна модалка відкривалась поверх онбордингу і закривалась,
+  // спільний хук розблоковував скрол хоча онбординг ще лишався відкритим.
+  // escapable: false — ESC не закриває онбординг (юзер має пройти всі кроки).
+  useOverlayA11y(null, { escapable: false });
 
   // На зміну слайда — скрол overlay у початок (не плавно, миттєво,
   // щоб збігалось з новою blur-анімацією).

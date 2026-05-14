@@ -9,3 +9,4 @@ dist-lite/
 .idea/
 .vscode/settings.json
 .github/workflows/build-artifact.yml
+old_version/
